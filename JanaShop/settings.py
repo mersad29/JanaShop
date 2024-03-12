@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #APPS
     'index',
+    'ad',
     #LIBS
     'ckeditor',
     'django_cleanup',

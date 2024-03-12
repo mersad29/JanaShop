@@ -1,4 +1,14 @@
 from django.shortcuts import render
+from ad.models import Banners, Carousel, MidBanners
 
 def index(request):
-    return render(request, 'index/index.html')
+    carousel = Carousel.objects.all()
+    banners = Banners.objects.all().order_by('created_time')
+    midbanners = MidBanners.objects.all()
+
+    context = {
+        "carousel": carousel,
+        "banners": banners,
+        "midbanners": midbanners,
+    }
+    return render(request, 'index/index.html', context)
