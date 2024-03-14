@@ -431,6 +431,11 @@
     width: 33.33%
 }
 
+.droopmenu-col45 {
+    width: 50%;
+    margin-left: 42px;
+}
+
 .droopmenu ul.droopmenu-grid ul.droopmenu-col5, .droopmenu-col5 {
     width: 41.66%
 }

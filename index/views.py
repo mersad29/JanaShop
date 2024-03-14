@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from ad.models import Banners, Carousel, MidBanners
+from product.models import Category
 
 def index(request):
     carousel = Carousel.objects.all()

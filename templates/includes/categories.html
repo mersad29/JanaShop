@@ -1,0 +1,34 @@
+<div class="droopmenu-nav">
+    <div class="droopmenu-nav-wrap">
+        <div class="droopmenu-navi">
+            <ul class="droopmenu">
+                <li class="droopmenu-parent" aria-haspopup="true">
+                    <a href="#" aria-expanded="false"><i class="fa fa-bars"></i>&nbsp;&nbsp;دسته بندی کالاها
+                        <em class="droopmenu-topanim"></em></a>
+                    <div class="dm-arrow"></div>
+                    <ul class="droopmenu-grid droopmenu-grid-9">
+                        <li class="droopmenu-tabs droopmenu-tabs-vertical">
+                            {% for category in categories %}
+                                {% if not category.parent %}
+                                    <div class="droopmenu-tabsection droopmenu-tab-active"
+                                         id="">
+                                        <a class="droopmenu-tabheader" href="#">{{ category.title }}</a>
+                                        {% if category.subs.all %}
+                                            {% include 'includes/forloop-category.html' %}
+                                        {% endif %}
+                                    </div>
+
+                                {% endif %}
+                            {% endfor %}
+                        </li>
+                    </ul>
+                </li>
+                <li><a href="./about.html">سوالات متداول<em class="droopmenu-topanim"></em></a>
+                <li><a href="./about.html">درباره ما<em class="droopmenu-topanim"></em></a>
+                <li><a href="./about.html">وبلاگ<em class="droopmenu-topanim"></em></a>
+                </li>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

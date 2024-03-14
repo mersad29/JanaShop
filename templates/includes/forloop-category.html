@@ -1,0 +1,24 @@
+
+
+<div class="droopmenu-tabcontent">
+    <div class="droopmenu-row">
+        {% for category in category.subs.all %}
+            <ul class="droopmenu-col droopmenu-col45">
+                <li><h4>{{ category.title }}</h4></li>
+                {% if category.subs.all %}
+                    {% include 'includes/forloop-category-2.html' %}
+                {% endif %}
+
+            </ul>
+        {% endfor %}
+
+        <ul class="droopmenu-col droopmenu-col4 d-none d-lg-inline-block float-end">
+            <li><img
+                    src="{{ category.image }}"
+                    alt=""></li>
+        </ul>
+    </div>
+</div>
+
+
+
