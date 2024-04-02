@@ -1,5 +1,6 @@
 from django.db import models
-# from ckeditor.fields import RichTextField
+from ckeditor.fields import RichTextField
+from django.urls import reverse
 
 
 class Category(models.Model):
@@ -17,32 +18,71 @@ class Category(models.Model):
         return self.title
 
 
-# class Color(models.Model):
-#     name = models.CharField(max_length=50)
-#
-#     class Meta:
-#         verbose_name = 'رنگ'
-#         verbose_name_plural = "رنگ ها"
-#
-#     def __str__(self):
-#         return self.name
-#
-#
-# class Size(models.Model):
-#     name = models.CharField(max_length=20)
-#
-#     class Meta:
-#         verbose_name = 'سایز'
-#         verbose_name_plural = "سایز ها"
-#
-#     def __str__(self):
-#         return self.name
-#
-#
-# class Product(models.Model):
-#     title = models.CharField(max_length=100)
-#     price = models.IntegerField()
-#     short_body = models.CharField(max_length=1000, blank=True, null=True)
-#     color = models.ManyToManyField(Color, related_name='color')
-#     size = models.ManyToManyField(Size, related_name='size', blank=True, null=True)
-#     review = RichTextField(blank=True, null=True)
+class Color(models.Model):
+    name = models.CharField(max_length=50)
+
+    class Meta:
+        verbose_name = 'رنگ'
+        verbose_name_plural = "رنگ ها"
+
+    def __str__(self):
+        return self.name
+
+
+class Size(models.Model):
+    name = models.CharField(max_length=20)
+
+    class Meta:
+        verbose_name = 'سایز'
+        verbose_name_plural = "سایز ها"
+
+    def __str__(self):
+        return self.name
+
+
+class Product(models.Model):
+    title = models.CharField(max_length=100)
+    price = models.IntegerField()
+    discount = models.IntegerField()
+    short_body = models.CharField(max_length=1000, blank=True, null=True)
+    color = models.ManyToManyField(Color, related_name='color')
+    size = models.ManyToManyField(Size, related_name='size', blank=True, null=True)
+    review = RichTextField(blank=True, null=True)
+    slug = models.SlugField(unique=True, blank=True, null=True)
+
+    def get_absolute_url(self):
+        return reverse('product:product_detail', args=[self.slug])
+
+    def save(
+        self, force_insert=False, force_update=False, using=None, update_fields=None
+    ):
+        super(Product, self).save()
+
+    class Meta:
+        verbose_name='محصول'
+        verbose_name_plural="محصولات"
+
+class ProductImages(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='product_images')
+    image = models.ImageField(upload_to='product/images')
+
+    class Meta:
+        verbose_name='تصویر'
+        verbose_name_plural="تصاویر بیشتر"
+
+class Comment(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='comments', verbose_name='محصول')
+    parent = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True, related_name='replies',
+                               verbose_name='کامنت والد')
+    name = models.CharField(max_length=70, verbose_name='نام')
+    email = models.EmailField(verbose_name='ایمیل')
+    body = models.TextField(verbose_name='متن')
+    is_published = models.BooleanField(default=False, verbose_name='وضعیت انتشار')
+    created_time = models.DateTimeField(auto_now_add=True, verbose_name='تاریخ ثبت')
+
+    class Meta:
+        verbose_name = 'نظر'
+        verbose_name_plural = 'نظرات'
+
+    def __str__(self):
+        return f"{self.name} - {self.email} - {self.product.title}"
