@@ -41,10 +41,11 @@ INSTALLED_APPS = [
     'index',
     'ad',
     'product',
+    'account',
     #LIBS
     'ckeditor',
     'django_cleanup',
-    'django_render_partial'
+    'django_render_partial',
 ]
 
 MIDDLEWARE = [
@@ -131,3 +132,5 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, "assets")]
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = 'account.CustomUser'

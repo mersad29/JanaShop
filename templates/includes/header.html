@@ -36,10 +36,26 @@
                 </div>
                 <div class="col-12 col-md-4">
                     <div class="row">
-                        <div class="col-12 col-md-7 col-lg-6 text-center" id="btn-login-register">
-                            <a href="./login.html">ورود</a> /
-                            <a href="./register.html">عضویت</a>
-                        </div>
+                        {% if not user.is_authenticated %}
+                            <div class="col-12 col-md-12 col-lg-6 text-center" id="btn-login-register">
+                                <a href="{% url 'account:login' %}">ورود/عضویت</a>
+                            </div>
+                        {% else %}
+                            <div class="col-12 col-md-12 col-lg-6 text-center " id="btn-login-register">
+                                <div class="dropdown" onclick="CustomtoggleDropdown()" id="dropdown">
+                                    <button style="outline: none; background: none; border: none"><i
+                                            class="fa-solid fa-user fa-lg"
+                                            style="color: #FFD43B;"></i>
+                                        <a>{{ user.phone }}</a>
+                                        <i class="fa-solid fa-angle-down"></i>
+                                        <div class="dropdown-content" id="dropdownContent">
+                                            <a style="font-size: 15px" href="{% url 'account:profile' %}">پروفایل کاربری</a>
+                                            <a style="font-size: 15px; color: #ff5656" href="{% url 'account:logout' %}">خروج از حساب</a>
+                                        </div>
+                                    </button>
+                                </div>
+                            </div>
+                        {% endif %}
                         <div class="col-12 col-md-5 col-lg-6">
                             <a href="./cart.html">
                                 <div class="btn btn-warning w-100"><i class="fa fa-shopping-cart"></i>&nbsp;<span
@@ -65,7 +81,7 @@
                                 <span class="d-md-none">منوی فروشگاه</span>
                             </div>
                             <!-- Header Mega Menu-->
-                                {% include 'includes/categories.html' %}
+                            {% include 'includes/categories.html' %}
                             <!-- /Header Menu Menu -->
                         </div>
                     </div>
@@ -75,3 +91,18 @@
     </div>
     <!-- Main NavBar -->
 </section>
+
+<script>
+    function CustomtoggleDropdown() {
+        var dropdown = document.querySelector('.dropdown');
+        dropdown.classList.toggle('active');
+    }
+
+    // Close the dropdown when clicking outside of it
+    document.addEventListener('click', function (event) {
+        var dropdown = document.getElementById('dropdown');
+        if (!dropdown.contains(event.target)) {
+            dropdown.classList.remove('active');
+        }
+    });
+</script>

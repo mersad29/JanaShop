@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <section class="inner-page" id="contact-page">
+        <div class="container py-2 py-md-5">
+            <div class="row">
+                <div class="col-12 col-sm-10 offset-sm-1">
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-12 col-lg-5 text-center">
+                                <img src="{% static "images/login.png" %}" alt="">
+                            </div>
+                            <div class="col-12 col-lg-7 pt-5 pt-md-0 align-self-center">
+                                <form action="" method="post">
+                                    <div class="title">ورود / عضویت</div>
+                                    <p>با عضویت در سایت از همه امکانات سایت بهره مند شوید.</p>
+                                    <div class="form-group">
+                                        {% csrf_token %}
+                                        {{ form.phone }}
+                                    </div>
+                                                                            {{ form.phone.errors }}
+
+                                    <div class="form-group">
+                                        <a href="profile/personal-info.html"><input type="submit"
+                                                                                    value="ورود/ثبت نام"
+                                                                                    class="btn btn-success"></a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
