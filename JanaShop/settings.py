@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
     #APPS
     'index',
     'ad',
@@ -46,6 +47,7 @@ INSTALLED_APPS = [
     'ckeditor',
     'django_cleanup',
     'django_render_partial',
+
 ]
 
 MIDDLEWARE = [

@@ -1,6 +1,7 @@
 from django.db import models
 from ckeditor.fields import RichTextField
 from django.urls import reverse
+from account.models import CustomUser
 
 
 class Category(models.Model):
@@ -43,8 +44,8 @@ class Size(models.Model):
 class Product(models.Model):
     title = models.CharField(max_length=100)
     price = models.IntegerField()
-    discount = models.IntegerField()
-    short_body = models.CharField(max_length=1000, blank=True, null=True)
+    discount = models.IntegerField(blank=True, null=True)
+    short_body = models.TextField(max_length=1000, blank=True, null=True)
     color = models.ManyToManyField(Color, related_name='color')
     size = models.ManyToManyField(Size, related_name='size', blank=True, null=True)
     review = RichTextField(blank=True, null=True)
