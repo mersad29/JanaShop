@@ -50,6 +50,14 @@ class Product(models.Model):
     size = models.ManyToManyField(Size, related_name='size', blank=True, null=True)
     review = RichTextField(blank=True, null=True)
     slug = models.SlugField(unique=True, blank=True, null=True)
+    category = models.ManyToManyField(Category, related_name='cat', blank=True, null=True)
+
+    dimension = models.CharField(max_length=100, blank=True, null=True, verbose_name='ابعاد')
+    weight = models.CharField(max_length=100, blank=True, null=True, verbose_name='وزن')
+    SIM = models.CharField(max_length=100, blank=True, null=True, verbose_name='سایز سیمکارت')
+    body_material = models.CharField(max_length=100, blank=True, null=True, verbose_name='متریال بدنه')
+    SIM_num = models.CharField(max_length=100, blank=True, null=True, verbose_name='تعداد سیمکارت')
+    introduction_time = models.CharField(max_length=100, blank=True, null=True, verbose_name='زمان معرفی')
 
     def get_absolute_url(self):
         return reverse('product:product_detail', args=[self.slug])
@@ -58,6 +66,9 @@ class Product(models.Model):
         self, force_insert=False, force_update=False, using=None, update_fields=None
     ):
         super(Product, self).save()
+
+    def __str__(self):
+        return self.title
 
     class Meta:
         verbose_name='محصول'
@@ -87,3 +98,4 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.email} - {self.product.title}"
+

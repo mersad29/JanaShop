@@ -15,14 +15,26 @@
 
 
     <section class="inner-page" id="product-page">
-        <div class="pt-3 pb-1" style="padding-right: 15px" id="page-hero">
+        <div class="pt-3 pb-1" style="padding-right: 26px" id="page-hero">
             <div class="">
                 <div class="col-5 px-0">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="./index.html">صفحه نخست</a></li>
+                            <li class="breadcrumb-item"><a href="/">جانا شاپ</a></li>
                             <li class="breadcrumb-item"><a href="./products.html">فروشگاه</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">گوشی موبایل</li>
+                            {#                            {% for category in product.category.all %}#}
+
+                            {% if not product.category.first.parent %}
+                                <li class="breadcrumb-item" aria-current="page">
+                                    <a href="./products.html">{{ product.category.first.title }}</a></li>
+                            {% else %}
+                                <li class="breadcrumb-item" aria-current="page">
+                                    <a href="./products.html">{{ product.category.first.title }}</a></li>
+                            {% endif %}
+                            <li class="breadcrumb-item"><a style="color: #af7800"
+                                                           href="{% url 'product:product_detail' product.slug %}">{{ product.title }}</a>
+                            </li>
+                            {#                            {% endfor %}#}
                         </ol>
                     </nav>
                 </div>
@@ -66,41 +78,6 @@
                                     </div>
                                 </div>
 
-                                <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-                                    <div class="pswp__bg"></div>
-                                    <div class="pswp__scroll-wrap">
-                                        <div class="pswp__container">
-                                            <div class="pswp__item"></div>
-                                            <div class="pswp__item"></div>
-                                            <div class="pswp__item"></div>
-                                        </div>
-                                        <div class="pswp__ui pswp__ui--hidden">
-                                            <div class="pswp__top-bar">
-                                                <div class="pswp__counter"></div>
-                                                <button class="pswp__button pswp__button--close"
-                                                        title="بستن (Esc)"></button>
-                                                <button class="pswp__button pswp__button--fs"
-                                                        title="تمام صفحه"></button>
-                                                <button class="pswp__button pswp__button--zoom"
-                                                        title="بزرگنمایی"></button>
-                                                <div class="pswp__preloader">
-                                                    <div class="pswp__preloader__icn">
-                                                        <div class="pswp__preloader__cut">
-                                                            <div class="pswp__preloader__donut"></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <button class="pswp__button pswp__button--arrow--left"
-                                                    title="قبلی"></button>
-                                            <button class="pswp__button pswp__button--arrow--right"
-                                                    title="بعدی"></button>
-                                            <div class="pswp__caption">
-                                                <div class="pswp__caption__center"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                             <div class="col-12 col-lg-7 mt-5 mt-lg-0 pl-lg-0" id="product-intro">
                                 <a href="./product.html">
@@ -152,11 +129,11 @@
                                                 </div>
                                             </div>
                                         {% endif %}
+
                                         <div class="col-12 col-sm-4 col-lg-3">
                                             <div class="variable">
-                                                <div class="sub-title pt-2 pb-2">سایز</div>
+                                                <div class="sub-title pt-2 pb-2">تعداد</div>
                                                 <div class="input-group mb-3 order-number">
-
                                                     <div class="input-group-prepend">
                                                         <button class="btn btn-outline-secondary btn-plus"
                                                                 type="button">+
@@ -226,7 +203,10 @@
                                                         onclick="openTab(event,'details-tab')">جدول مشخصات
                                                 </button>
                                                 <button class="tab-item tablink px-3"
-                                                        onclick="openTab(event,'comments-tab')">دیدگاه کاربران ({{ comments.count }})
+                                                        onclick="openTab(event,'comments-tab')">دیدگاه کاربران
+                                                    {% if product.comments.all %}
+                                                        ({{ comments_count }})
+                                                    {% endif %}
                                                 </button>
                                             </div>
                                         </div>
@@ -241,251 +221,10 @@
                                                 </div>
                                                 <!-- /HTML Tab -->
 
-                                                <!-- Details Tab -->
-                                                <div id="details-tab" class="tabs-container px-0 px-md-3 pb-0 pb-md-3"
-                                                     style="display:none">
-                                                    <!-- Detail Section -->
-                                                    <div class="row">
-                                                        <div class="col-12 my-2">
-                                                            <span class="detail-title"><i
-                                                                    class="fa fa-chevron-left small"></i> مشخصات کلی</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row mb-2">
-                                                        <div class="col-12 col-md-3 font-weight-bold">
-                                                            <div class="bg-light p-2">طول</div>
-                                                        </div>
-                                                        <div class="col-12 col-md-9 pr-md-0">
-                                                            <div class="bg-light p-2">32 سانتی متر</div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row mb-2">
-                                                        <div class="col-12 col-md-3 font-weight-bold">
-                                                            <div class="bg-light p-2">عرض</div>
-                                                        </div>
-                                                        <div class="col-12 col-md-9 pr-md-0">
-                                                            <div class="bg-light p-2">15 سانتی متر</div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row mb-2">
-                                                        <div class="col-12 col-md-3 font-weight-bold">
-                                                            <div class="bg-light p-2">ارتفاع</div>
-                                                        </div>
-                                                        <div class="col-12 col-md-9 pr-md-0">
-                                                            <div class="bg-light p-2">25 سانتی متر</div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- /Detail Section -->
-                                                    <!-- Detail Section -->
-                                                    <div class="row">
-                                                        <div class="col-12 my-2">
-                                                            <span class="detail-title"><i
-                                                                    class="fa fa-chevron-left small"></i> صفحه نمایش</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row mb-2">
-                                                        <div class="col-12 col-md-3 font-weight-bold">
-                                                            <div class="bg-light p-2">صفحه نمایش رنگی</div>
-                                                        </div>
-                                                        <div class="col-12 col-md-9 pr-md-0">
-                                                            <div class="bg-light p-2">بله</div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row mb-2">
-                                                        <div class="col-12 col-md-3 font-weight-bold">
-                                                            <div class="bg-light p-2">صفحه نمایش لمسی</div>
-                                                        </div>
-                                                        <div class="col-12 col-md-9 pr-md-0">
-                                                            <div class="bg-light p-2">بله</div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row mb-2">
-                                                        <div class="col-12 col-md-3 font-weight-bold">
-                                                            <div class="bg-light p-2">بازه‌ی اندازه صفحه نمایش</div>
-                                                        </div>
-                                                        <div class="col-12 col-md-9 pr-md-0">
-                                                            <div class="bg-light p-2">6.0 اینچ و بزرگتر</div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row mb-2">
-                                                        <div class="col-12 col-md-3 font-weight-bold">
-                                                            <div class="bg-light p-2">نسبت صفحه‌نمایش به بدنه</div>
-                                                        </div>
-                                                        <div class="col-12 col-md-9 pr-md-0">
-                                                            <div class="bg-light p-2">87.4 درصد</div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- /Detail Section -->
-                                                </div>
-                                                <!-- /Details Tab -->
+                                                {% include 'product/detail_tab.html' %}
 
                                                 <!-- Comments Tab -->
-                                                <div id="comments-tab" class="tabs-container px-0 px-md-3 pb-0 pb-md-2"
-                                                     style="display:none">
-                                                    <div class="row">
-                                                        <div class="col-12 text-justify" id="comments">
-                                                            <div class="comments-container">
-                                                                <div class="container px-0">
-                                                                    <div class="row">
-                                                                        <div class="col-12 pt-2">
-                                                                            <!-- Show Comments -->
-                                                                            <div class="comment p-3 my-2">
-                                                                                {% for comment in product.comments.all %}
-                                                                                    {% if comment.is_published %}
-                                                                                        {% if comment.parent == none %}
-                                                                                            <div class="sender-details">
-                                                                                                <div class="row">
-                                                                                                    <div class="col-3 col-sm-2 col-md-1 pl-md-0 pl-lg-2 pl-xl-3">
-                                                                                                        {% if user.image %}
-                                                                                                            <img src="{{ user.image.url }}"
-                                                                                                                 alt=""
-                                                                                                                 class="rounded">
-                                                                                                        {% else %}
-                                                                                                            <img src="{% static "images/user-no-image.jpg" %}"
-                                                                                                                 alt=""
-                                                                                                                 class="rounded">
-                                                                                                        {% endif %}
-                                                                                                    </div>
-                                                                                                    <div class="col-9 col-sm-10 col-md-11 pr-0 pr-md-2 pr-xl-0 pt-0 pt-lg-1">
-                                                                                                        <div class="name">
-                                                                                                            {{ comment.name }}
-                                                                                                        </div>
-                                                                                                        <div class="date">
-                                                                                                            ارسال شده
-                                                                                                            در {{ comment.jalali }}
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                    <div class="col-12">
-                                                                                                        <p>{{ comment.body }}</p>
-                                                                                                        <span onclick="set_value({{ comment.id }})"
-                                                                                                              class="reply"><img
-                                                                                                                src="{% static 'images/comment-reply.png' %}"
-                                                                                                                alt=""> ارسال پاسخ</span>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        {% else %}
-                                                                                            <!-- Comment Reply -->
-                                                                                            <div class="row justify-content-end">
-                                                                                                <div class="col-11 pt-2 pr-0">
-                                                                                                    <div class="comment p-3">
-                                                                                                        <div class="sender-details">
-                                                                                                            <div class="row">
-                                                                                                                <div class="col-3 col-sm-2 col-md-1 pl-md-0 pl-lg-2 pl-xl-3">
-                                                                                                                    {% if user.image %}
-                                                                                                                        <img src="{{ user.image.url }}"
-                                                                                                                             alt=""
-                                                                                                                             class="rounded">
-                                                                                                                    {% else %}
-                                                                                                                        <img src="{% static "images/user-no-image.jpg" %}"
-                                                                                                                             alt=""
-                                                                                                                             class="rounded">
-                                                                                                                    {% endif %}
-                                                                                                                </div>
-                                                                                                                <div class="col-9 col-sm-10 col-md-11 pr-0 pr-md-2 pr-xl-0 pt-0 pt-lg-1">
-                                                                                                                    <div class="name">
-                                                                                                                        {{ comment.name }}
-                                                                                                                    </div>
-                                                                                                                    <div class="date">
-                                                                                                                        ارسال
-                                                                                                                        شده
-                                                                                                                        در
-                                                                                                                        {{ comment.jalali }}
-                                                                                                                    </div>
-                                                                                                                </div>
-                                                                                                                <div class="col-12">
-                                                                                                                    <p>{{ comment.body }}</p>
-                                                                                                                </div>
-                                                                                                            </div>
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            <!-- /Comment Reply -->
-                                                                                        {% endif %}
-                                                                                    {% endif %}
-                                                                                {% endfor %}
-                                                                            </div>
-                                                                            <!-- /Show Comments -->
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                            <!-- Send Comment Form -->
-                                                            {% if user.is_authenticated %}
-                                                                <div class="comments-container">
-                                                                    <div class="row pt-4">
-                                                                        <div class="col-12"><h2>دیدگاه خود را ارسال
-                                                                            کنید</h2></div>
-                                                                    </div>
-                                                                    <div class="row">
-                                                                        <div class="col-12 py-3">
-                                                                            <form method="post" action="">
-                                                                                {% csrf_token %}
-                                                                                <div id="send-comment-form">
-                                                                                    <p>نظر خود را برای این مطلب ارسال
-                                                                                        کنید.
-                                                                                        نشانی ایمیل شما منتشر نخواهد
-                                                                                        شد.</p>
-                                                                                    <div class="row">
-                                                                                        {% for m in messages %}
-                                                                                            <div href="message">
-                                                                                                <p>{{ m }}</p>
-                                                                                        {% endfor %}
-                                                                                        <div class="col-12 px-3 pl-md-1 col-md-6">
-                                                                                            <div class="form-group my-1">
-                                                                                                <input type="hidden"
-                                                                                                       id="name"
-                                                                                                       name="name"
-                                                                                                       value="
-                                                                                                               {{ user.fname }}{{ user.lname }}">
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="col-12 px-3 pl-md-1 col-md-6">
-                                                                                            <div class="form-group my-1">
-                                                                                                <input type="hidden"
-                                                                                                       id="parent"
-                                                                                                       name="parent"
-                                                                                                       value="">
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="col-12 px-3 pr-md-1 col-md-6">
-                                                                                            <div class="form-group my-1">
-                                                                                                <input type="hidden"
-                                                                                                       id="email"
-                                                                                                       name="email"
-                                                                                                       value="{{ user.email }}">
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="col-12">
-                                                                                            <div class="form-group my-1">
-                                                                                            <textarea
-                                                                                                    class="form-control"
-                                                                                                    id="body"
-                                                                                                    name="body" rows="4"
-                                                                                                    placeholder="متن دیدگاه"></textarea>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="col-12">
-                                                                                            <div class="form-group my-1">
-                                                                                                <input type="submit"
-                                                                                                       value="ارسال دیدگاه"
-                                                                                                       id="submit"
-                                                                                                       class="btn btn-success px-5">
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </form>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            {% endif %}
-                                                            <!-- /Send Comment Form -->
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                {% include 'product/comments.html' %}
                                                 <!-- /Comments Tab -->
                                             </div>
                                         </div>
@@ -617,7 +356,7 @@
             window.location.href = "#comment"
         }
 
-        document.getElementById("submit").addEventListener("click", function() {
+        document.getElementById("submit").addEventListener("click", function () {
             window.location.href = "#message";
         });
 
@@ -628,8 +367,26 @@
                 });
             });
         });
+
+        /* Product Order Number */
+        if ($('.btn-plus2').length > 0) {
+            $('.btn-plus2').click(function () {
+                var index = $(this).index('.btn-plus');
+                var orderNumber = Number($('input.order-number').eq(index).val());
+                $('input.order-number').eq(index).val(orderNumber + 1);
+            })
+
+            $('.btn-minus2').click(function () {
+                var index = $(this).index('.btn-minus');
+                var orderNumber = Number($('input.order-number').eq(index).val());
+                if (orderNumber > 1)
+                    $('input.order-number').eq(index).val(orderNumber - 1);
+            })
+        }
+        /* /Product Order Number */
     </script>
     <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/scripts.js' %}"></script>
     <script src="{% static 'js/nav-tabs.js' %}"></script>
     <script src="{% static 'js/swiper-bundle.min.js' %}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.3/photoswipe.min.js"></script>

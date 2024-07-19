@@ -9,6 +9,7 @@ from .models import Comment
 def product_detail(request, slug):
     product = get_object_or_404(models.Product, slug=slug)
     comments = product.comments.all()
+    comments_count = comments.filter(product=product, is_published=True).count()
     if product.discount:
         product.final_price = int(product.price - (product.price * (product.discount / 100)))
 
@@ -28,5 +29,6 @@ def product_detail(request, slug):
 
     contex = {
         'product': product,
+        'comments_count': comments_count,
     }
     return render(request, 'product/product_detail.html', contex)
