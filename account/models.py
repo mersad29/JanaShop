@@ -66,3 +66,20 @@ class Otp(models.Model):
     phone = models.CharField(max_length=11)
     code = models.IntegerField()
     expiration_date = models.DateTimeField(auto_now_add=True)
+
+class Address(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='useraddress')
+    name = models.CharField(max_length=40)
+    address = models.CharField(max_length=300)
+    state = models.CharField(max_length=100)
+    city = models.CharField(max_length=100)
+    phone = models.IntegerField(max_length=12)
+    postal_code = models.IntegerField(max_length=10)
+    is_default = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.phone}-{self.postal_code}"
+
+    class Meta:
+        verbose_name = 'نشانی'
+        verbose_name_plural = 'نشانی ها'

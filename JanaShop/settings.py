@@ -37,15 +37,19 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
     #APPS
     'index',
     'ad',
     'product',
     'account',
+    'cart',
     #LIBS
     'ckeditor',
     'django_cleanup',
     'django_render_partial',
+    'widget_tweaks',
+
 ]
 
 MIDDLEWARE = [
@@ -73,6 +77,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'context_processors.context_processors.category',
+                'context_processors.context_processors.cart_count'
             ],
         },
     },

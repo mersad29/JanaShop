@@ -10,7 +10,7 @@
                         <li class="droopmenu-tabs droopmenu-tabs-vertical">
                             {% for category in categories %}
                                 {% if not category.parent %}
-                                    <div class="droopmenu-tabsection droopmenu-tab-active"
+                                    <div class="droopmenu-tabsection{% if forloop.first %} droopmenu-tab-active {% endif %} "
                                          id="">
                                         <a class="droopmenu-tabheader" href="#">{{ category.title }}</a>
                                         {% if category.subs.all %}

@@ -673,11 +673,17 @@ section.inner-page#product-page #product-intro .stars-container span {
   font-size: 11px;
   color: dimgray;
 }
-section.inner-page#product-page #product-intro .price-container .pre-price {
-  font-size: 21px;
+section.inner-page#product-page #product-intro .price-container .pre-price-with {
+  font-size: 16px;
   color: #282828;
   text-decoration: line-through;
 }
+
+section.inner-page#product-page #product-intro .price-container .pre-price-only {
+  font-size: 18px;
+  color: #282828;
+}
+
 section.inner-page#product-page #product-intro .price-container .price {
   font-family: "vazir-bold-fd";
   font-size: 27px;
@@ -698,6 +704,7 @@ section.inner-page#product-page #product-intro .price-container .badge.badge-dan
 section.inner-page#product-page #product-intro .variables select {
   font-size: 16px;
 }
+
 section.inner-page#product-page #product-intro .variables .title {
   font-size: 17px;
 }
@@ -711,9 +718,11 @@ section.inner-page#product-page #product-intro .variables .variable .color-varia
   border: 1px solid gray;
   border-radius: 3px;
 }
+
 section.inner-page#product-page #product-intro .variables .variable .color-variable:hover {
   border: 1px solid red;
 }
+
 section.inner-page#product-page #product-intro .variables .variable .color-variable a {
   padding: 2px 15px;
 }

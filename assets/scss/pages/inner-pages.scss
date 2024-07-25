@@ -127,11 +127,11 @@ section.inner-page {
       }
 
       .price-range {
-          border: 1px solid rgba(209,209,209,.4);
+        border: 1px solid rgba(209, 209, 209, .4);
 
-          #price-range-from, #price-range-to {
-              font-family: 'vazir-bold-fd';
-          }
+        #price-range-from, #price-range-to {
+          font-family: 'vazir-bold-fd';
+        }
       }
 
       .btn-warning {
@@ -243,6 +243,7 @@ section.inner-page {
       }
     }
   }
+
   /* /Products Page */
 
   /* Product Page */
@@ -309,7 +310,7 @@ section.inner-page {
           width: 25%;
           height: 100%;
           opacity: 0.4;
-          background-color: rgba(209,209,209,.3);
+          background-color: rgba(209, 209, 209, .3);
           border: 1px solid gray;
           border-radius: $max-radius;
           cursor: pointer;
@@ -345,7 +346,7 @@ section.inner-page {
       }
 
       .pswp__bg {
-        background-color: rgba(0,0,0,.9);
+        background-color: rgba(0, 0, 0, .9);
       }
 
       .pswp__img {
@@ -386,10 +387,15 @@ section.inner-page {
       }
 
       .price-container {
-        .pre-price {
-          font-size: 21px;
+        .pre-price-only {
+          font-size: 16px;
           color: $text-color;
           text-decoration: line-through;
+        }
+
+        .pre-price-with {
+          font-size: 18px;
+          color: $text-color;
         }
 
         .price {
@@ -590,6 +596,7 @@ section.inner-page {
       }
     }
   }
+
   /* /Product Page */
 
   /* Comments Section */
@@ -659,6 +666,7 @@ section.inner-page {
       }
     }
   }
+
   /* /Comments Section */
 
   /* Cart Page */
@@ -744,6 +752,7 @@ section.inner-page {
       }
     }
   }
+
   /* /Cart Page */
 
   /* Checkout Page */
@@ -821,7 +830,7 @@ section.inner-page {
 
         &.selected .send-date {
           color: $primary;
-          background-color: rgba(0,181,244,.2);
+          background-color: rgba(0, 181, 244, .2);
           border: 1px solid $primary;
         }
       }
@@ -847,6 +856,7 @@ section.inner-page {
       }
     }
   }
+
   /* /Checkout Page */
 
   /* Blog Page */
@@ -985,7 +995,7 @@ section.inner-page {
         padding-top: 2px;
 
         .keyword {
-          background-color: rgba(209,209,209,.3);
+          background-color: rgba(209, 209, 209, .3);
           border-radius: $min-radius;
           color: dimgray;
           display: inline-block;
@@ -1025,6 +1035,7 @@ section.inner-page {
         }
       }
     }
+
     /* /Blog Post Page */
 
     /* Suggested Products */
@@ -1054,8 +1065,10 @@ section.inner-page {
         }
       }
     }
+
     /* /Suggested Products */
   }
+
   /* /Blog Page */
 
   /* Content */
@@ -1091,6 +1104,7 @@ section.inner-page {
       font-size: 14px;
     }
   }
+
   /* /Content */
 
   /* Team */
@@ -1174,6 +1188,7 @@ section.inner-page {
     -webkit-transition: all 0.35s ease;
     transition: all 0.35s ease;
   }
+
   /* Team */
 
   /* Contact Page */
@@ -1210,6 +1225,7 @@ section.inner-page {
       }
     }
   }
+
   /* /Contact Page */
 
   /* Profile Page */
@@ -1272,6 +1288,7 @@ section.inner-page {
           }
         }
       }
+
       /* /Password Field */
     }
 
@@ -1414,10 +1431,10 @@ section.inner-page {
         }
 
         .price-range {
-          border: 1px solid rgba(209,209,209,.4);
+          border: 1px solid rgba(209, 209, 209, .4);
 
           #price-range-from, #price-range-to {
-            font-family: 'vazir-bold-fd'-fd;
+            font-family: 'vazir-bold-fd' -fd;
           }
         }
 
@@ -1551,6 +1568,7 @@ section.inner-page {
         overflow-x: auto;
         white-space: nowrap;
       }
+
       .nowrap > .row > .col-12 {
         display: inline-block;
         float: none;
@@ -1616,6 +1634,7 @@ section.inner-page {
       }
     }
   }
+
   /* /Profile Page */
 
   /* Compare Page */
@@ -1715,8 +1734,13 @@ section.inner-page {
     .price-container {
       line-height: 30px;
 
-      .pre-price {
+      .pre-price_only {
         font-size: 18px;
+        color: $darkgray;
+      }
+
+      .pre-price-with {
+        font-size: 16px;
         color: $darkgray;
         text-decoration: line-through;
       }
@@ -1740,5 +1764,6 @@ section.inner-page {
       }
     }
   }
+
   /* /Compare Page */
 }
