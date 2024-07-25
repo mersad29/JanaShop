@@ -1,8 +1,7 @@
 from django import forms
 from django.contrib import admin
 from django.core.exceptions import ValidationError
-from django.contrib.auth.admin import UserAdmin as UM
-from account.models import CustomUser, Otp
+from account.models import CustomUser, Otp, Address
 
 
 class UserCreationForm(forms.ModelForm):
@@ -30,3 +29,8 @@ class UserCreationForm(forms.ModelForm):
 
 admin.site.register(CustomUser)
 admin.site.register(Otp)
+
+@admin.register(Address)
+class AddressAdmin(admin.ModelAdmin):
+    model = Address
+    list_display = ['user', 'name', 'postal_code', 'phone']

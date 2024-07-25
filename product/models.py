@@ -44,13 +44,16 @@ class Size(models.Model):
 class Product(models.Model):
     title = models.CharField(max_length=100)
     price = models.IntegerField()
-    discount = models.IntegerField(blank=True, null=True)
+    final_price = models.IntegerField()
+    discount = models.IntegerField()
+    percent_discount = models.IntegerField(blank=True, null=True)
     short_body = models.TextField(max_length=1000, blank=True, null=True)
     color = models.ManyToManyField(Color, related_name='color')
     size = models.ManyToManyField(Size, related_name='size', blank=True, null=True)
     review = RichTextField(blank=True, null=True)
     slug = models.SlugField(unique=True, blank=True, null=True)
     category = models.ManyToManyField(Category, related_name='cat', blank=True, null=True)
+    main_image = models.ImageField(upload_to='product/images', blank=True, null=True)
 
     dimension = models.CharField(max_length=100, blank=True, null=True, verbose_name='ابعاد')
     weight = models.CharField(max_length=100, blank=True, null=True, verbose_name='وزن')

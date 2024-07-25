@@ -82,8 +82,6 @@
                             <div class="col-12 col-lg-7 mt-5 mt-lg-0 pl-lg-0" id="product-intro">
                                 <a href="./product.html">
                                     <h1>{{ product.title }}</h1>
-                                    <span class="badge badge-pill badge-primary">Primary</span>
-
                                 </a>
                                 <div class="stars-container">
                                     <i class="fa fa-star"></i>
@@ -97,7 +95,7 @@
                                     {% if product.final_price %}
                                         <div><span class="pre-price-with">{{ product.price|intcomma }}</span>
                                             <span class="badge rounded-pill"
-                                                  style="background: #ff0000; background-size: 800px">{{ product.discount }}%</span>
+                                                  style="background: #ff0000; background-size: 800px">{{ product.percent_discount }}%</span>
                                         </div>
                                         <span class="price">{{ product.final_price|intcomma }} <span>تومان</span></span>
                                     {% else %}
@@ -105,73 +103,78 @@
                                     {% endif %}
                                 </div>
                                 <p>{{ product.short_body }}</p>
-                                <div class="variables">
-                                    <div class="row">
-                                        <div class="col-12 col-sm-4 col-lg-3">
-                                            <div class="variable">
-                                                <div class="sub-title pt-2 pb-2">رنگ</div>
-                                                <select name="" class="form-select">
-                                                    {% for color in product.color.all %}
-                                                        <option value="{{ color }}">{{ color }}</option>
-                                                    {% endfor %}
-                                                </select>
-                                            </div>
-                                        </div>
-                                        {% if product.size.all %}
+                                <form action="{% url 'cart:cart_add' product.id %}" method="post" target="_blank">
+                                    {% csrf_token %}
+                                    <div class="variables">
+                                        <div class="row">
                                             <div class="col-12 col-sm-4 col-lg-3">
                                                 <div class="variable">
-                                                    <div class="sub-title pt-2 pb-2">سایز</div>
-                                                    <select name="" class="form-select">
-                                                        {% for size in product.size.all %}
-                                                            <option value="{{ size }}">{{ size }}</option>
+                                                    <div class="sub-title pt-2 pb-2">رنگ</div>
+                                                    <select name="color" class="form-select">
+                                                        {% for color in product.color.all %}
+                                                            <option value="{{ color.name }}">{{ color }}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
                                             </div>
-                                        {% endif %}
-
-                                        <div class="col-12 col-sm-4 col-lg-3">
-                                            <div class="variable">
-                                                <div class="sub-title pt-2 pb-2">تعداد</div>
-                                                <div class="input-group mb-3 order-number">
-                                                    <div class="input-group-prepend">
-                                                        <button class="btn btn-outline-secondary btn-plus"
-                                                                type="button">+
-                                                        </button>
-                                                    </div>
-                                                    <input type="text" name="order-number[]" value="1"
-                                                           class="form-control text-center order-number" readonly="">
-                                                    <div class="input-group-prepend">
-                                                        <button class="btn btn-outline-secondary btn-minus"
-                                                                type="button">_
-                                                        </button>
+                                            {% if product.size.all %}
+                                                <div class="col-12 col-sm-4 col-lg-3">
+                                                    <div class="variable">
+                                                        <div class="sub-title pt-2 pb-2">سایز</div>
+                                                        <select name="size" class="form-select">
+                                                            {% for size in product.size.all %}
+                                                                <option value="{{ size.name }}">{{ size }}</option>
+                                                            {% endfor %}
+                                                        </select>
                                                     </div>
                                                 </div>
+                                            {% endif %}
 
+                                            <div class="col-12 col-sm-4 col-lg-3">
+                                                <input type="number" name="quantity" id="">
+{#                                                <div class="variable">#}
+{#                                                    <div class="sub-title pt-2 pb-2">تعداد</div>#}
+{#                                                    <div class="input-group mb-3 order-number">#}
+{#                                                        <div class="input-group-prepend">#}
+{#                                                            <button class="btn btn-outline-secondary btn-plus"#}
+{#                                                                    type="button">+#}
+{#                                                            </button>#}
+{#                                                        </div>#}
+{#                                                        <input type="text" name="quantity" value="2"#}
+{#                                                               class="form-control text-center order-number"#}
+{#                                                               readonly="">#}
+{#                                                        <div class="input-group-prepend">#}
+{#                                                            <button class="btn btn-outline-secondary btn-minus"#}
+{#                                                                    type="button">_#}
+{#                                                            </button>#}
+{#                                                        </div>#}
+{#                                                    </div>#}
+{##}
+{#                                                </div>#}
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="cta-container pt-3 pt-md-5">
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <a href="./cart.html">
-                                                <div class="btn btn-success px-4 px-lg-2 px-xl-4 btn-add-to-basket"><i
-                                                        class="fa fa-shopping-cart"></i> افزودن به سبد خرید
-                                                </div>
-                                            </a>
-                                            <br class="d-sm-none">
-                                            <div class="btn btn-outline-secondary btn-favorite mt-1 mt-sm-0"
-                                                 data-toggle="tooltip" data-placement="top"
-                                                 title="افزودن به علاقه‌مندی"></div>
-                                            <a href="#">
-                                                <div class="btn btn-outline-secondary btn-compare mt-1 mt-sm-0"
-                                                     data-toggle="tooltip" data-placement="top" title="مقایسه"></div>
-                                            </a>
+                                    <div class="cta-container pt-3 pt-md-5">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <button class="btn btn-success px-4 px-lg-2 px-xl-4 btn-add-to-basket">
+                                                    <i
+                                                            class="fa fa-shopping-cart"></i> افزودن به سبد خرید
+                                                </button>
+                                                <br class="d-sm-none">
+                                                <div class="btn btn-outline-secondary btn-favorite mt-1 mt-sm-0"
+                                                     data-toggle="tooltip" data-placement="top"
+                                                     title="افزودن به علاقه‌مندی"></div>
+                                                <a href="#">
+                                                    <div class="btn btn-outline-secondary btn-compare mt-1 mt-sm-0"
+                                                         data-toggle="tooltip" data-placement="top"
+                                                         title="مقایسه"></div>
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <!-- Share Links -->
+                                </form>
+                                {#                                <!-- Share Links -->#}
                                 <div class="pt-5" id="share-links">
                                     <span>اشتراک گذاری: </span>
                                     <a href="#" target="_blank"><span class="share-link"><img

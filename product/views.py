@@ -11,7 +11,9 @@ def product_detail(request, slug):
     comments = product.comments.all()
     comments_count = comments.filter(product=product, is_published=True).count()
     if product.discount:
-        product.final_price = int(product.price - (product.price * (product.discount / 100)))
+        product.final_price = int(product.price - (product.price * (product.percent_discount / 100)))
+        product.discount = int(product.price) - int(product.final_price)
+    product.save()
 
     for comment in comments:
         created_at = comment.created_time
