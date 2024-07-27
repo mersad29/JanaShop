@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from ad.models import Banners, Carousel, MidBanners
+from index.models import Faq
 from product.models import Category
 
 def index(request):
@@ -13,3 +14,8 @@ def index(request):
         "midbanners": midbanners,
     }
     return render(request, 'index/index.html', context)
+
+def faq(request):
+    question = Faq.objects.all()
+    # print(question.)
+    return render(request, 'index/faq.html', {'question': question})

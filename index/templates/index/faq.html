@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <section class="inner-page" id="faq-page">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="accordion mt-3" id="accordionExample">
+                                    {% for quest in question %}
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" id="heading{{ quest.num }}">
+                                                <button class="accordion-button {% if not forloop.first %} collapsed {% endif %}" type="button" data-bs-toggle="collapse"
+                                                        data-bs-target="#collapse{{ quest.num }}" aria-expanded="{% if forloop.first %} True {% endif %}"
+                                                        aria-controls="collapse{{ quest.num }}">
+                                                    {{ quest.question }}
+                                                </button>
+                                            </h2>
+                                            <div id="collapse{{ quest.num }}" class="accordion-collapse collapse {% if forloop.first %} show {% endif %}"
+                                                 aria-labelledby="heading{{ quest.num }}" data-bs-parent="#accordionExample">
+                                                <div class="accordion-body">
+                                                    <p>{{ quest.answer }}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
