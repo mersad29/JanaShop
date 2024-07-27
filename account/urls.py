@@ -1,4 +1,5 @@
 from django.urls import path
+from product.views import favorites
 from . import views
 
 app_name = 'account'
@@ -12,4 +13,5 @@ urlpatterns = [
     path('edit_address/<int:pk>', views.EditAddressView.as_view(), name='edit_address'),
     path('set_default/<int:id>', views.Set_default_address.as_view(), name='set_default'),
     path('delete_address/<int:id>', views.delete_address, name='delete_address'),
+    path('profile/favorites', favorites, name='favorite_list'),
 ]

@@ -30,6 +30,7 @@ class UserCreationForm(forms.ModelForm):
 admin.site.register(CustomUser)
 admin.site.register(Otp)
 
+
 @admin.register(Address)
 class AddressAdmin(admin.ModelAdmin):
     model = Address

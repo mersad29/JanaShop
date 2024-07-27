@@ -1,10 +1,11 @@
 from django.contrib import admin
-from .models import Category, Product, ProductImages, Color, Size, Comment
+from .models import Category, Product, ProductImages, Color, Size, Comment, Like
 
 admin.site.register(Comment)
 admin.site.register(Category)
 admin.site.register(Color)
 admin.site.register(Size)
+
 
 class ProductImageAdmin(admin.StackedInline):
     model = ProductImages
@@ -12,3 +13,8 @@ class ProductImageAdmin(admin.StackedInline):
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     inlines = [ProductImageAdmin]
+
+class LikeAdmin(admin.TabularInline):
+    model = Like
+
+admin.site.register(Like)

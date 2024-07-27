@@ -17,5 +17,4 @@ def index(request):
 
 def faq(request):
     question = Faq.objects.all()
-    # print(question.)
     return render(request, 'index/faq.html', {'question': question})
