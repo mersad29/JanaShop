@@ -1,16 +1,16 @@
-$(function() {
+$(function () {
     /* Price Range Slider */
-    if($('#steps-slider').length) {
+    if ($('#steps-slider').length) {
         var slider = document.getElementById('steps-slider');
 
         noUiSlider.create(slider, {
             direction: 'rtl',
-            start: [0, 5000000],
+            start: [0, 70000000],
             connect: true,
             step: 50000,
             range: {
                 'min': 0,
-                'max': 5000000
+                'max': 70000000
             }
         });
 
@@ -22,26 +22,26 @@ $(function() {
     /* Price Range Slider */
 
     /* On Sale Counter */
-    function countDown(){
+    function countDown() {
         var today = new Date();
         var eventDate = new Date("November 30,2025 00:00:00"); /* Change This Date To Update Counter */
         var currentTime = today.getTime();
         var eventTime = eventDate.getTime();
         var remTime = eventTime - currentTime;
 
-        var sec = Math.floor(remTime/1000);
-        var min = Math.floor(sec/60);
-        var hrs = Math.floor(min/60);
-        var days = Math.floor(hrs/24);
+        var sec = Math.floor(remTime / 1000);
+        var min = Math.floor(sec / 60);
+        var hrs = Math.floor(min / 60);
+        var days = Math.floor(hrs / 24);
 
         hrs %= 24;
         min %= 60;
         sec %= 60;
 
-        days = (days<10) ? "0"+days : days;
-        hrs = (hrs<10) ? "0"+hrs : hrs;
-        min = (min<10) ? "0"+min : min;
-        sec = (sec<10) ? "0"+sec : sec;
+        days = (days < 10) ? "0" + days : days;
+        hrs = (hrs < 10) ? "0" + hrs : hrs;
+        min = (min < 10) ? "0" + min : min;
+        sec = (sec < 10) ? "0" + sec : sec;
 
         var elTimeCounter = $('.time-counter');
         var elDays = $('.days', elTimeCounter);
@@ -56,18 +56,19 @@ $(function() {
 
         setTimeout(countDown, 1000);
     }
+
     countDown();
     /* /On Sale Counter */
 
     /* Initialize menu */
     $('.droopmenu-navbar').droopmenu({
-        dmArrow:true,
-        dmArrowDirection:'dmarrowdown'
+        dmArrow: true,
+        dmArrowDirection: 'dmarrowdown'
     });
     /* /Initialize menu */
 
     /* Featured Products Filter */
-    if($('.featured-categories').length) {
+    if ($('.featured-categories').length) {
         $('.featured-categories').click(function () {
             var category = $(this).data('val');
             $('.featured-product').each(function () {
@@ -89,7 +90,7 @@ $(function() {
     /* /Featured Products Filter */
 
     /* Most Sold Products Filter */
-    if($('.most-sales-categories').length) {
+    if ($('.most-sales-categories').length) {
         $('.most-sales-categories').click(function () {
             var category = $(this).data('val');
             $('.most-sales-product').each(function () {
@@ -111,7 +112,7 @@ $(function() {
     /* /Most Sold Products Filter */
 
     /* Collapse In Mobile */
-    if($('.collapse').length) {
+    if ($('.collapse').length) {
         if (($(window).width()) < 992) {
             $('.collapse').removeClass('show');
         }
@@ -124,7 +125,7 @@ $(function() {
         number = number + '';
         number = number.split(',').join('');
 
-        while(regex.test(number)){
+        while (regex.test(number)) {
             number = number.replace(regex, '$1,$2');
         }
         return number;
@@ -132,16 +133,17 @@ $(function() {
 
     function numFormat(number) {
         var pointReg = /([\d,\.]*)\.(\d*)$/, f;
-        if(pointReg.test(number)){
+        if (pointReg.test(number)) {
             f = RegExp.$2;
             return intFormat(RegExp.$1) + '.' + f;
         }
         return intFormat(number);
     }
+
     /* /Num Format Functions */
 
     /* Products Carousel */
-    if($('.products-carousel').length > 0) {
+    if ($('.products-carousel').length > 0) {
         var owl = $('.products-carousel');
         owl.owlCarousel({
             rtl: true,
@@ -167,7 +169,7 @@ $(function() {
     /* /Products Carousel */
 
     /* Product Order Number */
-    if($('.btn-plus').length > 0) {
+    if ($('.btn-plus').length > 0) {
         $('.btn-plus').click(function () {
             var index = $(this).index('.btn-plus');
             var orderNumber = Number($('input.quantity').eq(index).val());
@@ -185,4 +187,3 @@ $(function() {
 
     AOS.init();
 });
-

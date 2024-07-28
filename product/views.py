@@ -3,7 +3,8 @@ from django.contrib import messages
 from django.shortcuts import render, get_object_or_404, redirect
 from persiantools.jdatetime import JalaliDate
 from . import models
-from .models import Comment, Like, Product
+from .forms import ProductFilterForm
+from .models import Comment, Like, Product, Category
 
 
 def product_detail(request, slug):
@@ -58,3 +59,44 @@ def favorites(request):
     for item in favorites:
          item.comments = item.product.comments.filter(is_published=True).count()
     return render(request, 'account/favorite.html', {'favorite': favorites})
+
+def product_list(request, slug):
+    category = Category.objects.get(slug=slug)
+    product = Product.objects.filter(category=category)
+    max_price = int(product.order_by('-price').first().price)
+
+    for item in product:
+        item.comment = item.comments.filter(is_published=True).count()
+
+    form = ProductFilterForm(request.GET or None)
+
+    if form.is_valid():
+        category = form.cleaned_data.get('category')
+        min_price = form.cleaned_data.get('min_price')
+        max_price = form.cleaned_data.get('max_price')
+        in_stock = form.cleaned_data.get('in_stock')
+        sort_by = form.cleaned_data.get('sort_by')
+
+        if category:
+            product = product.filter(category__icontains=category)
+        if min_price is not None:
+            product = product.filter(price__gte=min_price)
+        if max_price is not None:
+            product = product.filter(price__lte=max_price)
+        if in_stock is not None:
+            product = product.filter(in_stock=in_stock)
+        if sort_by:
+            if sort_by == 'newest':
+                product = product.order_by('-created_at')
+            elif sort_by == 'greatest':
+                product = product.order_by('-rating')
+            elif sort_by == 'most_popular':
+                product = product.order_by('-sales_count')
+
+    context = {
+        'product': product,
+        'max_price': max_price,
+        'form': form
+    }
+
+    return render(request, 'product/product_list.html', context)
