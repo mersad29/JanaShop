@@ -43,26 +43,51 @@
                                         <div id="collapseOne" class="accordion-collapse collapse show"
                                              aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                                             <div class="accordion-body">
-                                                <div class="form-group">
-                                                    <input type="checkbox" id="category1">
-                                                    <label for="category1">گوشی موبایل</label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <input type="checkbox" id="category2">
-                                                    <label for="category2">جانبی موبایل</label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <input type="checkbox" id="category3">
-                                                    <label for="category3">دوربین دیجیتال</label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <input type="checkbox" id="category4">
-                                                    <label for="category4">ساعت هوشمند</label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <input type="checkbox" id="category5">
-                                                    <label for="category5">لپ تاپ</label>
-                                                </div>
+                                                {% for category in categories %}
+                                                    {% if not category.parent %}
+                                                        <a href="{% url 'product:product_list' category.slug %}">
+                                                            <div class="form-group">
+                                                                <input type="hidden" id="{{ category.title }}">
+                                                                <label class="text-black"
+                                                                       for="{{ category.title }}">{{ category.title }}
+                                                                    {% if category == category2 %}
+                                                                        <i class="fa-solid fa-check"></i></label>
+                                                                    {% endif %}
+                                                            </div>
+                                                        </a>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="accordion filters-container">
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="headingOne">
+                                            <button class="accordion-button py-2 px-3" type="button"
+                                                    data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                                                    aria-expanded="true" aria-controls="collapseOne">
+                                                برند محصولات
+                                            </button>
+                                        </h2>
+                                        <div id="collapseOne" class="accordion-collapse collapse show"
+                                             aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                            <div class="accordion-body">
+                                                {% for category in categories %}
+                                                    {% if not category.parent %}
+                                                        <a href="{% url 'product:product_list' category.slug %}">
+                                                            <div class="form-group">
+                                                                <input type="hidden" id="{{ category.title }}">
+                                                                <label class="text-black"
+                                                                       for="{{ category.title }}">{{ category.title }}
+                                                                    {% if category == category2 %}
+                                                                        <i class="fa-solid fa-check"></i></label>
+                                                                    {% endif %}
+                                                            </div>
+                                                        </a>
+                                                    {% endif %}
+                                                {% endfor %}
                                             </div>
                                         </div>
                                     </div>
@@ -108,10 +133,11 @@
                                         <div id="collapseThree" class="accordion-collapse show"
                                              aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                                             <div class="accordion-body pb-2">
-                                                <div class="form-group">
-                                                    <input type="checkbox" id="only-available">
-                                                    <label for="only-available">فقط کالاهای موجود</label>
-                                                </div>
+                                                <a href="?is_stock=True"><div class="form-group">
+                                                    <input type="radio" id="{{ product.is_stock }}">
+                                                    <label for="{{ product.is_stock }}">فقط کالاهای موجود</label>
+                                                </div></a>
+
                                             </div>
                                         </div>
                                     </div>
@@ -234,21 +260,26 @@
                                             <div class="col-12 col-sm-10 my-1">
                                                 <form action="" method="get">
                                                     <span class="d-block d-sm-inline-block">مرتب سازی بر اساس:</span>
-                                                    <a id="newest" href=""><span class="order-filter d-block d-sm-inline-block active">جدیدترین</span></a>
-                                                    <span class="order-filter d-block d-sm-inline-block">پربازدیدترین</span>
-                                                    <span class="order-filter d-block d-sm-inline-block">پرفروش‌ترین</span>
-                                                    <span class="order-filter d-block d-sm-inline-block">ارزان‌ترین</span>
+                                                    <a href="?sort=newest"><span
+                                                            class="btn order-filter d-block d-sm-inline-block {% if request.GET.sort == 'newest' or not request.GET.sort %} active {% endif %}">جدیدترین</span></a>
+                                                    {#                                                    <span class="order-filter d-block d-sm-inline-block">پربازدیدترین</span>#}
+                                                    {#                                                    <span class="order-filter d-block d-sm-inline-block">پرفروش‌ترین</span>#}
+                                                    <a href="?sort=min_price"><span
+                                                            class="btn order-filter d-block d-sm-inline-block {% if request.GET.sort == 'min_price' %} active {% endif %}">ارزان ترین</span></a>
+                                                    <a href="?sort=max_price"><span
+                                                            class="btn order-filter d-block d-sm-inline-block {% if request.GET.sort == 'max_price' %} active {% endif %}">گران ترین</span></a>
+
                                                 </form>
                                             </div>
                                             <div class="col-12 col-sm-2 pt-1 text-end">
-                                            <span>
-                                                <a href="products-list.html" class="products-view-type"><i
-                                                        class="fa fa-th-list"></i></a>
-                                                <a href="products.html" class="products-view-type active"><i
-                                                        class="fa fa-th"></i></a>
-                                            </span>
-                                                &nbsp;|&nbsp;
-                                                <span>122 کالا</span>
+{#                                            <span>#}
+{#                                                <a href="products-list.html" class="products-view-type"><i#}
+{#                                                        class="fa fa-th-list"></i></a>#}
+{#                                                <a href="products.html" class="products-view-type active"><i#}
+{#                                                        class="fa fa-th"></i></a>#}
+{#                                            </span>#}
+{#                                                &nbsp;|&nbsp;#}
+                                                <span>{{ product.count }} کالا</span>
                                             </div>
                                         </div>
                                     </div>

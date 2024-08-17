@@ -3,7 +3,6 @@ from django.contrib import messages
 from django.shortcuts import render, get_object_or_404, redirect
 from persiantools.jdatetime import JalaliDate
 from . import models
-from .forms import ProductFilterForm
 from .models import Comment, Like, Product, Category
 
 
@@ -62,41 +61,28 @@ def favorites(request):
 
 def product_list(request, slug):
     category = Category.objects.get(slug=slug)
-    product = Product.objects.filter(category=category)
-    max_price = int(product.order_by('-price').first().price)
+    product = Product.objects.filter(category=category).order_by('-created_time')
 
     for item in product:
         item.comment = item.comments.filter(is_published=True).count()
 
-    form = ProductFilterForm(request.GET or None)
+    sort = request.GET.get('sort', 'newest')
+    is_stock = request.GET.get('is_stock')
+    if sort == 'min_price':
+        product = Product.objects.filter(category=category).order_by('price')
+    if sort == 'max_price':
+        product = Product.objects.filter(category=category).order_by('-price')
+    if sort == 'newest':
+        product = Product.objects.filter(category=category).order_by('-created_time')
+    if is_stock in request.GET:
+        product = Product.objects.filter(is_stock=True)
 
-    if form.is_valid():
-        category = form.cleaned_data.get('category')
-        min_price = form.cleaned_data.get('min_price')
-        max_price = form.cleaned_data.get('max_price')
-        in_stock = form.cleaned_data.get('in_stock')
-        sort_by = form.cleaned_data.get('sort_by')
 
-        if category:
-            product = product.filter(category__icontains=category)
-        if min_price is not None:
-            product = product.filter(price__gte=min_price)
-        if max_price is not None:
-            product = product.filter(price__lte=max_price)
-        if in_stock is not None:
-            product = product.filter(in_stock=in_stock)
-        if sort_by:
-            if sort_by == 'newest':
-                product = product.order_by('-created_at')
-            elif sort_by == 'greatest':
-                product = product.order_by('-rating')
-            elif sort_by == 'most_popular':
-                product = product.order_by('-sales_count')
+
 
     context = {
         'product': product,
-        'max_price': max_price,
-        'form': form
+        'category2': category
     }
 
     return render(request, 'product/product_list.html', context)

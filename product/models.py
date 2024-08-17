@@ -42,6 +42,7 @@ class Size(models.Model):
 
 
 class Product(models.Model):
+    is_stock = models.BooleanField(default=False)
     title = models.CharField(max_length=100)
     price = models.IntegerField()
     final_price = models.IntegerField()
@@ -54,8 +55,7 @@ class Product(models.Model):
     slug = models.SlugField(unique=True, blank=True, null=True)
     category = models.ManyToManyField(Category, related_name='cat', blank=True, null=True)
     main_image = models.ImageField(upload_to='product/images', blank=True, null=True)
-    # created_time = models.DateTimeField(auto_now_add=True, blank=True, null=True, verbose_name='تاریخ ثبت')
-
+    created_time = models.DateTimeField(auto_now_add=True, blank=True, null=True, verbose_name='تاریخ ثبت')
 
     dimension = models.CharField(max_length=100, blank=True, null=True, verbose_name='ابعاد')
     weight = models.CharField(max_length=100, blank=True, null=True, verbose_name='وزن')
