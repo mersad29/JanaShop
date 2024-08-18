@@ -40,6 +40,15 @@ class Size(models.Model):
     def __str__(self):
         return self.name
 
+class Brand(models.Model):
+    name = models.CharField(max_length=50)
+
+    class Meta:
+        verbose_name = 'ّبرند'
+        verbose_name_plural = "برند ها"
+
+    def __str__(self):
+        return self.name
 
 class Product(models.Model):
     is_stock = models.BooleanField(default=False)
@@ -51,6 +60,7 @@ class Product(models.Model):
     short_body = models.TextField(max_length=1000, blank=True, null=True)
     color = models.ManyToManyField(Color, related_name='color')
     size = models.ManyToManyField(Size, related_name='size', blank=True, null=True)
+    brand = models.ForeignKey(Brand, related_name='brands', blank=True, null=True, on_delete=models.CASCADE)
     review = RichTextField(blank=True, null=True)
     slug = models.SlugField(unique=True, blank=True, null=True)
     category = models.ManyToManyField(Category, related_name='cat', blank=True, null=True)

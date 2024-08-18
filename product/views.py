@@ -1,5 +1,6 @@
 import datetime
 from django.contrib import messages
+from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404, redirect
 from persiantools.jdatetime import JalaliDate
 from . import models
@@ -61,28 +62,50 @@ def favorites(request):
 
 def product_list(request, slug):
     category = Category.objects.get(slug=slug)
+    recent_product = Product.objects.filter(category=category).order_by('-created_time')
     product = Product.objects.filter(category=category).order_by('-created_time')
+
+    min_price = Product.objects.filter(category=category).order_by('price').first().price
+    max_price = Product.objects.filter(category=category).order_by('price').last().price
 
     for item in product:
         item.comment = item.comments.filter(is_published=True).count()
 
+    minprice = request.GET.get('minprice')
+    maxprice = request.GET.get('maxprice')
+
+    if minprice:
+        product = product.filter(category=category, price__gte=minprice)
+
+    if maxprice:
+        product = product.filter(category=category, price__lte=maxprice)
+
+    in_stock_only = request.GET.get('in_stock_only')
+    if in_stock_only == 'true':
+        product = product.filter(category=category, is_stock=True)
+    #
     sort = request.GET.get('sort', 'newest')
-    is_stock = request.GET.get('is_stock')
     if sort == 'min_price':
-        product = Product.objects.filter(category=category).order_by('price')
+        product = product.filter(category=category).order_by('price')
     if sort == 'max_price':
-        product = Product.objects.filter(category=category).order_by('-price')
+        product = product.filter(category=category).order_by('-price')
     if sort == 'newest':
-        product = Product.objects.filter(category=category).order_by('-created_time')
-    if is_stock in request.GET:
-        product = Product.objects.filter(is_stock=True)
+        product = product.filter(category=category).order_by('-created_time')
 
-
-
+    # pageinator = Paginator(product, 2)
+    # page_num = request.GET.get('page')
+    # product = pageinator.get_page(page_num)
 
     context = {
         'product': product,
-        'category2': category
+        'category2': category,
+        'sort': sort,
+        'in_stock_only': in_stock_only,
+        'min_price': min_price,
+        'max_price': max_price,
+        'minprice2': minprice,
+        'maxprice2': maxprice,
+        'recent_product': recent_product,
     }
 
     return render(request, 'product/product_list.html', context)
