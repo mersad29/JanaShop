@@ -162,10 +162,11 @@
                                                             class="fa fa-shopping-cart"></i> افزودن به سبد خرید
                                                 </button>
                                                 <br class="d-sm-none">
-                                                <div class="btn btn-outline-secondary btn-favorite mt-1 mt-sm-0"
+                                                <a  href="{% if product.liked %} {% url 'product:delete_favorite' product.id %}  {% else %} {% url 'product:add_favorite' product.id %} {% endif %}"><div class="btn btn-outline-secondary btn-favorite {% if product.liked %} favorited {% endif %} mt-1 mt-sm-0"
                                                      data-toggle="tooltip" data-placement="top"
-                                                     title="افزودن به علاقه‌مندی"></div>
-                                                <a href="#">
+                                                     title="افزودن به علاقه‌مندی"></div></a>
+
+                                                <a href="">
                                                     <div class="btn btn-outline-secondary btn-compare mt-1 mt-sm-0"
                                                          data-toggle="tooltip" data-placement="top"
                                                          title="مقایسه"></div>

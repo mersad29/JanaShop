@@ -40,8 +40,18 @@ class Size(models.Model):
     def __str__(self):
         return self.name
 
+class Brand(models.Model):
+    name = models.CharField(max_length=50)
+
+    class Meta:
+        verbose_name = 'ّبرند'
+        verbose_name_plural = "برند ها"
+
+    def __str__(self):
+        return self.name
 
 class Product(models.Model):
+    is_stock = models.BooleanField(default=False)
     title = models.CharField(max_length=100)
     price = models.IntegerField()
     final_price = models.IntegerField()
@@ -50,10 +60,12 @@ class Product(models.Model):
     short_body = models.TextField(max_length=1000, blank=True, null=True)
     color = models.ManyToManyField(Color, related_name='color')
     size = models.ManyToManyField(Size, related_name='size', blank=True, null=True)
+    brand = models.ForeignKey(Brand, related_name='brands', blank=True, null=True, on_delete=models.CASCADE)
     review = RichTextField(blank=True, null=True)
     slug = models.SlugField(unique=True, blank=True, null=True)
     category = models.ManyToManyField(Category, related_name='cat', blank=True, null=True)
     main_image = models.ImageField(upload_to='product/images', blank=True, null=True)
+    created_time = models.DateTimeField(auto_now_add=True, blank=True, null=True, verbose_name='تاریخ ثبت')
 
     dimension = models.CharField(max_length=100, blank=True, null=True, verbose_name='ابعاد')
     weight = models.CharField(max_length=100, blank=True, null=True, verbose_name='وزن')
@@ -101,4 +113,10 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.email} - {self.product.title}"
+
+class Like(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='user_likes')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='likes')
+
+
 

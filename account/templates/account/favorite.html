@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% load static %}
+
+{% block content %}
+    <section class="inner-page" id="profile-page">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-12 col-lg-3">
+                                <!-- Side Panel -->
+                                {% include 'account/side-panel.html' %}
+                                <!-- /Side Panel -->
+                            </div>
+                            <div class="col-12 col-lg-9 pl-lg-0 pr-lg-2 mt-2 mt-lg-0">
+                                <!-- Favorite Products -->
+                                <div class="custom-container" id="favorites">
+                                    <div class="row pt-2 px-3">
+                                        <div class="col-12"><h1>محصولات مورد علاقه</h1></div>
+                                    </div>
+                                    <div class="container">
+                                        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 gx-md-4">
+                                            <!-- Products -->
+                                            {% for item in favorite %}
+                                                <div class="col">
+                                                <!-- Product Box -->
+                                                <div class="product-box">
+                                                    <a href="{% url 'product:product_detail'  item.product.slug  %}">
+                                                        <div class="image"
+                                                             style="background-image: url('{{ item.product.main_image.url }}')"></div>
+                                                    </a>
+                                                    <div class="details p-3">
+                                                        <div class="category">
+                                                            <a href="{% url 'product:product_detail'  item.product.slug  %}">{{ item.product.category.first.title }}</a>
+                                                            &nbsp;/&nbsp;
+                                                            <a href="{% url 'product:product_detail'  item.product.slug  %}"></a>
+                                                        </div>
+                                                        <a href="{% url 'product:product_detail'  item.product.slug  %}"><h2>{{ item.product.title }}</h2></a>
+                                                        <div class="price">{{ item.product.price|intcomma }} تومان</div>
+                                                        <div class="rate">
+                                                            <i class="fa fa-star-half-alt"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <span class="reviews">({{ item.comments }}دیدگاه)</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- /Product Box -->
+                                            </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /Favorite Products -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

@@ -1,5 +1,5 @@
 from cart.cart_madule import Cart
-from product.models import Category
+from product.models import Category, Product
 
 
 def category(request):
