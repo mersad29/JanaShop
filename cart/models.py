@@ -1,7 +1,7 @@
 import uuid
 
 from django.db import models
-from account.models import CustomUser
+from account.models import CustomUser, Address
 from product.models import Product
 
 
@@ -12,6 +12,7 @@ class Order(models.Model):
     total_price = models.IntegerField(default=0)
     created_time = models.DateTimeField(auto_now_add=True)
     is_paid = models.BooleanField(default=False)
+    address = models.ForeignKey(Address, related_name='order_addresses', on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return self.user.phone

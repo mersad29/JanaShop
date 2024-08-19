@@ -34,6 +34,9 @@ class CheckOutView(View):
     def get(self, request, pk):
         order = get_object_or_404(Order, id=pk)
         request.session['order_id'] = order.id
+        order.address = order.user.useraddress.get(is_default=True)
+        order.save()
+
         return render(request, 'cart/checkout.html', {'order': order})
 
 class OrderCreationView(View):
@@ -48,6 +51,9 @@ class OrderCreationView(View):
         return redirect('cart:checkout', str(order.id))
 
 class VerifyView(View):
-    def get(self, request):
-        order = Order.objects.get()
-        return render(request, 'cart/verify.html')
+    def get(self, request, pk):
+        order = get_object_or_404(Order, id=pk)
+        order.is_paid = True
+        order.save()
+
+        return render(request, 'cart/verify.html', {'order': order})
