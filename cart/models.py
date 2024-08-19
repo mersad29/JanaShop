@@ -1,3 +1,5 @@
+import uuid
+
 from django.db import models
 from account.models import CustomUser
 from product.models import Product

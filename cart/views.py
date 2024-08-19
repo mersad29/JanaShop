@@ -44,4 +44,10 @@ class OrderCreationView(View):
             OrderItem.objects.create(order=order, product=item['product'], color=item['color'],
                                      size=item['size'], price=item['final_price'], quantity=item['quantity'])
         # cart.remove_cart()
+        print(order.id)
         return redirect('cart:checkout', str(order.id))
+
+class VerifyView(View):
+    def get(self, request):
+        order = Order.objects.get()
+        return render(request, 'cart/verify.html')

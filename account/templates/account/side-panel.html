@@ -29,7 +29,7 @@
             <div class="accordion-body">
                 <ul>
                     <li>
-                        <a href="{% url 'account:profile' %}" class="active">
+                        <a href="{% url 'account:profile' %}" class="{% if request.path == '/user/profile' %}active{% endif %}">
                             <div>
                                 <div class="icon d-inline-block"><img
                                         src="{% static "images/icons/profile-menu/profile.webp" %}"
@@ -39,7 +39,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="factors.html">
+                        <a href="">
                             <div>
                                 <div class="icon d-inline-block"><img
                                         src="{% static "images/icons/profile-menu/orders.webp" %}"
@@ -49,7 +49,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{% url 'account:favorite_list' %}">
+                        <a href="{% url 'account:favorite_list' %}" class="{% if request.path == '/user/profile/favorites' %}active{% endif %}">
                             <div>
                                 <div class="icon d-inline-block"><img
                                         src="{% static "images/icons/profile-menu/favorites.webp" %}"
@@ -59,7 +59,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{% url 'account:address_list' %}">
+                        <a href="{% url 'account:address_list' %}" class="{% if request.path == '/user/address_list' %}active{% endif %}">
                             <div>
                                 <div class="icon d-inline-block"><img
                                         src="{% static "images/icons/profile-menu/addresses.webp" %}"
