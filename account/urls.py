@@ -14,4 +14,5 @@ urlpatterns = [
     path('set_default/<int:id>', views.Set_default_address.as_view(), name='set_default'),
     path('delete_address/<int:id>', views.delete_address, name='delete_address'),
     path('profile/favorites', favorites, name='favorite_list'),
+    path('change_password', views.change_password, name='change_pass')
 ]
