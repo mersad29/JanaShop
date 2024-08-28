@@ -11,7 +11,7 @@ from django.urls import reverse, reverse_lazy
 from django.views import View
 from django.views.generic import UpdateView
 
-from .forms import AuthenticationForm, CheckOtpForm, AddressForm, ChangePasswordForm, SetPassword
+from .forms import AuthenticationForm, CheckOtpForm, AddressForm, ChangePasswordForm, SetPassword, EditProfileForm
 from .models import Otp, CustomUser, Address
 
 
@@ -104,6 +104,23 @@ class EditAddressView(UpdateView):
     def get_queryset(self):
         return Address.objects.filter(user=self.request.user)
 
+# class EditProfileView(UpdateView):
+#     model = CustomUser
+#     form_class = AuthenticationForm
+#     template_name = 'account/edit_profile.html'
+#     success_url = reverse_lazy('account:profile')
+
+def edit_user(request):
+    user = request.user
+    if request.method == 'POST':
+        form = EditProfileForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('account:profile')
+    else:
+        form = EditProfileForm(instance=user)
+
+    return render(request, 'account/edit_profile.html', {'form': form, 'user': user})
 
 class Set_default_address(View):
     def get(self, request, id):
