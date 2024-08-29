@@ -104,12 +104,6 @@ class EditAddressView(UpdateView):
     def get_queryset(self):
         return Address.objects.filter(user=self.request.user)
 
-# class EditProfileView(UpdateView):
-#     model = CustomUser
-#     form_class = AuthenticationForm
-#     template_name = 'account/edit_profile.html'
-#     success_url = reverse_lazy('account:profile')
-
 def edit_user(request):
     user = request.user
     if request.method == 'POST':
