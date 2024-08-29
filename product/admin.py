@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Product, ProductImages, Color, Size, Comment, Like
+from .models import Category, Product, ProductImages, Color, Size, Comment, Like, SpecialSale
 
 admin.site.register(Comment)
 admin.site.register(Category)
@@ -18,3 +18,4 @@ class LikeAdmin(admin.TabularInline):
     model = Like
 
 admin.site.register(Like)
+admin.site.register(SpecialSale)
