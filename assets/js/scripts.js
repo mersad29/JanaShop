@@ -81,8 +81,10 @@ $(function () {
 
     /* On Sale Counter */
     function countDown() {
+        var endDateElement = document.getElementById("end-date").textContent;
+
         var today = new Date();
-        var eventDate = new Date("November 30,2025 00:00:00"); /* Change This Date To Update Counter */
+        var eventDate = new Date(endDateElement); /* Change This Date To Update Counter */
         var currentTime = today.getTime();
         var eventTime = eventDate.getTime();
         var remTime = eventTime - currentTime;

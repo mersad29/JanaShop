@@ -1,6 +1,8 @@
 from django.db import models
 from ckeditor.fields import RichTextField
 from django.urls import reverse
+from django.utils import timezone
+
 from account.models import CustomUser
 
 
@@ -74,6 +76,15 @@ class Product(models.Model):
     SIM_num = models.CharField(max_length=100, blank=True, null=True, verbose_name='تعداد سیمکارت')
     introduction_time = models.CharField(max_length=100, blank=True, null=True, verbose_name='زمان معرفی')
 
+    def get_current_price(self):
+        active_sale = self.special_sales.filter(
+            start_date__lte=timezone.now(),
+            end_date__gte=timezone.now()
+        ).first()
+        if active_sale:
+            return active_sale.sale_price
+        return self.price
+
     def get_absolute_url(self):
         return reverse('product:product_detail', args=[self.slug])
 
@@ -117,6 +128,15 @@ class Comment(models.Model):
 class Like(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='user_likes')
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='likes')
+
+class SpecialSale(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='special_sales')
+    sale_price = models.IntegerField()
+    start_date = models.DateTimeField()
+    end_date = models.DateTimeField()
+
+    def is_active(self):
+        return self.start_date <= timezone.now() <= self.end_date
 
 
 
