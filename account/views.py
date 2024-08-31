@@ -95,8 +95,6 @@ class EditAddressView(UpdateView):
     def get_queryset(self):
         return Address.objects.filter(user=self.request.user)
 
-<<<<<<< HEAD
-=======
 def edit_user(request):
     user = request.user
     if request.method == 'POST':
@@ -109,7 +107,6 @@ def edit_user(request):
 
     return render(request, 'account/edit_profile.html', {'form': form, 'user': user})
 
->>>>>>> 1bb372e (Most off and Fire Sale(timer) - 29/8/2024 9:45 PM)
 class Set_default_address(View):
     def get(self, request, id):
         address = get_object_or_404(Address, id=id, user=request.user)
