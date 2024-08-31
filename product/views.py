@@ -12,6 +12,8 @@ def product_detail(request, slug):
     comments = product.comments.all()
     comments_count = comments.filter(product=product, is_published=True).count()
 
+    product.view += 1
+
     if Like.objects.filter(user=request.user, product=product):
         product.liked = True
 
