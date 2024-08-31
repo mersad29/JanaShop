@@ -1,12 +1,17 @@
 from random import randint
 from uuid import uuid4
-from django.contrib.auth import login, logout
+
+from django.contrib import messages
+from django.contrib.auth import login, logout, update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.views import PasswordChangeView
+from django.core.exceptions import ValidationError
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.views import View
 from django.views.generic import UpdateView
 
-from .forms import AuthenticationForm, CheckOtpForm, AddressForm
+from .forms import AuthenticationForm, CheckOtpForm, AddressForm, ChangePasswordForm, SetPassword, EditProfileForm
 from .models import Otp, CustomUser, Address
 
 
@@ -27,6 +32,7 @@ class RegisterOrLogin(View):
 
         return render(request, 'account/Register-Login.html', {'form': form})
 
+
 class CheckOtp(View):
     def get(self, request):
         form = CheckOtpForm(request.GET)
@@ -39,18 +45,21 @@ class CheckOtp(View):
             cd = form.cleaned_data
             otp = Otp.objects.get(token=token)
             if Otp.objects.filter(token=token, code=cd['code']).exists():
-                    user, is_created = CustomUser.objects.get_or_create(phone=otp.phone)
-                    login(request, user)
+                user, is_created = CustomUser.objects.get_or_create(phone=otp.phone)
+                login(request, user)
             otp.delete()
             return redirect('/')
         return render(request, 'account/Check-Otp.html', {'form': form})
 
+
 def profile(request):
     return render(request, 'account/profile.html')
+
 
 def user_logout(request):
     logout(request)
     return redirect('/')
+
 
 class AddressView(View):
     def get(self, request):
@@ -61,6 +70,7 @@ class AddressView(View):
             "addresses": addresses
         }
         return render(request, 'account/address_list.html', contex)
+
 
 class AddAddressView(View):
     def post(self, request):
@@ -85,7 +95,6 @@ class AddAddressView(View):
         return render(request, 'account/add_address.html', contex)
 
 
-
 class EditAddressView(UpdateView):
     model = Address
     form_class = AddressForm
@@ -95,8 +104,6 @@ class EditAddressView(UpdateView):
     def get_queryset(self):
         return Address.objects.filter(user=self.request.user)
 
-<<<<<<< HEAD
-=======
 def edit_user(request):
     user = request.user
     if request.method == 'POST':
@@ -109,7 +116,6 @@ def edit_user(request):
 
     return render(request, 'account/edit_profile.html', {'form': form, 'user': user})
 
->>>>>>> 1bb372e (Most off and Fire Sale(timer) - 29/8/2024 9:45 PM)
 class Set_default_address(View):
     def get(self, request, id):
         address = get_object_or_404(Address, id=id, user=request.user)
@@ -121,6 +127,7 @@ class Set_default_address(View):
 
     def save(self):
         self.get.modified = True
+
 
 def delete_address(request, id):
     address = get_object_or_404(Address, user=request.user, id=id)
@@ -135,3 +142,31 @@ def delete_address(request, id):
             new_default.save()
 
     return redirect('account:address_list')
+
+
+def change_password(request):
+    if request.method == 'POST':
+        if request.user.password is not None:
+            form = ChangePasswordForm(user=request.user, data=request.POST)
+            if form.is_valid():
+                new_password = form.cleaned_data.get('new_password')
+                request.user.password = new_password
+                form.save()
+                messages.success(request, 'رمز عبور با موفقیت تغییر کرد')
+                login(request, request.user)
+        else:
+            form = SetPassword(data=request.POST, user=request.user)
+            if form.is_valid():
+                password = form.cleaned_data.get('password')
+                request.user.password = password
+                form.save()
+                messages.success(request, 'رمز عبور با موفقیت تغییر کرد')
+                login(request.user)
+    else:
+        if request.user.is_authenticated:
+            if request.user.password:
+                form = ChangePasswordForm(request.user)
+            else:
+                form = SetPassword(request.user)
+
+    return render(request, 'account/change_password.html', {'form': form})

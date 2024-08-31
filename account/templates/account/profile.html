@@ -17,8 +17,15 @@
                             <div class="col-12 col-lg-9 pl-lg-0 pr-lg-2 mt-2 mt-lg-0">
                                 <!-- Profile Fields -->
                                 <div class="custom-container bg-light" id="profile-fields">
-                                    <div class="row pt-2 px-3 ">
-                                        <div class="col-12"><h1>اطلاعات شخصی</h1></div>
+                                    <div class="row pt-2 px-3">
+                                        <div class="col-9 mt-2"><h1>اطلاعات شخصی</h1></div>
+                                        <div class="col-3 mb-2">
+                                            <a href="{% url 'account:change_profile' %}">
+                                                <div class="btn btn-warning w-100">
+                                                    <span class="d-md-none d-lg-inline-block text-white">ویرایش اطلاعات</span>
+                                                </div>
+                                            </a>
+                                        </div>
                                     </div>
                                     <hr>
                                     <div class="container">
@@ -33,10 +40,6 @@
                                                             <div class="value">-</div>
                                                         {% endif %}
                                                     </div>
-                                                    <div class="col-2">
-                                                        <a href="#" class="float-left" data-toggle="modal"
-                                                           data-target="#fullNameModal"><i class="fa fa-edit"></i></a>
-                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-12 col-sm-6 profile-field py-2">
@@ -48,11 +51,6 @@
                                                         {% else %}
                                                             <div class="value">-</div>
                                                         {% endif %}
-                                                    </div>
-                                                    <div class="col-2">
-                                                        <a href="#" class="float-left" data-toggle="modal"
-                                                           data-target="#nationalCodeModal"><i
-                                                                class="fa fa-edit"></i></a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -78,10 +76,6 @@
                                                             <div class="value">-</div>
                                                         {% endif %}
                                                     </div>
-                                                    <div class="col-2">
-                                                        <a href="#" class="float-left" data-toggle="modal"
-                                                           data-target="#telModal"><i class="fa fa-edit"></i></a>
-                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-12 col-sm-6 profile-field py-2">
@@ -93,10 +87,6 @@
                                                         {% else %}
                                                             <div class="value">-</div>
                                                         {% endif %}
-                                                    </div>
-                                                    <div class="col-2">
-                                                        <a href="#" class="float-left" data-toggle="modal"
-                                                           data-target="#emailModal"><i class="fa fa-edit"></i></a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -110,10 +100,6 @@
                                                             <div class="value">-</div>
                                                         {% endif %}
                                                     </div>
-                                                    <div class="col-2">
-                                                        <a href="#" class="float-left" data-toggle="modal"
-                                                           data-target="#birthdayModal"><i class="fa fa-edit"></i></a>
-                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-12 col-sm-6 profile-field py-2">
@@ -121,15 +107,11 @@
                                                     <div class="col-10">
                                                         <div class="title">شماره کارت جهت مرجوع وجه</div>
                                                         {% if user.card_number %}
-                                                        <div class="value" dir="ltr">{{ user.card_number }}</div>
+                                                            <div class="value" dir="ltr">{{ user.card_number }}</div>
                                                         {% else %}
-                                                        <div class="value" dir="ltr">-</div>
+                                                            <div class="value" dir="ltr">-</div>
                                                         {% endif %}
 
-                                                    </div>
-                                                    <div class="col-2">
-                                                        <a href="#" class="float-left" data-toggle="modal"
-                                                           data-target="#cardNumberModal"><i class="fa fa-edit"></i></a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -138,13 +120,14 @@
                                                     <div class="col-10">
                                                         <div class="title">رمز عبور</div>
                                                         {% if user.password %}
-                                                            <div class="value">{{ user.password|hide_password }}</div>
+                                                            <div class="value">{{ user.password }}</div>
                                                         {% else %}
                                                             <div class="value">-</div>
                                                         {% endif %}
                                                     </div>
                                                     <div class="col-2">
-                                                        <a href="#" class="float-left" data-toggle="modal"
+                                                        <a href="{% url 'account:change_pass' %}" class="float-left"
+                                                           data-toggle="modal"
                                                            data-target="#passwordModal"><i class="fa fa-edit"></i></a>
                                                     </div>
                                                 </div>
