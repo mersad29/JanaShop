@@ -1,4 +1,6 @@
 from django import forms
+from django.contrib.auth import password_validation
+from django.contrib.auth.forms import PasswordChangeForm, SetPasswordForm
 from django.core.exceptions import ValidationError
 from account.models import Address, CustomUser
 
@@ -12,6 +14,12 @@ class AuthenticationForm(forms.Form):
     #     if not len(phone) == 11:
     #         raise ValidationError("لطفا یک شماره تلفن معتبر وارد کنید", code="phone_validation")
     #     return phone
+
+    # class Meta:
+    #     model = CustomUser
+    #     fields = ('fname', 'lname', 'telephone', 'email', 'date_of_birth',
+    #               'card_number', 'national_code')
+
 
 class ChangePasswordForm(forms.Form):
     old_password = forms.CharField(
@@ -52,9 +60,21 @@ class ChangePasswordForm(forms.Form):
         self.user.save()
 
 
+class SetPassword(forms.Form):
+    password = forms.CharField(label='رمز عبور', widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
+        super().__init__(*args, **kwargs)
+
+    def save(self):
+        self.user.save()
+
+
 class CheckOtpForm(forms.Form):
     code = forms.IntegerField(widget=forms.NumberInput(
         attrs={'class': 'form-control', 'placeholder': 'کد'}))
+
 
 class AddressForm(forms.ModelForm):
     choices = [
@@ -92,9 +112,9 @@ class AddressForm(forms.ModelForm):
         ('zanjan', 'زنجان')
     ]
 
-
     state = forms.ChoiceField(choices=choices)
     user = forms.IntegerField(required=False)
+
     class Meta:
         model = Address
         fields = ('state', 'city', 'name', 'address', 'postal_code', 'phone')

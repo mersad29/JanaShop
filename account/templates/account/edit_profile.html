@@ -1,0 +1,191 @@
+{% extends 'base.html' %}
+{% load templatetags %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+    <section class="inner-page" id="profile-page">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-12 col-lg-3">
+                                <!-- Side Panel -->
+                                {% include 'account/side-panel.html' %}
+                                <!-- /Side Panel -->
+                            </div>
+                            <div class="col-12 col-lg-9 pl-lg-0 pr-lg-2 mt-2 mt-lg-0">
+                                <!-- Profile Fields -->
+                                <div class="custom-container bg-light" id="profile-fields">
+                                    <div class="row pt-2 px-3">
+                                        <div class="col-12"><h1>اطلاعات شخصی</h1>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <form action="" method="post">
+                                    {% csrf_token %}
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-12 col-sm-6 profile-field py-2">
+                                                    <div class="row">
+                                                        <div class="col-10">
+                                                            <div class="title">نام و نام خانوادگی</div>
+                                                            {{ form.fname|add_class:"form-control" }}
+                                                            {{ form.lname|add_class:"form-control" }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-sm-6 profile-field py-2">
+                                                    <div class="row">
+                                                        <div class="col-10">
+                                                            <div class="title">کدملی</div>
+                                                            {{ form.national_code|add_class:"form-control" }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-sm-6 profile-field py-2">
+                                                    <div class="row">
+                                                        <div class="col-10">
+                                                            <div class="title">شماره تلفن همراه</div>
+                                                            <div class="value">{{ user.phone }}</div>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <a href="#" class="float-left" data-toggle="modal"
+                                                               data-target="#mobileModal"><i class="fa fa-edit"></i></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-sm-6 profile-field py-2">
+                                                    <div class="row">
+                                                        <div class="col-10">
+                                                            <div class="title">تلفن ثابت</div>
+                                                            {{ form.telephone|add_class:"form-control" }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-sm-6 profile-field py-2">
+                                                    <div class="row">
+                                                        <div class="col-10">
+                                                            <div class="title">پست الکترونیک</div>
+                                                            {{ form.email|add_class:"form-control" }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-sm-6 profile-field py-2">
+                                                    <div class="row">
+                                                        <div class="col-10">
+                                                            <div class="title">تاریخ تولد</div>
+                                                            {{ form.date_of_birth|add_class:"form-control" }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-sm-6 profile-field py-2">
+                                                    <div class="row">
+                                                        <div class="col-10">
+                                                            <div class="title">شماره کارت جهت مرجوع وجه</div>
+                                                            {{ form.card_number|add_class:"form-control" }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-sm-6 profile-field py-2">
+                                                    <div class="row">
+                                                        <div class="col-10">
+                                                            <div class="title">رمز عبور</div>
+                                                            {% if user.password %}
+                                                                <div class="value">{{ user.password }}</div>
+                                                            {% else %}
+                                                                <div class="value">-</div>
+                                                            {% endif %}
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <a href="{% url 'account:change_pass' %}" class="float-left"
+                                                               data-toggle="modal"
+                                                               data-target="#passwordModal"><i
+                                                                    class="fa fa-edit"></i></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <hr>
+                                                <div class="col-12">
+                                                    <div class="form-group mt-3 pb-3 float-end">
+                                                        <input href="{% url 'account:profile' %}" type="submit"
+                                                               class="btn btn-warning px-5 text-white"
+                                                               value="بررسی و اعمال تغییرات">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- /Profile Fields -->
+
+                                <!-- Latest Orders -->
+                                <div class="mt-2 order">
+                                    <div class="row pt-2 px-3">
+                                        <div class="col-12"><h2>آخرین سفارش ها</h2></div>
+                                    </div>
+                                </div>
+                                <div class="custom-container mt-2 order">
+                                    <div class="row pt-2 px-3">
+                                        <div class="col-12 col-sm-6"><h2>سفارش شماره #1234</h2></div>
+                                        <div class="col-12 col-sm-6 text-sm-end"><span>20 مرداد 1400</span> - <span>پرداخت شده</span>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="container">
+                                        <div class="row py-2">
+                                            <div class="col-12">
+                                                <div>
+                                                    <div class="header">
+                                                        <div class="total py-1"><span>مبلغ کل:</span> 3.000.000 تومان
+                                                        </div>
+                                                    </div>
+                                                    <div class="container products px-0">
+                                                        <div class="row">
+                                                            <!-- Order Record -->
+                                                            <span class="col-12 col-sm-6 col-lg-4 col-xl-3 px-1">
+                                                            <a href="../product.html" target="_blank">
+                                                                <div class="product-box">
+                                                                    <div class="image"
+                                                                         style="background-image: url('../assets/images/products/p100.png')"></div>
+                                                                    <div class="text-center px-1 px-sm-3">
+                                                                        <h2>گوشی موبایل سامسونگ مدل Galaxy A21s</h2>
+                                                                        <div class="number">تعداد: 1 عدد</div>
+                                                                        <div class="price">مبلغ: 3.000.000 عدد</div>
+                                                                    </div>
+                                                                </div>
+                                                            </a>
+                                                        </span>
+                                                            <!-- /Order Record -->
+                                                            <!-- Order Record -->
+                                                            <span class="col-12 col-sm-6 col-lg-4 col-xl-3 px-1">
+                                                            <a href="../product.html" target="_blank">
+                                                                <div class="product-box">
+                                                                    <div class="image"
+                                                                         style="background-image: url('../assets/images/products/p100.png')"></div>
+                                                                    <div class="text-center px-1 px-sm-3">
+                                                                        <h2>گوشی موبایل سامسونگ مدل Galaxy A21s</h2>
+                                                                        <div class="number">تعداد: 1 عدد</div>
+                                                                        <div class="price">مبلغ: 3.000.000 عدد</div>
+                                                                    </div>
+                                                                </div>
+                                                            </a>
+                                                        </span>
+                                                            <!-- /Order Record -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Latest Orders -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
