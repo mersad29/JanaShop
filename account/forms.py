@@ -1,6 +1,6 @@
 from django import forms
 from django.core.exceptions import ValidationError
-from account.models import Address
+from account.models import Address, CustomUser
 
 
 class AuthenticationForm(forms.Form):
@@ -98,3 +98,9 @@ class AddressForm(forms.ModelForm):
     class Meta:
         model = Address
         fields = ('state', 'city', 'name', 'address', 'postal_code', 'phone')
+
+class EditProfileForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ('fname', 'lname', 'telephone', 'email', 'date_of_birth',
+                  'card_number', 'national_code')
