@@ -64,7 +64,7 @@ def favorites(request):
 
 def product_list(request, slug):
     category = Category.objects.get(slug=slug)
-    recent_product = Product.objects.filter(category=category).order_by('-created_time')
+    recent_product = Product.objects.all().order_by('-created_time')
     product = Product.objects.filter(category=category).order_by('-created_time')
 
     min_price = Product.objects.filter(category=category).order_by('price').first().price
@@ -84,7 +84,7 @@ def product_list(request, slug):
 
     in_stock_only = request.GET.get('in_stock_only')
     if in_stock_only == 'true':
-        product = product.filter(category=category, is_stock=True)
+        product = product.filter(category=category, in_stock=True)
     #
     sort = request.GET.get('sort', 'newest')
     if sort == 'min_price':
@@ -111,3 +111,4 @@ def product_list(request, slug):
     }
 
     return render(request, 'product/product_list.html', context)
+

@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.utils import timezone
 
 from account.models import CustomUser
+from product.ProductManager import ProductManager
 
 
 class Category(models.Model):
@@ -53,7 +54,7 @@ class Brand(models.Model):
         return self.name
 
 class Product(models.Model):
-    is_stock = models.BooleanField(default=False)
+    in_stock = models.BooleanField(default=False)
     title = models.CharField(max_length=100)
     price = models.IntegerField()
     final_price = models.IntegerField()
@@ -77,6 +78,8 @@ class Product(models.Model):
     body_material = models.CharField(max_length=100, blank=True, null=True, verbose_name='متریال بدنه')
     SIM_num = models.CharField(max_length=100, blank=True, null=True, verbose_name='تعداد سیمکارت')
     introduction_time = models.CharField(max_length=100, blank=True, null=True, verbose_name='زمان معرفی')
+
+    objects = ProductManager()
 
     def get_current_price(self):
         active_sale = self.special_sales.filter(

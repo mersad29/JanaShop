@@ -30,8 +30,10 @@
                 </div>
                 <div class="col-12 col-md-5 col-xl-6">
                     <div id="search-bar">
-                        <i class="fa fa-search"></i>
-                        <input type="text" placeholder="جستجو کنید...">
+                        <form action="{% url 'index:search' %}">
+                            <i class="fa fa-search"></i>
+                            <input value="{{ request.GET.q }}" name="q" type="text" placeholder="جستجو کنید...">
+                        </form>
                     </div>
                 </div>
                 <div class="col-12 col-md-4">
@@ -49,9 +51,12 @@
                                         <a>{{ user.phone }}</a>
                                         <i class="fa-solid fa-angle-down"></i>
                                         <div class="dropdown-content" id="dropdownContent">
-                                            <a style="font-size: 15px" href="{% url 'account:profile' %}">پروفایل کاربری</a>
-                                            <a style="font-size: 15px" href="{% url 'account:favorite_list' %}">علاقه مندی ها</a>
-                                            <a style="font-size: 15px; color: #ff5656" href="{% url 'account:logout' %}">خروج از حساب</a>
+                                            <a style="font-size: 15px" href="{% url 'account:profile' %}">پروفایل
+                                                کاربری</a>
+                                            <a style="font-size: 15px" href="{% url 'account:favorite_list' %}">علاقه
+                                                مندی ها</a>
+                                            <a style="font-size: 15px; color: #ff5656"
+                                               href="{% url 'account:logout' %}">خروج از حساب</a>
                                         </div>
                                     </button>
                                 </div>
