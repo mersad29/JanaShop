@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.utils import timezone
 
 from ad.models import Banners, Carousel, MidBanners
-from index.models import Faq
+from index.models import Faq, About
 from product.models import Category, Product, SpecialSale
 from django.db.models import Count, Q
 
@@ -40,3 +40,7 @@ def index(request):
 def faq(request):
     question = Faq.objects.all()
     return render(request, 'index/faq.html', {'question': question})
+
+def about(request):
+    about = About.objects.all().first()
+    return render(request, 'index/about.html', {'about': about})

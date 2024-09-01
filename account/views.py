@@ -11,6 +11,7 @@ from django.urls import reverse, reverse_lazy
 from django.views import View
 from django.views.generic import UpdateView
 
+from cart.models import Order
 from .forms import AuthenticationForm, CheckOtpForm, AddressForm, ChangePasswordForm, SetPassword, EditProfileForm
 from .models import Otp, CustomUser, Address
 
@@ -53,7 +54,12 @@ class CheckOtp(View):
 
 
 def profile(request):
-    return render(request, 'account/profile.html')
+    order = Order.objects.filter(user=request.user, is_paid=True).first()
+    return render(request, 'account/profile.html', {'order': order})
+
+def factors(request):
+    order = Order.objects.filter(user=request.user, is_paid=True)
+    return render(request, 'account/factors.html', {'factors': order})
 
 
 def user_logout(request):
