@@ -130,6 +130,7 @@
                                                                onchange="document.getElementById('filter-form').submit();">
                                                         <label for="in_stock_only">فقط کالاهای موجود</label>
                                                         <input type="hidden" name="sort" value="{{ sort }}">
+                                                        <input type="hidden" name="q" value="{{ q }}">
                                                     </div>
                                                 </div>
                                             </div>
@@ -190,13 +191,13 @@
                                         <div class="row">
                                             <div class="col-12 col-sm-10 my-1">
                                                 <span class="d-block d-sm-inline-block">مرتب سازی بر اساس:</span>
-                                                <a href="?sort=newest{% if minprice2 or maxprice2 %}&minprice={{ minprice2 }}&maxprice={{ maxprice2 }}{% endif %}{% if in_stock_only %}&in_stock_only=true{% endif %}"><span
+                                                <a href="?sort=newest{% if request.GET.q %}&q={{ q }}{% endif %}{% if minprice2 or maxprice2 %}&minprice={{ minprice2 }}&maxprice={{ maxprice2 }}{% endif %}{% if in_stock_only %}&in_stock_only=true{% endif %}"><span
                                                         class="btn order-filter d-block d-sm-inline-block {% if request.GET.sort == 'newest' or not request.GET.sort %} active {% endif %}">جدیدترین</span></a>
                                                 {#                                                    <span class="order-filter d-block d-sm-inline-block">پربازدیدترین</span>#}
                                                 {#                                                    <span class="order-filter d-block d-sm-inline-block">پرفروش‌ترین</span>#}
-                                                <a href="?sort=min_price{% if minprice2 or maxprice2 %}&minprice={{ minprice2 }}&maxprice={{ maxprice2 }}{% endif %}{% if in_stock_only %}&in_stock_only=true{% endif %}"><span
+                                                <a href="?sort=min_price{% if request.GET.q %}&q={{ q }}{% endif %}{% if minprice2 or maxprice2 %}&minprice={{ minprice2 }}&maxprice={{ maxprice2 }}{% endif %}{% if in_stock_only %}&in_stock_only=true{% endif %}"><span
                                                         class="btn order-filter d-block d-sm-inline-block {% if request.GET.sort == 'min_price' %} active {% endif %}">ارزان ترین</span></a>
-                                                <a href="?sort=max_price{% if minprice2 or maxprice2 %}&minprice={{ minprice2 }}&maxprice={{ maxprice2 }}{% endif %}{% if in_stock_only %}&in_stock_only=true{% endif %}"><span
+                                                <a href="?sort=max_price{% if request.GET.q %}&q={{ q }}{% endif %}{% if minprice2 or maxprice2 %}&minprice={{ minprice2 }}&maxprice={{ maxprice2 }}{% endif %}{% if in_stock_only %}&in_stock_only=true{% endif %}"><span
                                                         class="btn order-filter d-block d-sm-inline-block {% if request.GET.sort == 'max_price' %} active {% endif %}">گران ترین</span></a>
                                             </div>
                                             <div class="col-12 col-sm-2 pt-1 text-end">
