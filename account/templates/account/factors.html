@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load templatetags %}
+{% load static %}
+
+{% block content %}
+    <section class="inner-page" id="profile-page">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-12 col-lg-3">
+                                <!-- Side Panel -->
+                                {% include 'account/side-panel.html' %}
+                                <!-- /Side Panel -->
+                            </div>
+                            <div class="col-12 col-lg-9 pl-lg-0 pr-lg-2 mt-2 mt-lg-0">
+                                <!-- Factors List -->
+                                {% for factor in factors %}
+                                    <div class="custom-container mt-2 order">
+                                        <div class="row pt-2 px-3">
+                                            <div class="col-12 col-sm-6"><a href="factor-view.html"><h2>سفارش شماره
+                                                {{ factor.id }}</h2></a></div>
+                                            <div class="col-12 col-sm-6 text-sm-end"><span>20 مرداد 1400</span> - <span>پرداخت شده</span>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="container">
+                                            <div class="row py-2">
+                                                <div class="col-12">
+                                                    <div>
+                                                        <div class="header">
+                                                            <div class="total py-1">
+                                                                <span>مبلغ کل:</span> {{ factor.total_price }}
+                                                                تومان
+                                                            </div>
+                                                        </div>
+                                                        <div class="container products px-0">
+                                                            <div class="row">
+                                                                <!-- Order Record -->
+                                                                {% for item in factor.items.all %}
+                                                                    <span class="col-12 col-sm-6 col-lg-4 col-xl-3 px-1">
+                                                            <a href="{% url 'product:product_detail' item.product.slug %}" target="_blank">
+                                                                <div class="product-box">
+                                                                    <div class="image"
+                                                                         style="background-image: url('{{ item.product.main_image.url }}')"></div>
+                                                                    <div class="text-center px-1 px-sm-3">
+                                                                        <h2>{{ item.product.title }}</h2>
+                                                                        <div class="number">تعداد: {{ item.quantity }} عدد</div>
+                                                                        <div class="price">مبلغ: {{ item.product.price }} عدد</div>
+                                                                    </div>
+                                                                </div>
+                                                            </a>
+                                                        </span>
+                                                                {% endfor %}
+                                                                <!-- /Order Record -->
+                                                            </div>
+                                                        </div>
+{#                                                        <a href="factor-view.html">#}
+{#                                                            <div class="btn btn-sm btn-warning float-end">مشاهده فاکتور#}
+{#                                                            </div>#}
+{#                                                        </a>#}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                                <!-- /Factors List -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

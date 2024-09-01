@@ -17,4 +17,5 @@ urlpatterns = [
     path('change_password', views.change_password, name='change_pass'),
     # path('edit_profile', views.EditProfileView.as_view(), name='change_profile'),
     path('edit_profile', views.edit_user, name='change_profile'),
+    path('factors', views.factors, name='factors'),
 ]

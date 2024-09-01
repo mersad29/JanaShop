@@ -10,19 +10,23 @@ class CartDetailView(View):
         cart = Cart(request)
         return render(request, 'cart/cart.html', {'cart': cart})
 
+
 class CartAddingView(View):
     def post(self, request, pk):
         product = get_object_or_404(Product, id=pk)
-        color, size, quantity, discount = request.POST.get('color'), request.POST.get('size'), request.POST.get('quantity')\
+        color, size, quantity, discount = request.POST.get('color'), request.POST.get('size'), request.POST.get(
+            'quantity') \
             , product.discount
         cart = Cart(request)
         cart.add(product, quantity, color, size, discount)
         return redirect('cart:cart_detail')
 
+
 def cart_removing(request):
     cart = Cart(request)
     cart.remove_cart()
     return redirect('cart:cart_detail')
+
 
 class CartDeleteView(View):
     def get(self, request, id):
@@ -30,11 +34,13 @@ class CartDeleteView(View):
         cart.delete(id)
         return redirect('cart:cart_detail')
 
+
 class CheckOutView(View):
     def get(self, request, pk):
         order = get_object_or_404(Order, id=pk)
         request.session['order_id'] = order.id
         return render(request, 'cart/checkout.html', {'order': order})
+
 
 class OrderCreationView(View):
     def get(self, request):
@@ -44,10 +50,18 @@ class OrderCreationView(View):
             OrderItem.objects.create(order=order, product=item['product'], color=item['color'],
                                      size=item['size'], price=item['final_price'], quantity=item['quantity'])
         # cart.remove_cart()
-        print(order.id)
         return redirect('cart:checkout', str(order.id))
 
+
 class VerifyView(View):
-    def get(self, request):
-        order = Order.objects.get()
-        return render(request, 'cart/verify.html')
+    def get(self, request, pk):
+        order = get_object_or_404(Order, id=pk)
+
+        for item in order.items.all():
+            item.product.sales += 1
+            item.product.save()
+
+        order.is_paid = True
+        order.save()
+
+        return render(request, 'cart/verify.html', {'order': order})
