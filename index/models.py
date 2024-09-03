@@ -25,3 +25,13 @@ class Personnel(models.Model):
     github = models.CharField(max_length=400, blank=True, null=True)
     linkedin = models.CharField(max_length=400, blank=True, null=True)
     instagram = models.CharField(max_length=400, blank=True, null=True)
+
+class Footer(models.Model):
+    instagram = models.CharField(max_length=400, blank=True, null=True)
+    facebook = models.CharField(max_length=400, blank=True, null=True)
+    x = models.CharField(max_length=400, blank=True, null=True)
+    youtube = models.CharField(max_length=400, blank=True, null=True)
+    linkedin = models.CharField(max_length=400, blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.instagram}"

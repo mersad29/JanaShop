@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.utils import timezone
 
 from ad.models import Banners, Carousel, MidBanners
-from index.models import Faq, About
+from index.models import Faq, About, Footer
 from product.models import Category, Product, SpecialSale
 from django.db.models import Count, Q
 
@@ -15,6 +15,8 @@ def index(request):
     most_off = Product.objects.all().order_by('-discount')
     most_view = products.order_by('-view')
     most_sale = products.order_by('-sales')
+    socials = Footer.objects.all()
+
 
     for item in most_off:
         item.comment_count = item.comments.filter(is_published=True).count()
@@ -34,6 +36,7 @@ def index(request):
         'fire_sale': fire_sale,
         'most_view': most_view,
         'most_sale': most_sale,
+        'socials': socials,
     }
     return render(request, 'index/index.html', context)
 
