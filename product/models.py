@@ -2,6 +2,7 @@ from django.db import models
 from ckeditor.fields import RichTextField
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.text import slugify
 
 from account.models import CustomUser
 from product.ProductManager import ProductManager
@@ -96,7 +97,9 @@ class Product(models.Model):
     def save(
         self, force_insert=False, force_update=False, using=None, update_fields=None
     ):
+        self.slug = slugify(self.title)
         super(Product, self).save()
+
 
     def __str__(self):
         return self.title
