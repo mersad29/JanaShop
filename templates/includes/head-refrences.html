@@ -19,9 +19,22 @@
     <link rel="stylesheet" href="{% static 'node_modules/photoswipe/dist/photoswipe.css' %}">
 
 
-
     <!-- /CSS Styles -->
     <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/3b74fce8b8.js" crossorigin="anonymous"></script>
+    <script>
+        function CustomtoggleDropdown() {
+            var dropdown = document.querySelector('.dropdown');
+            dropdown.classList.toggle('active');
+        }
+
+        // Close the dropdown when clicking outside of it
+        document.addEventListener('click', function (event) {
+            var dropdown = document.getElementById('dropdown');
+            if (!dropdown.contains(event.target)) {
+                dropdown.classList.remove('active');
+            }
+        });
+    </script>
 
 </head>
