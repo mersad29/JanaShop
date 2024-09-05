@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load humanize %}
+{% load maths %}
 
 {% block slider %}
     <!-- Slider Section -->
@@ -15,58 +16,58 @@
         <div class="section-subtitle">محصولات دارای تخفیف ویژه به مدت محدود</div>
         <div class="container pt-4">
             <div class="row">
-                    <div class="col-12 col-lg-6">
-                        <div class="on-sale-product-box h-100 p-3" data-aos="fade-zoom-in" data-aos-duration="800">
-                            <div class="row h-100">
-                                <div class="col-12 col-sm-4 col-lg-5">
-                                    <a href="{% url 'product:product_detail' fire_sale.product.slug %}">
-                                        <div class="image h-100"
-                                             style="background-image: url('{{ fire_sale.product.main_image.url }}')"></div>
-                                    </a>
+                <div class="col-12 col-lg-6">
+                    <div class="on-sale-product-box h-100 p-3" data-aos="fade-zoom-in" data-aos-duration="800">
+                        <div class="row h-100">
+                            <div class="col-12 col-sm-4 col-lg-5">
+                                <a href="{% url 'product:product_detail' fire_sale.product.slug %}">
+                                    <div class="image h-100"
+                                         style="background-image: url('{{ fire_sale.product.main_image.url }}')"></div>
+                                </a>
+                            </div>
+                            <div class="col-12 col-sm-8 col-lg-7 py-3">
+                                <div class="box-title">محصول ویژه امروز</div>
+                                <div class="box-subtitle">فروش به مدت محدود</div>
+                                <a href="{% url 'product:product_detail' fire_sale.product.slug %}">
+                                    <div class="product-title pt-4">{{ fire_sale.product.title }}
+                                    </div>
+                                </a>
+                                <div class="price py-2">
+                                    <span class="discounted">{{ fire_sale.sale_price|intcomma }} تومان</span>
+                                    <br class="d-sm-none">
+                                    <span class="pre">{{ fire_sale.product.price|intcomma }} تومان</span>
                                 </div>
-                                <div class="col-12 col-sm-8 col-lg-7 py-3">
-                                    <div class="box-title">محصول ویژه امروز</div>
-                                    <div class="box-subtitle">فروش به مدت محدود</div>
-                                    <a href="{% url 'product:product_detail' fire_sale.product.slug %}">
-                                        <div class="product-title pt-4">{{ fire_sale.product.title }}
+                                <div class="cta pt-2">
+                                    <a href="{% url 'product:product_detail' fire_sale.product.slug %}"
+                                       class="hvr-icon-back">همین حالا بخرید <i
+                                            class="fa fa-arrow-left hvr-icon"></i></a>
+                                </div>
+                                <div class="counter mt-3">
+                                    <div class="time-counter">
+                                        <div class="seconds count">
+                                            <div id="end-date"
+                                                 style="display: none;">{{ fire_sale.end_date|date:'m,d,Y H:i:s' }}</div>
+                                            <div class="num">30</div>
+                                            <div class="label">ثانیه</div>
                                         </div>
-                                    </a>
-                                    <div class="price py-2">
-                                        <span class="discounted">{{ fire_sale.sale_price|intcomma }} تومان</span>
-                                        <br class="d-sm-none">
-                                        <span class="pre">{{ fire_sale.product.price|intcomma }} تومان</span>
-                                    </div>
-                                    <div class="cta pt-2">
-                                        <a href="{% url 'product:product_detail' fire_sale.product.slug %}"
-                                           class="hvr-icon-back">همین حالا بخرید <i
-                                                class="fa fa-arrow-left hvr-icon"></i></a>
-                                    </div>
-                                    <div class="counter mt-3">
-                                        <div class="time-counter">
-                                            <div class="seconds count">
-                                                <div id="end-date"
-                                                     style="display: none;">{{ fire_sale.end_date|date:'m,d,Y H:i:s' }}</div>
-                                                <div class="num">30</div>
-                                                <div class="label">ثانیه</div>
-                                            </div>
-                                            <div class="minutes count">
-                                                <div class="num">59</div>
-                                                <div class="label">دقیقه</div>
-                                            </div>
-                                            <div class="hours count">
-                                                <div class="num">13</div>
-                                                <div class="label">ساعت</div>
-                                            </div>
-                                            <div class="days count">
-                                                <div class="num">38</div>
-                                                <div class="label">روز</div>
-                                            </div>
+                                        <div class="minutes count">
+                                            <div class="num">59</div>
+                                            <div class="label">دقیقه</div>
+                                        </div>
+                                        <div class="hours count">
+                                            <div class="num">13</div>
+                                            <div class="label">ساعت</div>
+                                        </div>
+                                        <div class="days count">
+                                            <div class="num">38</div>
+                                            <div class="label">روز</div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
                 <div class="col-12 col-sm-6 col-lg-3">
                     <!-- Product Box -->
                     <div class="product-box">
@@ -90,11 +91,6 @@
                                 <span class="price">4.800.000 تومان</span>
                             </div>
                             <div class="rate">
-                                <i class="fa fa-star-half-alt"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
                                 <span class="reviews">(14 رای دهنده)</span>
                             </div>
                         </div>
@@ -185,11 +181,12 @@
                                         <span class="price">{{ item.final_price }} تومان</span>
                                     </div>
                                     <div class="rate">
-                                        <i class="fa fa-star-half-alt"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
+                                        {% for _ in  item.star|to_range %}
+                                            <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                        {% endfor %}
+                                        {% for _ in item.empty_star|to_range %}
+                                            <i class="fa-regular fa-star" style="color: #FFD43B;"></i>
+                                        {% endfor %}
                                         <span class="reviews">({{ item.comment_count }} رای دهنده)</span>
                                     </div>
                                 </div>
@@ -204,75 +201,77 @@
             <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-md-4 featured-product on-sale">
                 {% for item in most_view %}
                     <div class="col">
-                    <!-- Product Box -->
-                    <div class="product-box">
-                        <a href="./product.html">
-                            <div class="image" style="background-image: url('assets/images/products/p303.png')">
-                                <span class="badge on-sale-badge">فروش ویژه</span>
-                            </div>
-                        </a>
-                        <div class="details p-3">
-                            <div class="category">
-                                <a href="./products.html">گوشی موبایل</a>
-                                &nbsp;/&nbsp;
-                                <a href="./products.html">سامسونگ</a>
-                            </div>
-                            <a href="./product.html"><h2>{{ item.title }}</h2>
+                        <!-- Product Box -->
+                        <div class="product-box">
+                            <a href="./product.html">
+                                <div class="image" style="background-image: url('assets/images/products/p303.png')">
+                                    <span class="badge on-sale-badge">فروش ویژه</span>
+                                </div>
                             </a>
-                            <div>
-                                <span class="discounted">{{ item.final_price }} تومان</span>
-                                <br class="d-sm-none">
-                                <span class="price">{{ item.price }} تومان</span>
-                            </div>
-                            <div class="rate">
-                                <i class="fa fa-star-half-alt"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <span class="reviews">(14 رای دهنده)</span>
+                            <div class="details p-3">
+                                <div class="category">
+                                    <a href="./products.html">گوشی موبایل</a>
+                                    &nbsp;/&nbsp;
+                                    <a href="./products.html">سامسونگ</a>
+                                </div>
+                                <a href="./product.html"><h2>{{ item.title }}</h2>
+                                </a>
+                                <div>
+                                    <span class="discounted">{{ item.final_price }} تومان</span>
+                                    <br class="d-sm-none">
+                                    <span class="price">{{ item.price }} تومان</span>
+                                </div>
+                                <div class="rate">
+                                    {% for _ in  item.star|to_range %}
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                    {% endfor %}
+                                    {% for _ in item.empty_star|to_range %}
+                                        <i class="fa-regular fa-star" style="color: #FFD43B;"></i>
+                                    {% endfor %}
+                                    <span class="reviews">(14 رای دهنده)</span>
+                                </div>
                             </div>
                         </div>
+                        <!-- /Product Box -->
                     </div>
-                    <!-- /Product Box -->
-                </div>
                 {% endfor %}
             </div>
 
             <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-md-4 featured-product most-visited">
                 {% for item in most_view %}
                     <div class="col">
-                    <!-- Product Box -->
-                    <div class="product-box">
-                        <a href="{% url 'product:product_detail' item.slug %}">
-                            <div class="image" style="background-image: url('{{ item.main_image.url }}')">
-                            </div>
-                        </a>
-                        <div class="details p-3">
-                            <div class="category">
-                                <a href="./products.html">گوشی موبایل</a>
-                                &nbsp;/&nbsp;
-                                <a href="./products.html">سامسونگ</a>
-                            </div>
-                            <a href="./product.html"><h2>{{ item.title }}</h2>
+                        <!-- Product Box -->
+                        <div class="product-box">
+                            <a href="{% url 'product:product_detail' item.slug %}">
+                                <div class="image" style="background-image: url('{{ item.main_image.url }}')">
+                                </div>
                             </a>
-                            <div>
-                                <span class="discounted">{{ item.final_price }} تومان</span>
-                                <br class="d-sm-none">
-                                <span class="price">{{ item.price }} تومان</span>
-                            </div>
-                            <div class="rate">
-                                <i class="fa fa-star-half-alt"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <span class="reviews">(14 رای دهنده)</span>
+                            <div class="details p-3">
+                                <div class="category">
+                                    <a href="./products.html">گوشی موبایل</a>
+                                    &nbsp;/&nbsp;
+                                    <a href="./products.html">سامسونگ</a>
+                                </div>
+                                <a href="./product.html"><h2>{{ item.title }}</h2>
+                                </a>
+                                <div>
+                                    <span class="discounted">{{ item.final_price }} تومان</span>
+                                    <br class="d-sm-none">
+                                    <span class="price">{{ item.price }} تومان</span>
+                                </div>
+                                <div class="rate">
+                                    {% for _ in  item.star|to_range %}
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                    {% endfor %}
+                                    {% for _ in item.empty_star|to_range %}
+                                        <i class="fa-regular fa-star" style="color: #FFD43B;"></i>
+                                    {% endfor %}
+                                    <span class="reviews">(14 رای دهنده)</span>
+                                </div>
                             </div>
                         </div>
+                        <!-- /Product Box -->
                     </div>
-                    <!-- /Product Box -->
-                </div>
                 {% endfor %}
             </div>
             <!-- /Products -->

@@ -1,3 +1,4 @@
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from ckeditor.fields import RichTextField
 from django.urls import reverse
@@ -80,6 +81,10 @@ class Product(models.Model):
     SIM_num = models.CharField(max_length=100, blank=True, null=True, verbose_name='تعداد سیمکارت')
     introduction_time = models.CharField(max_length=100, blank=True, null=True, verbose_name='زمان معرفی')
 
+    star = models.PositiveIntegerField(editable=False, default=0)
+    empty_star = models.PositiveIntegerField(editable=False, default=5)
+
+
     objects = ProductManager()
 
     def get_current_price(self):
@@ -90,6 +95,12 @@ class Product(models.Model):
         if active_sale:
             return active_sale.sale_price
         return self.price
+
+    def average_rate(self):
+        ratings = self.ratings.all()
+        if ratings:
+            return sum(rating.value for rating in ratings) / ratings.count()
+        return 0
 
     def get_absolute_url(self):
         return reverse('product:product_detail', args=[self.slug])
@@ -107,6 +118,15 @@ class Product(models.Model):
     class Meta:
         verbose_name='محصول'
         verbose_name_plural="محصولات"
+
+class Rating(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='ratings')
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    value = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
+    created_time = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('product', 'user')
 
 class ProductImages(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='product_images')

@@ -8,89 +8,89 @@
                     <div class="row">
                         <div class="col-12 pt-2">
                             <!-- Show Comments -->
-                        {% if product.comments.all %}
-                            <div class="comment p-3 my-2">
-                                {% for comment in product.comments.all %}
-                                    {% if comment.is_published %}
-                                        {% if comment.parent == none %}
-                                            <div class="sender-details">
-                                                <div class="row">
-                                                    <div class="col-3 col-sm-2 col-md-1 pl-md-0 pl-lg-2 pl-xl-3">
-                                                        {% if user.image %}
-                                                            <img src="{{ user.image.url }}"
-                                                                 alt=""
-                                                                 class="rounded">
-                                                        {% else %}
-                                                            <img src="{% static "images/user-no-image.jpg" %}"
-                                                                 alt=""
-                                                                 class="rounded">
-                                                        {% endif %}
-                                                    </div>
-                                                    <div class="col-9 col-sm-10 col-md-11 pr-0 pr-md-2 pr-xl-0 pt-0 pt-lg-1">
-                                                        <div class="name">
-                                                            {{ comment.name }}
+                            {% if product.comments.all %}
+                                <div class="comment p-3 my-2">
+                                    {% for comment in product.comments.all %}
+                                        {% if comment.is_published %}
+                                            {% if comment.parent == none %}
+                                                <div class="sender-details">
+                                                    <div class="row">
+                                                        <div class="col-3 col-sm-2 col-md-1 pl-md-0 pl-lg-2 pl-xl-3">
+                                                            {% if user.image %}
+                                                                <img src="{{ user.image.url }}"
+                                                                     alt=""
+                                                                     class="rounded">
+                                                            {% else %}
+                                                                <img src="{% static "images/user-no-image.jpg" %}"
+                                                                     alt=""
+                                                                     class="rounded">
+                                                            {% endif %}
                                                         </div>
-                                                        <div class="date">
-                                                            ارسال شده
-                                                            در {{ comment.jalali }}
+                                                        <div class="col-9 col-sm-10 col-md-11 pr-0 pr-md-2 pr-xl-0 pt-0 pt-lg-1">
+                                                            <div class="name">
+                                                                {{ comment.name }}
+                                                            </div>
+                                                            <div class="date">
+                                                                ارسال شده
+                                                                در {{ comment.jalali }}
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-12">
-                                                        <p>{{ comment.body }}</p>
-                                                        <span onclick="set_value({{ comment.id }})"
-                                                              class="reply"><img
-                                                                src="{% static 'images/comment-reply.png' %}"
-                                                                alt=""> ارسال پاسخ</span>
+                                                        <div class="col-12">
+                                                            <p>{{ comment.body }}</p>
+                                                            <span onclick="set_value({{ comment.id }})"
+                                                                  class="reply"><img
+                                                                    src="{% static 'images/comment-reply.png' %}"
+                                                                    alt=""> ارسال پاسخ</span>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        {% else %}
-                                            <!-- Comment Reply -->
-                                            <div class="row justify-content-end">
-                                                <div class="col-11 pt-2 pr-0">
-                                                    <div class="comment p-3">
-                                                        <div class="sender-details">
-                                                            <div class="row">
-                                                                <div class="col-3 col-sm-2 col-md-1 pl-md-0 pl-lg-2 pl-xl-3">
-                                                                    {% if user.image %}
-                                                                        <img src="{{ user.image.url }}"
-                                                                             alt=""
-                                                                             class="rounded">
-                                                                    {% else %}
-                                                                        <img src="{% static "images/user-no-image.jpg" %}"
-                                                                             alt=""
-                                                                             class="rounded">
-                                                                    {% endif %}
-                                                                </div>
-                                                                <div class="col-9 col-sm-10 col-md-11 pr-0 pr-md-2 pr-xl-0 pt-0 pt-lg-1">
-                                                                    <div class="name">
-                                                                        {{ comment.name }}
+                                            {% else %}
+                                                <!-- Comment Reply -->
+                                                <div class="row justify-content-end">
+                                                    <div class="col-11 pt-2 pr-0">
+                                                        <div class="comment p-3">
+                                                            <div class="sender-details">
+                                                                <div class="row">
+                                                                    <div class="col-3 col-sm-2 col-md-1 pl-md-0 pl-lg-2 pl-xl-3">
+                                                                        {% if user.image %}
+                                                                            <img src="{{ user.image.url }}"
+                                                                                 alt=""
+                                                                                 class="rounded">
+                                                                        {% else %}
+                                                                            <img src="{% static "images/user-no-image.jpg" %}"
+                                                                                 alt=""
+                                                                                 class="rounded">
+                                                                        {% endif %}
                                                                     </div>
-                                                                    <div class="date">
-                                                                        ارسال
-                                                                        شده
-                                                                        در
-                                                                        {{ comment.jalali }}
+                                                                    <div class="col-9 col-sm-10 col-md-11 pr-0 pr-md-2 pr-xl-0 pt-0 pt-lg-1">
+                                                                        <div class="name">
+                                                                            {{ comment.name }}
+                                                                        </div>
+                                                                        <div class="date">
+                                                                            ارسال
+                                                                            شده
+                                                                            در
+                                                                            {{ comment.jalali }}
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div class="col-12">
-                                                                    <p>{{ comment.body }}</p>
+                                                                    <div class="col-12">
+                                                                        <p>{{ comment.body }}</p>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <!-- /Comment Reply -->
+                                                <!-- /Comment Reply -->
+                                            {% endif %}
                                         {% endif %}
-                                    {% endif %}
-                                {% endfor %}
-                            </div>
-                        {% else %}
-                            <div class="comment p-3 my-2">
-                                <p>اولین نفری باشید که نظر میدهید.</p>
-                            </div>
-                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <div class="comment p-3 my-2">
+                                    <p>اولین نفری باشید که نظر میدهید.</p>
+                                </div>
+                            {% endif %}
                             <!-- /Show Comments -->
                         </div>
                     </div>
@@ -113,6 +113,10 @@
                                         کنید.
                                         نشانی ایمیل شما منتشر نخواهد
                                         شد.</p>
+                                    <label for="rating">امتیاز شما به این محصول:</label>
+                                    <input type="range" name="rating" id="rating" min="1" max="5" value="3"
+                                           oninput="this.nextElementSibling.value = this.value">
+                                    <output>3</output>
                                     <div class="row">
                                         {% for m in messages %}
                                             <div href="message">

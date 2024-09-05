@@ -10,10 +10,12 @@ def category(request):
 
     return {'categories': categories}
 
+
 def cart_count(request):
     cart = Cart(request).count()
 
     return {'cart_count': cart}
+
 
 def last_orders(request):
     # order = Order.objects.filter(is_paid=True)

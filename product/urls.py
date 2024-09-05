@@ -7,4 +7,5 @@ urlpatterns = [
     path('favorite/add/<int:id>', views.add_to_favorite, name='add_favorite'),
     path('favorite/remove/<int:id>', views.remove_from_favorite, name='delete_favorite'),
     path('list/cat=<slug:slug>', views.product_list, name='product_list'),
+    # path('<int:id>/rate/', views.rate, name='rate_product'),
 ]
