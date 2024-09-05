@@ -2,7 +2,6 @@
 {% load static %}
 {% load humanize %}
 
-
 {% block content %}
 
 
@@ -84,11 +83,12 @@
                                     <h1>{{ product.title }}</h1>
                                 </a>
                                 <div class="stars-container">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
+                                    {% for _ in stars %}
+                                        <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                    {% endfor %}
+                                    {% for _ in empty_stars %}
+                                        <i class="fa-regular fa-star" style="color: #FFD43B;"></i>
+                                    {% endfor %}
                                     <a href="#tabs-panel"><span>(نقد و بررسی)</span></a>
                                 </div>
                                 <div class="price-container py-2">
@@ -132,25 +132,25 @@
 
                                             <div class="col-12 col-sm-4 col-lg-3">
                                                 <input type="number" name="quantity" id="">
-{#                                                <div class="variable">#}
-{#                                                    <div class="sub-title pt-2 pb-2">تعداد</div>#}
-{#                                                    <div class="input-group mb-3 order-number">#}
-{#                                                        <div class="input-group-prepend">#}
-{#                                                            <button class="btn btn-outline-secondary btn-plus"#}
-{#                                                                    type="button">+#}
-{#                                                            </button>#}
-{#                                                        </div>#}
-{#                                                        <input type="text" name="quantity" value="2"#}
-{#                                                               class="form-control text-center order-number"#}
-{#                                                               readonly="">#}
-{#                                                        <div class="input-group-prepend">#}
-{#                                                            <button class="btn btn-outline-secondary btn-minus"#}
-{#                                                                    type="button">_#}
-{#                                                            </button>#}
-{#                                                        </div>#}
-{#                                                    </div>#}
-{##}
-{#                                                </div>#}
+                                                {#                                                <div class="variable">#}
+                                                {#                                                    <div class="sub-title pt-2 pb-2">تعداد</div>#}
+                                                {#                                                    <div class="input-group mb-3 order-number">#}
+                                                {#                                                        <div class="input-group-prepend">#}
+                                                {#                                                            <button class="btn btn-outline-secondary btn-plus"#}
+                                                {#                                                                    type="button">+#}
+                                                {#                                                            </button>#}
+                                                {#                                                        </div>#}
+                                                {#                                                        <input type="text" name="quantity" value="2"#}
+                                                {#                                                               class="form-control text-center order-number"#}
+                                                {#                                                               readonly="">#}
+                                                {#                                                        <div class="input-group-prepend">#}
+                                                {#                                                            <button class="btn btn-outline-secondary btn-minus"#}
+                                                {#                                                                    type="button">_#}
+                                                {#                                                            </button>#}
+                                                {#                                                        </div>#}
+                                                {#                                                    </div>#}
+                                                {##}
+                                                {#                                                </div>#}
                                             </div>
                                         </div>
                                     </div>
@@ -162,9 +162,11 @@
                                                             class="fa fa-shopping-cart"></i> افزودن به سبد خرید
                                                 </button>
                                                 <br class="d-sm-none">
-                                                <a  href="{% if product.liked %} {% url 'product:delete_favorite' product.id %}  {% else %} {% url 'product:add_favorite' product.id %} {% endif %}"><div class="btn btn-outline-secondary btn-favorite {% if product.liked %} favorited {% endif %} mt-1 mt-sm-0"
-                                                     data-toggle="tooltip" data-placement="top"
-                                                     title="افزودن به علاقه‌مندی"></div></a>
+                                                <a href="{% if product.liked %} {% url 'product:delete_favorite' product.id %}  {% else %} {% url 'product:add_favorite' product.id %} {% endif %}">
+                                                    <div class="btn btn-outline-secondary btn-favorite {% if product.liked %} favorited {% endif %} mt-1 mt-sm-0"
+                                                         data-toggle="tooltip" data-placement="top"
+                                                         title="افزودن به علاقه‌مندی"></div>
+                                                </a>
 
                                                 <a href="">
                                                     <div class="btn btn-outline-secondary btn-compare mt-1 mt-sm-0"

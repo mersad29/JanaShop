@@ -21,3 +21,4 @@ class ProductManager(models.Manager):
 
     def get_price_range(self):
         return self.get_queryset().get_price_range()
+

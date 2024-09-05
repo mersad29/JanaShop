@@ -4,19 +4,34 @@ from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404, redirect
 from persiantools.jdatetime import JalaliDate
 from . import models
-from .models import Comment, Like, Product, Category
+from .models import Comment, Like, Product, Category, Rating
+
+
+# def rate(request, id):
+#     product = get_object_or_404(models.Product, id=id)
+#     if request.method == 'POST':
+#         rating_value = int(request.POST.get('rating', 0))
+#         if 1 <= rating_value <= 5:
+#             rating, created = Rating.objects.update_or_create(
+#                 product=product, user=request.user,
+#                 defaults={'value': rating_value}
+#             )
+#             return redirect('product:product_detail', slug=product.slug)
+#     return redirect('product:product_detail', slug=product.slug)
 
 
 def product_detail(request, slug):
     product = get_object_or_404(models.Product, slug=slug)
     comments = product.comments.all()
     comments_count = comments.filter(product=product, is_published=True).count()
+    average_rating = product.average_rate()
+    empty_stars = range(int(round(5-average_rating)))
+
 
     product.view += 1
 
     if Like.objects.filter(user=request.user, product=product):
         product.liked = True
-
     else:
         product.liked = False
 
@@ -24,7 +39,6 @@ def product_detail(request, slug):
     if product.discount:
         product.final_price = int(product.price - (int(product.price) * int(product.percent_discount / 100)))
         product.discount = int(product.price) - int(product.final_price)
-    product.save()
 
     for comment in comments:
         created_at = comment.created_time
@@ -33,16 +47,28 @@ def product_detail(request, slug):
         comment.created_time = comment.jalali
 
     if request.method == 'POST':
-        name = request.POST.get('name')
-        email = request.POST.get('email')
+        name = request.user.id
+        email = request.user.email
         body = request.POST.get('body')
         parent = request.POST.get('parent')
         Comment.objects.create(product=product, name=name, email=email, body=body, parent_id=parent)
+        rating_value = int(request.POST.get('rating', 0))
+        if 1 <= rating_value <= 5:
+            Rating.objects.update_or_create(
+                product=product, user=request.user,
+                value=rating_value
+            )
         messages.success(request, "thanks")
+
+        product.star = int(round(average_rating))
+        product.empty_star = int(round(5-average_rating))
+    product.save()
 
     contex = {
         'product': product,
         'comments_count': comments_count,
+        'stars': range(int(round(average_rating))),
+        'empty_stars': empty_stars
     }
     return render(request, 'product/product_detail.html', contex)
 
