@@ -36,7 +36,7 @@
             </div>
             <div class="col-12 col-md-12 col-lg-6">
                 <hr class="d-lg-none">
-                <img src="assets/images/logo.png" alt=""> روبیک مارکت
+                <img src="{% static 'images/logo.png' %}" alt=""> روبیک مارکت
                 <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها
                     و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و
                     کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد.</p>
@@ -49,13 +49,13 @@
                     <div class="col-12 col-md-6 pt-2 pt-md-0" id="certificates">
                         <div class="row">
                             <div class="col-4 text-center">
-                                <a href="#"><img src="assets/images/certificates/enamad.png" alt=""></a>
+                                <a href="#"><img src="{% static 'images/certificates/enamad.png' %}" alt=""></a>
                             </div>
                             <div class="col-4 text-center">
-                                <a href="#"><img src="assets/images/certificates/samandehi.png" alt=""></a>
+                                <a href="#"><img src="{% static 'images/certificates/samandehi.png' %}" alt=""></a>
                             </div>
                             <div class="col-4 text-center">
-                                <a href="#"><img src="assets/images/certificates/etehadiye.png" alt=""></a>
+                                <a href="#"><img src="{% static 'images/certificates/etehadiye.png' %}" alt=""></a>
                             </div>
                         </div>
                     </div>
@@ -72,13 +72,18 @@
         <div class="row">
             <div class="col-12 col-sm-6" id="social-links">
                 <span>ما را دنبال کنید</span>
-                {% for social in socials %}
-                    <a href="{% if social.instagram %}{{ social.instagram }}{% elif social.x %}{{ social.x }}{% elif social.linkedin %}{{ social.linkedin }}{% elif social.youtube %}{{ social.youtube }}{% endif %}"><img src="assets/images/social/{% if social.instagram %}insta.png{% elif social.x %}twitter.png{% elif social.linkedin %}linkedin.png{% elif social.youtube %}youtube.png{% endif %}" alt=""></a>
-                {% endfor %}
-{#                <a href="{{ socials.facebook }}"><img src="assets/images/social/facebook.png" alt=""></a>#}
-{#                <a href="{{ socials.linkedin }}"><img src="assets/images/social/linkedin.png" alt=""></a>#}
-{#                <a href="{{ socials.x }}"><img src="assets/images/social/twitter.png" alt=""></a>#}
-{#                <a href="{{ socials.youtube }}"><img src="assets/images/social/youtube.png" alt=""></a>#}
+
+                {% if socials.instagram %}
+                    <a href="{{ socials.instagram }}"><img src="{% static 'images/social/insta.png' %}" alt=""></a>
+                {% elif socials.facebook %}
+                    <a href="{{ socials.facebook }}"><img src="{% static 'images/social/facebook.png' %}" alt=""></a>
+                {% elif socials.linkedin %}
+                    <a href="{{ socials.linkedin }}"><img src="{% static 'images/social/linkedin.png' %}" alt=""></a>
+                {% elif socials.x %}
+                    <a href="{{ socials.x }}"><img src="{% static 'images/social/twitter.png' %}" alt=""></a>
+                {% elif socials.youtube %}
+                    <a href="{{ socials.youtube }}"><img src="{% static 'images/social/youtube.png' %}" alt=""></a>
+                {% endif %}
             </div>
             <div class="col-12 col-sm-6 text-sm-end pt-2 pt-sm-0">
                 <span>کلیه حقوق و مادی معنوی محفوط است.</span>

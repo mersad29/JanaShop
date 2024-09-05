@@ -162,45 +162,19 @@ $(function () {
 
     /* /Num Format Functions */
 
-    /* Products Carousel */
-    if ($('.products-carousel').length > 0) {
-        var owl = $('.products-carousel');
-        owl.owlCarousel({
-        rtl: true,
-        autoplay: true,
-        autoplayHoverPause: true,
-        margin: 25,
-        nav: false,
-        dots: false,
-        loop: true,
-        responsive: {
-        0: {
-        items: 1
-    },
-        768: {
-        items: 3
-    },
-        1000: {
-        items: 4
-    }
-    }
-    })
-    }
-    /* /Products Carousel */
 
-    /* Product Order Number */
-    if ($('.btn-plus').length > 0) {
+    if($('.btn-plus').length > 0) {
         $('.btn-plus').click(function () {
             var index = $(this).index('.btn-plus');
-            var orderNumber = Number($('input.quantity').eq(index).val());
-            $('input.quantity').eq(index).val(orderNumber + 1);
+            var orderNumber = Number($('input.order-number').eq(index).val());
+            $('input.order-number').eq(index).val(orderNumber + 1);
         })
 
         $('.btn-minus').click(function () {
             var index = $(this).index('.btn-minus');
-            var orderNumber = Number($('input.quantity').eq(index).val());
+            var orderNumber = Number($('input.order-number').eq(index).val());
             if (orderNumber > 1)
-            $('input.quantity').eq(index).val(orderNumber - 1);
+                $('input.order-number').eq(index).val(orderNumber - 1);
         })
     }
     /* /Product Order Number */
