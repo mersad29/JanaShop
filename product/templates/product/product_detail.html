@@ -131,26 +131,32 @@
                                             {% endif %}
 
                                             <div class="col-12 col-sm-4 col-lg-3">
-                                                <input type="number" name="quantity" id="">
-                                                {#                                                <div class="variable">#}
-                                                {#                                                    <div class="sub-title pt-2 pb-2">تعداد</div>#}
-                                                {#                                                    <div class="input-group mb-3 order-number">#}
-                                                {#                                                        <div class="input-group-prepend">#}
-                                                {#                                                            <button class="btn btn-outline-secondary btn-plus"#}
-                                                {#                                                                    type="button">+#}
-                                                {#                                                            </button>#}
-                                                {#                                                        </div>#}
-                                                {#                                                        <input type="text" name="quantity" value="2"#}
-                                                {#                                                               class="form-control text-center order-number"#}
-                                                {#                                                               readonly="">#}
-                                                {#                                                        <div class="input-group-prepend">#}
-                                                {#                                                            <button class="btn btn-outline-secondary btn-minus"#}
-                                                {#                                                                    type="button">_#}
-                                                {#                                                            </button>#}
-                                                {#                                                        </div>#}
-                                                {#                                                    </div>#}
-                                                {##}
-                                                {#                                                </div>#}
+                                                {#                                                <input type="number" name="quantity" id="">#}
+                                                <div class="variable">
+                                                    <div class="sub-title pt-2 pb-2">
+                                                        تعداد
+                                                    </div>
+                                                    <div class="input-group mb-3 order-number">
+                                                        <div class="input-group-prepend">
+                                                            <button class="btn btn-outline-secondary btn-plus"
+                                                                    type="button">
+                                                                +
+                                                            </button>
+                                                        </div>
+                                                        <input type="text"
+                                                               name="quantity"
+                                                               value="1"
+                                                               class="form-control text-center order-number"
+                                                               readonly="">
+                                                        <div class="input-group-prepend">
+                                                            <button class="btn btn-outline-secondary btn-minus"
+                                                                    type="button">
+                                                                _
+                                                            </button>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -373,25 +379,7 @@
                 });
             });
         });
-
-        /* Product Order Number */
-        if ($('.btn-plus2').length > 0) {
-            $('.btn-plus2').click(function () {
-                var index = $(this).index('.btn-plus');
-                var orderNumber = Number($('input.order-number').eq(index).val());
-                $('input.order-number').eq(index).val(orderNumber + 1);
-            })
-
-            $('.btn-minus2').click(function () {
-                var index = $(this).index('.btn-minus');
-                var orderNumber = Number($('input.order-number').eq(index).val());
-                if (orderNumber > 1)
-                    $('input.order-number').eq(index).val(orderNumber - 1);
-            })
-        }
-        /* /Product Order Number */
     </script>
-    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
     <script src="{% static 'js/scripts.js' %}"></script>
     <script src="{% static 'js/nav-tabs.js' %}"></script>
     <script src="{% static 'js/swiper-bundle.min.js' %}"></script>

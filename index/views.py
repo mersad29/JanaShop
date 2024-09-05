@@ -15,7 +15,7 @@ def index(request):
     most_off = Product.objects.all().order_by('-discount')
     most_view = products.order_by('-view')
     most_sale = products.order_by('-sales')
-    socials = Footer.objects.all()
+    socials = Footer.objects.first()
 
 
     for item in most_off:
