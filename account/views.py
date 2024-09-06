@@ -1,24 +1,21 @@
 from random import randint
 from uuid import uuid4
-
 from django.contrib import messages
-from django.contrib.auth import login, logout, update_session_auth_hash
-from django.contrib.auth.forms import PasswordChangeForm
-from django.contrib.auth.views import PasswordChangeView
+from django.contrib.auth import login, logout
 from django.core.exceptions import ValidationError
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.views import View
 from django.views.generic import UpdateView
-
 from cart.models import Order
+from . import forms
 from .forms import AuthenticationForm, CheckOtpForm, AddressForm, ChangePasswordForm, SetPassword, EditProfileForm
 from .models import Otp, CustomUser, Address
 
 
 class RegisterOrLogin(View):
     def get(self, request):
-        form = AuthenticationForm(request.GET)
+        form = AuthenticationForm()
         return render(request, 'account/Register-Login.html', {'form': form})
 
     def post(self, request):
@@ -33,10 +30,9 @@ class RegisterOrLogin(View):
 
         return render(request, 'account/Register-Login.html', {'form': form})
 
-
 class CheckOtp(View):
     def get(self, request):
-        form = CheckOtpForm(request.GET)
+        form = CheckOtpForm()
         return render(request, 'account/Check-Otp.html', {'form': form})
 
     def post(self, request):
@@ -48,8 +44,10 @@ class CheckOtp(View):
             if Otp.objects.filter(token=token, code=cd['code']).exists():
                 user, is_created = CustomUser.objects.get_or_create(phone=otp.phone)
                 login(request, user)
+                return redirect('/')
+            else:
+                messages.error(request, 'کد اشتباه است')
             otp.delete()
-            return redirect('/')
         return render(request, 'account/Check-Otp.html', {'form': form})
 
 
