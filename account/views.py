@@ -15,8 +15,11 @@ from .models import Otp, CustomUser, Address
 
 class RegisterOrLogin(View):
     def get(self, request):
-        form = AuthenticationForm()
-        return render(request, 'account/Register-Login.html', {'form': form})
+        if not request.user.is_authenticated:
+            form = AuthenticationForm()
+            return render(request, 'account/Register-Login.html', {'form': form})
+        else:
+            return render(request, 'account/profile.html')
 
     def post(self, request):
         form = AuthenticationForm(request.POST)
@@ -30,30 +33,39 @@ class RegisterOrLogin(View):
 
         return render(request, 'account/Register-Login.html', {'form': form})
 
+
 class CheckOtp(View):
     def get(self, request):
-        form = CheckOtpForm()
-        return render(request, 'account/Check-Otp.html', {'form': form})
+        if not request.user.is_authenticated:
+            form = CheckOtpForm()
+            return render(request, 'account/Check-Otp.html', {'form': form})
+        else:
+            return render(request, 'account/profile.html')
 
     def post(self, request):
         form = CheckOtpForm(request.POST)
         token = request.GET.get('token')
         if form.is_valid():
             cd = form.cleaned_data
-            otp = Otp.objects.get(token=token)
-            if Otp.objects.filter(token=token, code=cd['code']).exists():
-                user, is_created = CustomUser.objects.get_or_create(phone=otp.phone)
-                login(request, user)
-                return redirect('/')
+
+            if Otp.objects.get(token=token):
+                otp = Otp.objects.get(token=token)
+                if Otp.objects.filter(token=token, code=cd['code']).exists():
+                    user, is_created = CustomUser.objects.get_or_create(phone=otp.phone)
+                    otp.delete()
+                    login(request, user)
+                    return redirect('/')
+                else:
+                    messages.error(request, 'کد اشتباه است')
             else:
                 messages.error(request, 'کد اشتباه است')
-            otp.delete()
         return render(request, 'account/Check-Otp.html', {'form': form})
 
 
 def profile(request):
     order = Order.objects.filter(user=request.user, is_paid=True).first()
     return render(request, 'account/profile.html', {'order': order})
+
 
 def factors(request):
     order = Order.objects.filter(user=request.user, is_paid=True)
@@ -108,6 +120,7 @@ class EditAddressView(UpdateView):
     def get_queryset(self):
         return Address.objects.filter(user=self.request.user)
 
+
 def edit_user(request):
     user = request.user
     if request.method == 'POST':
@@ -119,6 +132,7 @@ def edit_user(request):
         form = EditProfileForm(instance=user)
 
     return render(request, 'account/edit_profile.html', {'form': form, 'user': user})
+
 
 class Set_default_address(View):
     def get(self, request, id):

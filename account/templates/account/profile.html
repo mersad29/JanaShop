@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load templatetags %}
 
 {% block content %}
     <section class="inner-page" id="profile-page">
@@ -59,10 +60,10 @@
                                                         <div class="title">شماره تلفن همراه</div>
                                                         <div class="value">{{ user.phone }}</div>
                                                     </div>
-                                                    <div class="col-2">
-                                                        <a href="#" class="float-left" data-toggle="modal"
-                                                           data-target="#mobileModal"><i class="fa fa-edit"></i></a>
-                                                    </div>
+{#                                                    <div class="col-2">#}
+{#                                                        <a href="#" class="float-left" data-toggle="modal"#}
+{#                                                           data-target="#mobileModal"><i class="fa fa-edit"></i></a>#}
+{#                                                    </div>#}
                                                 </div>
                                             </div>
                                             <div class="col-12 col-sm-6 profile-field py-2">
@@ -119,7 +120,7 @@
                                                     <div class="col-10">
                                                         <div class="title">رمز عبور</div>
                                                         {% if user.password %}
-                                                            <div class="value">{{ user.password }}</div>
+                                                            <div class="value">{{ user.password|hide_password }}</div>
                                                         {% else %}
                                                             <div class="value">-</div>
                                                         {% endif %}
