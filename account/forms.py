@@ -1,24 +1,34 @@
 from django import forms
-from django.contrib.auth import password_validation
-from django.contrib.auth.forms import PasswordChangeForm, SetPasswordForm
 from django.core.exceptions import ValidationError
 from account.models import Address, CustomUser
 
 
+def validate_phone_number(value):
+    value = value.strip()
+    if len(value) == 11:
+        if not value.startswith('0'):
+            raise ValidationError('لطفا یک شماره تلفن معتبر وارد کنید')
+    elif len(value) == 10:
+        if not value.startswith('9'):
+            raise ValidationError('لطفا یک شماره تلفن معتبر وارد کنید')
+    else:
+        raise ValidationError('لطفا یک شماره تلفن معتبر وارد کنید')
+
+
 class AuthenticationForm(forms.Form):
-    phone = forms.CharField(widget=forms.TextInput(
-        attrs={'class': 'form-control', 'placeholder': 'شماره تلفن'}))
+    phone = forms.CharField(
+        validators=[validate_phone_number],
+        widget=forms.TextInput(
+            attrs={'class': 'form-control', 'placeholder': 'شماره تلفن'}))
 
     # def clean_phone(self):
     #     phone = self.cleaned_data.get('phone')
-    #     if not len(phone) == 11:
+    #     if len(phone) == 11:
+    #         if phone[0] != 0:
+    #             raise ValidationError("--")
+    #     if not len(phone) == 11 or 10:
     #         raise ValidationError("لطفا یک شماره تلفن معتبر وارد کنید", code="phone_validation")
     #     return phone
-
-    # class Meta:
-    #     model = CustomUser
-    #     fields = ('fname', 'lname', 'telephone', 'email', 'date_of_birth',
-    #               'card_number', 'national_code')
 
 
 class ChangePasswordForm(forms.Form):
@@ -45,7 +55,6 @@ class ChangePasswordForm(forms.Form):
             self.add_error('confirm_password', "رمز عبور با تکرار رمز عبور همخوانی ندارد")
 
         return cleaned_data
-
 
     def clean_old_password(self):
         old_password = self.cleaned_data.get("old_password")
@@ -118,6 +127,7 @@ class AddressForm(forms.ModelForm):
     class Meta:
         model = Address
         fields = ('state', 'city', 'name', 'address', 'postal_code', 'phone')
+
 
 class EditProfileForm(forms.ModelForm):
     class Meta:
