@@ -80,7 +80,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'context_processors.context_processors.category',
                 'context_processors.context_processors.cart_count',
-                # 'context_processors.context_processors.Order',
+                'context_processors.context_processors.socials',
             ],
         },
     },

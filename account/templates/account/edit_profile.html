@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
-{% load math %}
 {% load static %}
 {% load widget_tweaks %}
+{% load templatetags %}
 
 {% block content %}
     <section class="inner-page" id="profile-page">
@@ -93,7 +93,7 @@
                                                         <div class="col-10">
                                                             <div class="title">رمز عبور</div>
                                                             {% if user.password %}
-                                                                <div class="value">{{ user.password }}</div>
+                                                                <div class="value">{{ user.password|hide_password }}</div>
                                                             {% else %}
                                                                 <div class="value">-</div>
                                                             {% endif %}

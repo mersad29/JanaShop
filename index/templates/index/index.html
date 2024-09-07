@@ -20,25 +20,25 @@
                     <div class="on-sale-product-box h-100 p-3" data-aos="fade-zoom-in" data-aos-duration="800">
                         <div class="row h-100">
                             <div class="col-12 col-sm-4 col-lg-5">
-                                <a href="{% url 'product:product_detail' fire_sale.product.slug %}">
+                                <a href="{% url 'product:product_detail' fire_sales.first.product.slug %}">
                                     <div class="image h-100"
-                                         style="background-image: url('{{ fire_sale.product.main_image.url }}')"></div>
+                                         style="background-image: url('{{ fire_sales.first.product.main_image.url }}')"></div>
                                 </a>
                             </div>
                             <div class="col-12 col-sm-8 col-lg-7 py-3">
                                 <div class="box-title">محصول ویژه امروز</div>
                                 <div class="box-subtitle">فروش به مدت محدود</div>
-                                <a href="{% url 'product:product_detail' fire_sale.product.slug %}">
-                                    <div class="product-title pt-4">{{ fire_sale.product.title }}
+                                <a href="{% url 'product:product_detail' fire_sales.first.product.slug %}">
+                                    <div class="product-title pt-4">{{ fire_sales.first.product.title }}
                                     </div>
                                 </a>
                                 <div class="price py-2">
-                                    <span class="discounted">{{ fire_sale.sale_price|intcomma }} تومان</span>
+                                    <span class="discounted">{{ fire_sales.first.sale_price|intcomma }} تومان</span>
                                     <br class="d-sm-none">
-                                    <span class="pre">{{ fire_sale.product.price|intcomma }} تومان</span>
+                                    <span class="pre">{{ fire_sales.first.product.price|intcomma }} تومان</span>
                                 </div>
                                 <div class="cta pt-2">
-                                    <a href="{% url 'product:product_detail' fire_sale.product.slug %}"
+                                    <a href="{% url 'product:product_detail' fire_sales.first.product.slug %}"
                                        class="hvr-icon-back">همین حالا بخرید <i
                                             class="fa fa-arrow-left hvr-icon"></i></a>
                                 </div>
@@ -46,7 +46,7 @@
                                     <div class="time-counter">
                                         <div class="seconds count">
                                             <div id="end-date"
-                                                 style="display: none;">{{ fire_sale.end_date|date:'m,d,Y H:i:s' }}</div>
+                                                 style="display: none;">{{ fire_sales.first.end_date|date:'m,d,Y H:i:s' }}</div>
                                             <div class="num">30</div>
                                             <div class="label">ثانیه</div>
                                         </div>
@@ -71,8 +71,9 @@
                 <div class="col-12 col-sm-6 col-lg-3">
                     <!-- Product Box -->
                     <div class="product-box">
-                        <a href="./product.html">
-                            <div class="image" style="background-image: url('assets/images/products/p303.png')">
+                        <a href="{% url 'product:product_detail' fire_sales.1.product.slug %}">
+                            <div class="image"
+                                 style="background-image: url('{{ fire_sales.1.product.main_image.url }}')">
                                 <span class="badge on-sale-badge">فروش ویژه</span>
                             </div>
                         </a>
@@ -82,16 +83,22 @@
                                 &nbsp;/&nbsp;
                                 <a href="./products.html">سامسونگ</a>
                             </div>
-                            <a href="./product.html"><h2>مودم روتر ADSL2 Plus بی‌ سیم N300 دی-لینک مدل
-                                DSL-2740U</h2>
+                            <a href="{% url 'product:product_detail' fire_sales.1.product.slug %}">
+                                <h2>{{ fire_sales.1.product.title }}</h2>
                             </a>
                             <div>
-                                <span class="discounted">4.500.000 تومان</span>
+                                <span class="discounted">{{ fire_sales.1.product.price }} تومان</span>
                                 <br class="d-sm-none">
-                                <span class="price">4.800.000 تومان</span>
+                                <span class="price">{{ fire_sales.1.product.final_price }} تومان</span>
                             </div>
                             <div class="rate">
-                                <span class="reviews">(14 رای دهنده)</span>
+                                {% for _ in  fire_sales.1.product.star|to_range %}
+                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                {% endfor %}
+                                {% for _ in fire_sales.1.product.empty_star|to_range %}
+                                    <i class="fa-regular fa-star" style="color: #FFD43B;"></i>
+                                {% endfor %}
+                                <span class="reviews">({{ item.comment_count }} رای دهنده)</span>
                             </div>
                         </div>
                     </div>
@@ -100,8 +107,9 @@
                 <div class="col-12 col-sm-6 col-lg-3">
                     <!-- Product Box -->
                     <div class="product-box">
-                        <a href="./product.html">
-                            <div class="image" style="background-image: url('assets/images/products/p403.png')">
+                        <a href="{% url 'product:product_detail' fire_sales.2.product.slug %}">
+                            <div class="image"
+                                 style="background-image: url('{{ fire_sales.1.product.main_image.url }}')">
                                 <span class="badge on-sale-badge">فروش ویژه</span>
                             </div>
                         </a>
@@ -111,19 +119,21 @@
                                 &nbsp;/&nbsp;
                                 <a href="./products.html">سامسونگ</a>
                             </div>
-                            <a href="./product.html"><h2>دوربین دیجیتال مدل AX6065</h2></a>
+                            <a href="{% url 'product:product_detail' fire_sales.2.product.slug %}">
+                                <h2>{{ fire_sales.2.product.title }}</h2></a>
                             <div>
-                                <span class="discounted">4.500.000 تومان</span>
+                                <span class="discounted">{{ fire_sales.2.product.price }} تومان</span>
                                 <br class="d-sm-none">
-                                <span class="price">4.800.000 تومان</span>
+                                <span class="price">{{ fire_sales.1.product.final_price }} تومان</span>
                             </div>
                             <div class="rate">
-                                <i class="fa fa-star-half-alt"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <span class="reviews">(14 رای دهنده)</span>
+                                {% for _ in  fire_sales.2.product.star|to_range %}
+                                    <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
+                                {% endfor %}
+                                {% for _ in fire_sales.2.product.empty_star|to_range %}
+                                    <i class="fa-regular fa-star" style="color: #FFD43B;"></i>
+                                {% endfor %}
+                                <span class="reviews">({{ item.comment_count }} رای دهنده)</span>
                             </div>
                         </div>
                     </div>
@@ -164,10 +174,12 @@
                                     <div class="image"
                                          style="background-image: url('{{ item.main_image.url }}')"></div>
                                 </a>
-                                <div class="icons">
-                                    <div class="btn btn-outline-secondary btn-favorite"></div>
-                                    <div class="btn btn-outline-secondary btn-compare"></div>
-                                </div>
+                                <a href="{% if item.liked %} {% url 'index:delete_favorite' item.id %}  {% else %} {% url 'index:add_favorite' item.id %} {% endif %}">
+                                    <div class="icons">
+                                        <div class="btn btn-outline-secondary {% if item.liked %} btn-favorited {% else %} btn-favorite {% endif %}">
+                                        </div>
+                                    </div>
+                                </a>
                                 <div class="details p-3">
                                     <div class="category">
                                         <a href="./products.html">گوشی موبایل</a>
@@ -244,6 +256,12 @@
                         <div class="product-box">
                             <a href="{% url 'product:product_detail' item.slug %}">
                                 <div class="image" style="background-image: url('{{ item.main_image.url }}')">
+                                </div>
+                            </a>
+                            <a href="{% if item.liked %} {% url 'index:delete_favorite' item.id %}  {% else %} {% url 'index:add_favorite' item.id %} {% endif %}">
+                                <div class="icons">
+                                    <div class="btn btn-outline-secondary {% if item.liked %} btn-favorited {% else %} btn-favorite {% endif %}">
+                                    </div>
                                 </div>
                             </a>
                             <div class="details p-3">
@@ -339,7 +357,7 @@
                         </a>
                         <div class="icons">
                             <div class="btn btn-outline-secondary btn-favorite"></div>
-                            <div class="btn btn-outline-secondary btn-compare"></div>
+                            {#                            <div class="btn btn-outline-secondary btn-compare"></div>#}
                         </div>
                         <div class="details p-3">
                             <div class="category">

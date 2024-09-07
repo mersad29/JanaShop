@@ -1,9 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 
 from ad.models import Banners, Carousel, MidBanners
 from index.models import Faq, About, Footer
-from product.models import Category, Product, SpecialSale
+from product.models import Category, Product, SpecialSale, Like
 from django.db.models import Count, Q
 
 
@@ -12,33 +12,50 @@ def index(request):
     banners = Banners.objects.all().order_by('created_time')
     midbanners = MidBanners.objects.all()
     products = Product.objects.all()
-    most_off = Product.objects.all().order_by('-discount')
+    most_off = products.order_by('-discount')
     most_view = products.order_by('-view')
     most_sale = products.order_by('-sales')
-    socials = Footer.objects.first()
+    # socials = Footer.objects.first()
 
+    for query in [most_off, most_view, most_sale]:
+        for pr in query:
+            pr.final_price = pr.get_current_price()
+            if Like.objects.filter(user=request.user, product=pr):
+                pr.liked = True
+            else:
+                pr.liked = False
 
     for item in most_off:
         item.comment_count = item.comments.filter(is_published=True).count()
 
-    fire_sale = SpecialSale.objects.all().first()
-    fire_sale.sale_price = fire_sale.product.get_current_price()
+    fire_sales = SpecialSale.objects.all()
+    for pr in fire_sales:
+        pr.sale_price = pr.product.get_current_price()
 
-    if timezone.now() <= fire_sale.end_date:
-
-        fire_sale.active = True
+        if timezone.now() <= pr.end_date:
+            pr.active = True
 
     context = {
         "carousel": carousel,
         "banners": banners,
         "midbanners": midbanners,
         'most_off': most_off,
-        'fire_sale': fire_sale,
+        'fire_sales': fire_sales,
         'most_view': most_view,
         'most_sale': most_sale,
-        'socials': socials,
+        # 'socials': socials,
     }
     return render(request, 'index/index.html', context)
+
+def add_to_favorite(request, id):
+    product = get_object_or_404(Product, id=id)
+    Like.objects.get_or_create(user=request.user, product=product)
+    return redirect('/')
+
+def remove_from_favorite(request, id):
+    product = get_object_or_404(Product, id=id)
+    Like.objects.filter(user=request.user, product=product).delete()
+    return redirect('/')
 
 def faq(request):
     question = Faq.objects.all()
