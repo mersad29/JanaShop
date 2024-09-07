@@ -1786,6 +1786,11 @@ img {
   background-repeat: no-repeat;
   background-position: center center;
 }
+.product-box .icons .btn.btn-favorited {
+  background-image: url("../images/icons/favorited.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+}
 .product-box .icons .btn.btn-compare {
   background-image: url("../images/icons/compare.png");
   background-repeat: no-repeat;

@@ -45,6 +45,7 @@ class Size(models.Model):
     def __str__(self):
         return self.name
 
+
 class Brand(models.Model):
     name = models.CharField(max_length=50)
 
@@ -55,12 +56,13 @@ class Brand(models.Model):
     def __str__(self):
         return self.name
 
+
 class Product(models.Model):
     in_stock = models.BooleanField(default=False)
     title = models.CharField(max_length=100)
     price = models.IntegerField()
     final_price = models.IntegerField()
-    discount = models.IntegerField()
+    discount = models.IntegerField(blank=True, null=True)
     percent_discount = models.IntegerField(blank=True, null=True)
     short_body = models.TextField(max_length=1000, blank=True, null=True)
     color = models.ManyToManyField(Color, related_name='color')
@@ -84,17 +86,19 @@ class Product(models.Model):
     star = models.PositiveIntegerField(editable=False, default=0)
     empty_star = models.PositiveIntegerField(editable=False, default=5)
 
-
     objects = ProductManager()
 
     def get_current_price(self):
-        active_sale = self.special_sales.filter(
+
+        active_sales = self.special_sales.filter(
             start_date__lte=timezone.now(),
             end_date__gte=timezone.now()
         ).first()
-        if active_sale:
-            return active_sale.sale_price
-        return self.price
+
+        if active_sales:
+            self.final_price = active_sales.sale_price
+            return self.final_price
+        return self.final_price
 
     def average_rate(self):
         ratings = self.ratings.all()
@@ -106,18 +110,18 @@ class Product(models.Model):
         return reverse('product:product_detail', args=[self.slug])
 
     def save(
-        self, force_insert=False, force_update=False, using=None, update_fields=None
+            self, force_insert=False, force_update=False, using=None, update_fields=None
     ):
         self.slug = slugify(self.title)
         super(Product, self).save()
-
 
     def __str__(self):
         return self.title
 
     class Meta:
-        verbose_name='محصول'
-        verbose_name_plural="محصولات"
+        verbose_name = 'محصول'
+        verbose_name_plural = "محصولات"
+
 
 class Rating(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='ratings')
@@ -128,13 +132,15 @@ class Rating(models.Model):
     class Meta:
         unique_together = ('product', 'user')
 
+
 class ProductImages(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='product_images')
     image = models.ImageField(upload_to='product/images')
 
     class Meta:
-        verbose_name='تصویر'
-        verbose_name_plural="تصاویر بیشتر"
+        verbose_name = 'تصویر'
+        verbose_name_plural = "تصاویر بیشتر"
+
 
 class Comment(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='comments', verbose_name='محصول')
@@ -153,9 +159,11 @@ class Comment(models.Model):
     def __str__(self):
         return f"{self.name} - {self.email} - {self.product.title}"
 
+
 class Like(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='user_likes')
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='likes')
+
 
 class SpecialSale(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='special_sales')
@@ -165,6 +173,3 @@ class SpecialSale(models.Model):
 
     def is_active(self):
         return self.start_date <= timezone.now() <= self.end_date
-
-
-

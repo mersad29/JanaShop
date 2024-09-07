@@ -1,32 +1,18 @@
 import datetime
 from django.contrib import messages
-from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404, redirect
 from persiantools.jdatetime import JalaliDate
 from . import models
 from .models import Comment, Like, Product, Category, Rating
 
 
-# def rate(request, id):
-#     product = get_object_or_404(models.Product, id=id)
-#     if request.method == 'POST':
-#         rating_value = int(request.POST.get('rating', 0))
-#         if 1 <= rating_value <= 5:
-#             rating, created = Rating.objects.update_or_create(
-#                 product=product, user=request.user,
-#                 defaults={'value': rating_value}
-#             )
-#             return redirect('product:product_detail', slug=product.slug)
-#     return redirect('product:product_detail', slug=product.slug)
-
-
 def product_detail(request, slug):
     product = get_object_or_404(models.Product, slug=slug)
+    product.get_current_price()
     comments = product.comments.all()
     comments_count = comments.filter(product=product, is_published=True).count()
     average_rating = product.average_rate()
     empty_stars = range(int(round(5-average_rating)))
-
 
     product.view += 1
 
@@ -35,10 +21,8 @@ def product_detail(request, slug):
     else:
         product.liked = False
 
-
-    if product.discount:
-        product.final_price = int(product.price - (int(product.price) * int(product.percent_discount / 100)))
-        product.discount = int(product.price) - int(product.final_price)
+    product.discount = int(product.price) - int(product.final_price)
+    product.percent_discount = (product.discount * 100) // product.price
 
     for comment in comments:
         created_at = comment.created_time
@@ -111,7 +95,7 @@ def product_list(request, slug):
     in_stock_only = request.GET.get('in_stock_only')
     if in_stock_only == 'true':
         product = product.filter(category=category, in_stock=True)
-    #
+
     sort = request.GET.get('sort', 'newest')
     if sort == 'min_price':
         product = product.filter(category=category).order_by('price')
