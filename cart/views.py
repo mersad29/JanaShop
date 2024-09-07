@@ -47,9 +47,9 @@ class OrderCreationView(View):
         cart = Cart(request)
         order = Order.objects.create(user=request.user, phone=request.user.phone, total_price=cart.total_final_price())
         for item in cart:
-            OrderItem.objects.create(order=order, product=item['product'], color=item['color'],
-                                     size=item['size'], price=item['final_price'], quantity=item['quantity'])
-        # cart.remove_cart()
+            OrderItem.objects.create(order=order, product=item['product'], color=item['color']
+                                     , price=item['final_price'], quantity=item['quantity'])
+        cart.remove_cart()
         return redirect('cart:checkout', str(order.id))
 
 

@@ -34,14 +34,12 @@
                                                         </a>
                                                         <div class="details p-3">
                                                             <div class="category">
-                                                                <a href="{% url 'product:product_detail'  item.product.slug %}">{{ item.product.category.first.title }}</a>
+                                                                <a href="./products.html">گوشی موبایل</a>
                                                                 &nbsp;/&nbsp;
-                                                                <a href="{% url 'product:product_detail'  item.product.slug %}"></a>
+                                                                <a href="./products.html">سامسونگ</a>
                                                             </div>
                                                             <a href="{% url 'product:product_detail'  item.product.slug %}">
                                                                 <h2>{{ item.product.title }}</h2></a>
-                                                            <div class="price">{{ item.product.price|intcomma }} تومان
-                                                            </div>
                                                             <div class="rate">
                                                                 {% for _ in  item.product.star|to_range %}
                                                                     <i class="fa-solid fa-star"

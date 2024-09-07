@@ -29,8 +29,8 @@ class Cart:
 
         return result
 
-    def add(self, product, quantity, color, size, discount):
-        unique = self.unique_id_generator(product.id, color, size)
+    def add(self, product, quantity, color, discount, size=None):
+        unique = self.unique_id_generator(product.id, color, size=None)
 
         if unique not in self.cart:
             self.cart[unique] = {'quantity': 0, 'price': product.price, 'color': color, 'size': size, 'id': product.id, 'discount': discount}
