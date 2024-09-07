@@ -57,14 +57,21 @@ def product_detail(request, slug):
     return render(request, 'product/product_detail.html', contex)
 
 def add_to_favorite(request, id):
-    product = get_object_or_404(Product, id=id)
-    Like.objects.get_or_create(user=request.user, product=product)
-    return redirect('product:product_detail', product.slug)
+    if request.user.is_authenticated:
+        product = get_object_or_404(Product, id=id)
+        Like.objects.get_or_create(user=request.user, product=product)
+        return redirect('product:product_detail', product.slug)
+    else:
+        return redirect('account:login')
+
 
 def remove_from_favorite(request, id):
-    product = get_object_or_404(Product, id=id)
-    Like.objects.filter(user=request.user, product=product).delete()
-    return redirect('product:product_detail', product.slug)
+    if request.user.is_authenticated:
+        product = get_object_or_404(Product, id=id)
+        Like.objects.filter(user=request.user, product=product).delete()
+        return redirect('product:product_detail', product.slug)
+    else:
+        return redirect('account:login')
 
 def favorites(request):
     favorites = Like.objects.filter(user=request.user)
