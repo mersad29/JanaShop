@@ -117,18 +117,18 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            {% if product.size.all %}
-                                                <div class="col-12 col-sm-4 col-lg-3">
-                                                    <div class="variable">
-                                                        <div class="sub-title pt-2 pb-2">سایز</div>
-                                                        <select name="size" class="form-select">
-                                                            {% for size in product.size.all %}
-                                                                <option value="{{ size.name }}">{{ size }}</option>
-                                                            {% endfor %}
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            {% endif %}
+{#                                            {% if product.size.all %}#}
+{#                                                <div class="col-12 col-sm-4 col-lg-3">#}
+{#                                                    <div class="variable">#}
+{#                                                        <div class="sub-title pt-2 pb-2">سایز</div>#}
+{#                                                        <select name="size" class="form-select">#}
+{#                                                            {% for size in product.size.all %}#}
+{#                                                                <option value="{{ size.name }}">{{ size }}</option>#}
+{#                                                            {% endfor %}#}
+{#                                                        </select>#}
+{#                                                    </div>#}
+{#                                                </div>#}
+{#                                            {% endif %}#}
 
                                             <div class="col-12 col-sm-4 col-lg-3">
                                                 {#                                                <input type="number" name="quantity" id="">#}
@@ -184,21 +184,21 @@
                                     </div>
                                 </form>
                                 {#                                <!-- Share Links -->#}
-                                <div class="pt-5" id="share-links">
-                                    <span>اشتراک گذاری: </span>
-                                    <a href="#" target="_blank"><span class="share-link"><img
-                                            src="{% static "images/social/twitter.png" %}" alt="توئیتر"
-                                            width="18px"></span></a>
-                                    <a href="#" target="_blank"><span class="share-link"><img
-                                            src="{% static "images/social/insta.png" %}" alt="اینستاگرام"
-                                            width="18px"></span></a>
-                                    <a href="#" target="_blank"><span class="share-link"><img
-                                            src="{% static "images/social/linkedin.png" %}" alt="لینکدین"
-                                            width="18px"></span></a>
-                                    <a href="#" target="_blank"><span class="share-link"><img
-                                            src="{% static "images/social/facebook.png" %}" alt="فیس بوک"
-                                            width="18px"></span></a>
-                                </div>
+{#                                <div class="pt-5" id="share-links">#}
+{#                                    <span>اشتراک گذاری: </span>#}
+{#                                    <a href="#" target="_blank"><span class="share-link"><img#}
+{#                                            src="{% static "images/social/twitter.png" %}" alt="توئیتر"#}
+{#                                            width="18px"></span></a>#}
+{#                                    <a href="#" target="_blank"><span class="share-link"><img#}
+{#                                            src="{% static "images/social/insta.png" %}" alt="اینستاگرام"#}
+{#                                            width="18px"></span></a>#}
+{#                                    <a href="#" target="_blank"><span class="share-link"><img#}
+{#                                            src="{% static "images/social/linkedin.png" %}" alt="لینکدین"#}
+{#                                            width="18px"></span></a>#}
+{#                                    <a href="#" target="_blank"><span class="share-link"><img#}
+{#                                            src="{% static "images/social/facebook.png" %}" alt="فیس بوک"#}
+{#                                            width="18px"></span></a>#}
+{#                                </div>#}
                                 <!-- Share Links -->
                             </div>
 

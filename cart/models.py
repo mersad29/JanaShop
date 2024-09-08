@@ -9,7 +9,7 @@ class Order(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='orders')
     email = models.CharField(max_length=50, null=True, blank=True)
     phone = models.IntegerField(max_length=12)
-    total_price = models.IntegerField(default=0)
+    total_price = models.BigIntegerField(default=0)
     created_time = models.DateTimeField(auto_now_add=True)
     is_paid = models.BooleanField(default=False)
 
@@ -27,4 +27,4 @@ class OrderItem(models.Model):
     size = models.CharField(max_length=10)
     color = models.CharField(max_length=10)
     quantity = models.SmallIntegerField()
-    price = models.PositiveIntegerField()
+    price = models.PositiveBigIntegerField()

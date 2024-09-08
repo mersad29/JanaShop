@@ -20,10 +20,11 @@ def index(request):
     for query in [most_off, most_view, most_sale]:
         for pr in query:
             pr.final_price = pr.get_current_price()
-            if Like.objects.filter(user=request.user, product=pr):
-                pr.liked = True
-            else:
-                pr.liked = False
+            if request.user.is_authenticated:
+                if Like.objects.filter(user=request.user, product=pr):
+                    pr.liked = True
+                else:
+                    pr.liked = False
 
     for item in most_off:
         item.comment_count = item.comments.filter(is_published=True).count()
@@ -48,14 +49,20 @@ def index(request):
     return render(request, 'index/index.html', context)
 
 def add_to_favorite(request, id):
-    product = get_object_or_404(Product, id=id)
-    Like.objects.get_or_create(user=request.user, product=product)
-    return redirect('/')
+    if request.user.is_authenticated:
+        product = get_object_or_404(Product, id=id)
+        Like.objects.get_or_create(user=request.user, product=product)
+        return redirect('/')
+    else:
+        return redirect('account:login')
 
 def remove_from_favorite(request, id):
-    product = get_object_or_404(Product, id=id)
-    Like.objects.filter(user=request.user, product=product).delete()
-    return redirect('/')
+    if request.user.is_authenticated:
+        product = get_object_or_404(Product, id=id)
+        Like.objects.filter(user=request.user, product=product).delete()
+        return redirect('/')
+    else:
+        return redirect('account:login')
 
 def faq(request):
     question = Faq.objects.all()

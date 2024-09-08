@@ -73,8 +73,8 @@ class Address(models.Model):
     address = models.CharField(max_length=300)
     state = models.CharField(max_length=100)
     city = models.CharField(max_length=100)
-    phone = models.IntegerField(max_length=12)
-    postal_code = models.IntegerField(max_length=10)
+    phone = models.BigIntegerField(max_length=12)
+    postal_code = models.BigIntegerField(max_length=10)
     is_default = models.BooleanField(default=False)
 
     def __str__(self):

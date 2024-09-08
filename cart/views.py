@@ -14,11 +14,10 @@ class CartDetailView(View):
 class CartAddingView(View):
     def post(self, request, pk):
         product = get_object_or_404(Product, id=pk)
-        color, size, quantity, discount = request.POST.get('color'), request.POST.get('size'), request.POST.get(
-            'quantity') \
-            , product.discount
+        color, quantity, discount = request.POST.get('color'), request.POST.get(
+            'quantity'), product.discount
         cart = Cart(request)
-        cart.add(product, quantity, color, size, discount)
+        cart.add(product, quantity, color, discount)
         return redirect('cart:cart_detail')
 
 
@@ -47,9 +46,9 @@ class OrderCreationView(View):
         cart = Cart(request)
         order = Order.objects.create(user=request.user, phone=request.user.phone, total_price=cart.total_final_price())
         for item in cart:
-            OrderItem.objects.create(order=order, product=item['product'], color=item['color'],
-                                     size=item['size'], price=item['final_price'], quantity=item['quantity'])
-        # cart.remove_cart()
+            OrderItem.objects.create(order=order, product=item['product'], color=item['color']
+                                     , price=item['final_price'], quantity=item['quantity'])
+        cart.remove_cart()
         return redirect('cart:checkout', str(order.id))
 
 

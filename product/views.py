@@ -16,10 +16,11 @@ def product_detail(request, slug):
 
     product.view += 1
 
-    if Like.objects.filter(user=request.user, product=product):
-        product.liked = True
-    else:
-        product.liked = False
+    if request.user.is_authenticated:
+        if Like.objects.filter(user=request.user, product=product):
+            product.liked = True
+        else:
+            product.liked = False
 
     product.discount = int(product.price) - int(product.final_price)
     product.percent_discount = (product.discount * 100) // product.price
@@ -57,14 +58,21 @@ def product_detail(request, slug):
     return render(request, 'product/product_detail.html', contex)
 
 def add_to_favorite(request, id):
-    product = get_object_or_404(Product, id=id)
-    Like.objects.get_or_create(user=request.user, product=product)
-    return redirect('product:product_detail', product.slug)
+    if request.user.is_authenticated:
+        product = get_object_or_404(Product, id=id)
+        Like.objects.get_or_create(user=request.user, product=product)
+        return redirect('product:product_detail', product.slug)
+    else:
+        return redirect('account:login')
+
 
 def remove_from_favorite(request, id):
-    product = get_object_or_404(Product, id=id)
-    Like.objects.filter(user=request.user, product=product).delete()
-    return redirect('product:product_detail', product.slug)
+    if request.user.is_authenticated:
+        product = get_object_or_404(Product, id=id)
+        Like.objects.filter(user=request.user, product=product).delete()
+        return redirect('product:product_detail', product.slug)
+    else:
+        return redirect('account:login')
 
 def favorites(request):
     favorites = Like.objects.filter(user=request.user)

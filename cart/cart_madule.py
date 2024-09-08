@@ -2,6 +2,7 @@ from product.models import Product
 
 CART_SESSION_ID = 'cart'
 
+
 class Cart:
     def __init__(self, request):
         self.session = request.session
@@ -20,20 +21,20 @@ class Cart:
             item['total'] = int(item['quantity']) * int(item['price'])
             item['total_discount'] = int(item['quantity']) * int(item['discount'])
             item['final_price'] = item['total'] - item['total_discount']
-            item['unique_id'] = self.unique_id_generator(product.id, item['color'],
-                                                         item['size'])
+            item['unique_id'] = self.unique_id_generator(product.id, item['color'])
             yield item
 
-    def unique_id_generator(self, id, color, size):
-        result = f"{id}-{color}-{size}"
+    def unique_id_generator(self, id, color):
+        result = f"{id}-{color}"
 
         return result
 
-    def add(self, product, quantity, color, size, discount):
-        unique = self.unique_id_generator(product.id, color, size)
+    def add(self, product, quantity, color, discount):
+        unique = self.unique_id_generator(product.id, color)
 
         if unique not in self.cart:
-            self.cart[unique] = {'quantity': 0, 'price': product.price, 'color': color, 'size': size, 'id': product.id, 'discount': discount}
+            self.cart[unique] = {'quantity': 0, 'price': product.price, 'color': color, 'id': product.id,
+                                 'discount': discount}
 
         self.cart[unique]['quantity'] += int(quantity)
         self.save()
@@ -61,7 +62,8 @@ class Cart:
         cart = self.cart.values()
         total_final_price = 0
         for item in cart:
-            total_final_price += int(int(item['quantity']) * int(item['price'])) - int(int(item['quantity']) * int(item['discount']))
+            total_final_price += int(int(item['quantity']) * int(item['price'])) - int(
+                int(item['quantity']) * int(item['discount']))
         return total_final_price
 
     def save(self):
