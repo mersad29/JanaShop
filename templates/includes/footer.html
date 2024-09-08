@@ -74,14 +74,14 @@
                 <span>ما را دنبال کنید</span>
 
                 {% if socials.instagram %}
-                    <a href="{{ socials.instagram }}"><img src="{% static 'images/social/insta.png' %}" alt=""></a>
-                {% elif socials.facebook %}
-                    <a href="{{ socials.facebook }}"><img src="{% static 'images/social/facebook.png' %}" alt=""></a>
-                {% elif socials.linkedin %}
-                    <a href="{{ socials.linkedin }}"><img src="{% static 'images/social/linkedin.png' %}" alt=""></a>
-                {% elif socials.x %}
-                    <a href="{{ socials.x }}"><img src="{% static 'images/social/twitter.png' %}" alt=""></a>
-                {% elif socials.youtube %}
+                    <a href="{{ socials.instagram }}"><img src="{% static 'images/social/insta.png' %}" alt=""></a>{% endif %}
+                {% if socials.facebook %}
+                    <a href="{{ socials.facebook }}"><img src="{% static 'images/social/facebook.png' %}" alt=""></a>{% endif %}
+                {% if socials.linkedin %}
+                    <a href="{{ socials.linkedin }}"><img src="{% static 'images/social/linkedin.png' %}" alt=""></a>{% endif %}
+                {% if socials.x %}
+                    <a href="{{ socials.x }}"><img src="{% static 'images/social/twitter.png' %}" alt=""></a>{% endif %}
+                {% if socials.youtube %}
                     <a href="{{ socials.youtube }}"><img src="{% static 'images/social/youtube.png' %}" alt=""></a>
                 {% endif %}
             </div>
