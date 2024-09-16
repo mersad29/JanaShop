@@ -92,28 +92,28 @@ WSGI_APPLICATION = 'JanaShop.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 #
 # DATABASES = {
 #     'default': dj_database_url.config(default=os.environ.get('postgresql://root:Umi75pZv2Vm6mdP21Kh5uGmV@rainier.liara.cloud:32070/postgres'))
 # }
 
-DATABASES = {
-
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'root',
-        'PASSWORD': 'Umi75pZv2Vm6mdP21Kh5uGmV',
-        'HOST': 'rainier.liara.cloud',
-        'PORT': '32070',
-    },
-}
+# DATABASES = {
+#
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'postgres',
+#         'USER': 'root',
+#         'PASSWORD': 'Umi75pZv2Vm6mdP21Kh5uGmV',
+#         'HOST': 'rainier.liara.cloud',
+#         'PORT': '32070',
+#     },
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
