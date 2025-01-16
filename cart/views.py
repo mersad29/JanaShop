@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
 from cart.cart_madule import Cart
+from cart.forms import Discount_code
 from cart.models import Order, OrderItem
 from product.models import Product
 
@@ -36,9 +37,10 @@ class CartDeleteView(View):
 
 class CheckOutView(View):
     def get(self, request, pk):
+        form = Discount_code()
         order = get_object_or_404(Order, id=pk)
         request.session['order_id'] = order.id
-        return render(request, 'cart/checkout.html', {'order': order})
+        return render(request, 'cart/checkout.html', {'form': form, 'order': order})
 
 
 class OrderCreationView(View):
