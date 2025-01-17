@@ -53,6 +53,7 @@
                                                                     </div>
                                                                 </a>
                                                             </div>
+
                                                         </div>
                                                     </div>
                                                 </div>
@@ -61,6 +62,40 @@
                                     </div>
                                 </section>
                                 <!-- /Choose Address -->
+
+                                <!--  -->
+                                <section id="choose-address">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-12 py-3">
+                                                <div class="pb-1 title">آدرس تحویل سفارش</div>
+
+
+                                                <div class="row">
+                                                    <div class="col-12 col-md-9 pl-0" id="address-detail">
+                                                        <div class="p-3 ml-3 mb-2 mb-md-0 ml-md-0">
+                                                            {{ form.as_p }}
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-md-3">
+                                                        <div class="row">
+                                                            <div class="col-6 col-md-12 pr-2 px-md-3">
+                                                                <a href="{% url 'account:add_address' %}">
+                                                                    <div class="btn btn-outline-dark mt-0 mt-md-1 w-100">
+                                                                        ثبت
+                                                                    </div>
+                                                                </a>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                                <!-- / -->
 
                                 <!-- Orders List -->
                                 <section class="mt-3" id="orders">

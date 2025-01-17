@@ -223,7 +223,7 @@
                                             {% for product in product %}
                                                 <div class="col">
                                                     <div class="product-box">
-                                                        <a href="{% url 'product:product_detail' product.id %}">
+                                                        <a href="{% url 'product:product_detail' product.slug %}">
                                                             <div class="image"
                                                                  style="background-image: url('{{ product.main_image.url }}')"></div>
                                                         </a>
