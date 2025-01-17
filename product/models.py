@@ -23,6 +23,13 @@ class Category(models.Model):
     def __str__(self):
         return self.title
 
+class FeaturedCategory(models.Model):
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='featured_cat')
+    is_active = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.category.title
+
 
 class Color(models.Model):
     name = models.CharField(max_length=50)

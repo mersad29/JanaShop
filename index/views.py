@@ -3,9 +3,8 @@ from django.utils import timezone
 
 from ad.models import Banners, Carousel, MidBanners
 from index.models import Faq, About, Footer
-from product.models import Category, Product, SpecialSale, Like
+from product.models import Category, Product, SpecialSale, Like, FeaturedCategory
 from django.db.models import Count, Q
-
 
 def index(request):
     carousel = Carousel.objects.all()
@@ -16,6 +15,11 @@ def index(request):
     most_view = products.order_by('-view')
     most_sale = products.order_by('-sales')
     # socials = Footer.objects.first()
+    
+    featured_cats = FeaturedCategory.objects.filter(is_active=True).select_related('category')
+    if featured_cats:
+        for cat in featured_cats:
+            cat.products = cat.category.cat.order_by('-sales')[0:7]
 
     for query in [most_off, most_view, most_sale]:
         for pr in query:
@@ -44,6 +48,7 @@ def index(request):
         'fire_sales': fire_sales,
         'most_view': most_view,
         'most_sale': most_sale,
+        'featured_cats': featured_cats
         # 'socials': socials,
     }
     return render(request, 'index/index.html', context)
