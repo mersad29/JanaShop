@@ -129,6 +129,9 @@ class Product(models.Model):
         verbose_name = 'محصول'
         verbose_name_plural = "محصولات"
 
+class MobileFeatured(models.Model):
+    product = models.OneToOneField(Product, on_delete=models.CASCADE)
+    screen_size = models.CharField(max_length=50)
 
 class Rating(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='ratings')

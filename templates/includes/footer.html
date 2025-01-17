@@ -36,10 +36,7 @@
             </div>
             <div class="col-12 col-md-12 col-lg-6">
                 <hr class="d-lg-none">
-                <img src="{% static 'images/logo.png' %}" alt=""> روبیک مارکت
-                <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها
-                    و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و
-                    کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد.</p>
+                <p><img src="{% static 'images/logo.png' %}" alt="">{{ socials.description }} </p>
                 <div class="row">
                     <div class="col-12 col-md-6 text-center p-2" id="support-info">
                         <div>7 روز هفته، 24 ساعت شبانه روز</div>
@@ -86,7 +83,7 @@
                 {% endif %}
             </div>
             <div class="col-12 col-sm-6 text-sm-end pt-2 pt-sm-0">
-                <span>کلیه حقوق و مادی معنوی محفوط است.</span>
+                <span>کلیه حقوق برای <a href="{% url 'index:home' %}">جاناشاپ</a> محفوظ است.</span>
             </div>
         </div>
     </div>

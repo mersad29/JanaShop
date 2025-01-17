@@ -32,6 +32,10 @@ class Footer(models.Model):
     x = models.CharField(max_length=400, blank=True, null=True)
     youtube = models.CharField(max_length=400, blank=True, null=True)
     linkedin = models.CharField(max_length=400, blank=True, null=True)
+    description = models.TextField()
+    enamad = models.CharField(max_length=500, blank=True, null=True)
+    samandehi = models.CharField(max_length=500, blank=True, null=True)
+    etehadie = models.CharField(max_length=500, blank=True, null=True)
 
     def __str__(self):
         return f"{self.instagram}"
