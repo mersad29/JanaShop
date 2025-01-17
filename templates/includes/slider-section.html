@@ -3,28 +3,14 @@
 <section id="slider" class="mt-3">
     <div class="container">
         <div class="row">
-            <div class="col-12 col-md-9" data-aos="fade-zoom-in" data-aos-duration="700">
+            <div class="col-12 col-md-9" data-aos="fade-zoom-in" data-aos-duration="700">-
                 <div id="carouselExampleCaptions" class="carousel slide carousel-fade" data-bs-ride="carousel">
                     <div class="carousel-indicators">
-                            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0"
-                                    class="active" aria-current="true"
-                                    aria-label="Slide 1"></button>
-
-                            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
-                                    class="" aria-current="true"
-                                    aria-label="Slide 2"></button>
-
-                            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
-                                    class="" aria-current="true"
-                                    aria-label="Slide 3"></button>
-
-                            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3"
-                                    class="" aria-current="true"
-                                    aria-label="Slide 4"></button>
-
-                            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="4"
-                                    class="" aria-current="true"
-                                    aria-label="Slide 5"></button>
+                        {% for slide in carousel %}
+                            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="{{ forloop.counter0 }}"
+                                    class="{% if forloop.first %} active {% endif %}" aria-current="{% if forloop.first %} true {% endif %}"
+                                    aria-label="Slide {{ forloop.counter }}"></button>
+                        {% endfor %}
                     </div>
                     <div class="carousel-inner">
                         {% for slide in carousel %}
