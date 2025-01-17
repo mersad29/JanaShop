@@ -27,3 +27,7 @@ def last_orders(request):
 def socials(request):
     socials = Footer.objects.first()
     return {'socials': socials}
+
+def footer(request):
+    footer_detail = Footer.objects.first()
+    return {'footer': footer_detail}

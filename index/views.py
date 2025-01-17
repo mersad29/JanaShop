@@ -15,7 +15,7 @@ def index(request):
     most_view = products.order_by('-view')
     most_sale = products.order_by('-sales')
     # socials = Footer.objects.first()
-    
+
     featured_cats = FeaturedCategory.objects.filter(is_active=True).select_related('category')
     if featured_cats:
         for cat in featured_cats:
