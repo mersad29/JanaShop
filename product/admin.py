@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django import forms
 from .models import Category, Product, ProductImages, Color, Size, Comment, Like, SpecialSale, Rating
 
 admin.site.register(Comment)
