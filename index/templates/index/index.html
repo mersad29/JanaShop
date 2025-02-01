@@ -78,11 +78,6 @@
                             </div>
                         </a>
                         <div class="details p-3">
-                            <div class="category">
-                                <a href="./products.html">گوشی موبایل</a>
-                                &nbsp;/&nbsp;
-                                <a href="./products.html">سامسونگ</a>
-                            </div>
                             <a href="{% url 'product:product_detail' fire_sales.1.product.slug %}">
                                 <h2>{{ fire_sales.1.product.title }}</h2>
                             </a>
@@ -98,7 +93,7 @@
                                 {% for _ in fire_sales.1.product.empty_star|to_range %}
                                     <i class="fa-regular fa-star" style="color: #FFD43B;"></i>
                                 {% endfor %}
-                                <span class="reviews">({{ item.comment_count }} رای دهنده)</span>
+                                <span class="reviews">({{ fire_sales.1.product.comment_count }} دیدگاه)</span>
                             </div>
                         </div>
                     </div>
@@ -114,11 +109,6 @@
                             </div>
                         </a>
                         <div class="details p-3">
-                            <div class="category">
-                                <a href="./products.html">گوشی موبایل</a>
-                                &nbsp;/&nbsp;
-                                <a href="./products.html">سامسونگ</a>
-                            </div>
                             <a href="{% url 'product:product_detail' fire_sales.2.product.slug %}">
                                 <h2>{{ fire_sales.2.product.title }}</h2></a>
                             <div>
@@ -133,7 +123,7 @@
                                 {% for _ in fire_sales.2.product.empty_star|to_range %}
                                     <i class="fa-regular fa-star" style="color: #FFD43B;"></i>
                                 {% endfor %}
-                                <span class="reviews">({{ item.comment_count }} رای دهنده)</span>
+                                <span class="reviews">({{ fire_sales.1.product.comment_count }} دیدگاه)</span>
                             </div>
                         </div>
                     </div>
@@ -181,11 +171,6 @@
                                     </div>
                                 </a>
                                 <div class="details p-3">
-                                    <div class="category">
-                                        <a href="./products.html">گوشی موبایل</a>
-                                        &nbsp;/&nbsp;
-                                        <a href="./products.html">سامسونگ</a>
-                                    </div>
                                     <a href="{% url 'product:product_detail' item.slug %}"><h2>{{ item.title }}</h2></a>
                                     <div>
                                         <span class="discounted">{{ item.price|intcomma }} تومان</span>
@@ -199,7 +184,7 @@
                                         {% for _ in item.empty_star|to_range %}
                                             <i class="fa-regular fa-star" style="color: #FFD43B;"></i>
                                         {% endfor %}
-                                        <span class="reviews">({{ item.comment_count }} رای دهنده)</span>
+                                        <span class="reviews">({{ item.comment_count }} دیدگاه)</span>
                                     </div>
                                 </div>
                             </div>
@@ -221,11 +206,6 @@
                                 </div>
                             </a>
                             <div class="details p-3">
-                                <div class="category">
-                                    <a href="./products.html">گوشی موبایل</a>
-                                    &nbsp;/&nbsp;
-                                    <a href="./products.html">سامسونگ</a>
-                                </div>
                                 <a href="./product.html"><h2>{{ item.title }}</h2>
                                 </a>
                                 <div>
@@ -240,7 +220,7 @@
                                     {% for _ in item.empty_star|to_range %}
                                         <i class="fa-regular fa-star" style="color: #FFD43B;"></i>
                                     {% endfor %}
-                                    <span class="reviews">(14 رای دهنده)</span>
+                                    <span class="reviews">(14 دیدگاه)</span>
                                 </div>
                             </div>
                         </div>
@@ -265,11 +245,6 @@
                                 </div>
                             </a>
                             <div class="details p-3">
-                                <div class="category">
-                                    <a href="./products.html">گوشی موبایل</a>
-                                    &nbsp;/&nbsp;
-                                    <a href="./products.html">سامسونگ</a>
-                                </div>
                                 <a href="./product.html"><h2>{{ item.title }}</h2>
                                 </a>
                                 <div>
@@ -284,7 +259,7 @@
                                     {% for _ in item.empty_star|to_range %}
                                         <i class="fa-regular fa-star" style="color: #FFD43B;"></i>
                                     {% endfor %}
-                                    <span class="reviews">({{ item.comment_count }} رای دهنده)</span>
+                                    <span class="reviews">({{ item.comment_count }} دیدگاه)</span>
                                 </div>
                             </div>
                         </div>
@@ -368,11 +343,6 @@
                                         </div>
                                     </a>
                                     <div class="details p-3">
-                                        <div class="category">
-                                            <a href="./products.html">گوشی موبایل</a>
-                                            &nbsp;/&nbsp;
-                                            <a href="./products.html">سامسونگ</a>
-                                        </div>
                                         <a href="{% url 'product:product_detail' item.slug %}"><h2>{{ item.title }}</h2>
                                         </a>
                                         <div>
@@ -387,7 +357,7 @@
                                             {% for _ in item.empty_star|to_range %}
                                                 <i class="fa-regular fa-star" style="color: #FFD43B;"></i>
                                             {% endfor %}
-                                            <span class="reviews">({{ item.comment_count }} رای دهنده)</span>
+                                            <span class="reviews">({{ item.comment_count }} دیدگاه)</span>
                                         </div>
                                     </div>
                                 </div>

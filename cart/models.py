@@ -2,7 +2,7 @@ import uuid
 
 from django.db import models
 from account.models import CustomUser
-from product.models import Product
+from product.models import Product, Discount
 
 
 class Order(models.Model):
@@ -10,8 +10,14 @@ class Order(models.Model):
     email = models.CharField(max_length=50, null=True, blank=True)
     phone = models.IntegerField(max_length=12)
     total_price = models.BigIntegerField(default=0)
+    discount = models.ForeignKey(Discount, null=True, blank=True, on_delete=models.SET_NULL)
     created_time = models.DateTimeField(auto_now_add=True)
     is_paid = models.BooleanField(default=False)
+
+    def get_final_price(self):
+        if self.discount and self.discount.is_valid():
+            return self.discount.apply_discount(self.total_price)
+        return self.total_price
 
     def __str__(self):
         return self.user.phone

@@ -89,6 +89,9 @@
                             {% else %}
                                 <div class="comment p-3 my-2">
                                     <p>اولین نفری باشید که نظر میدهید.</p>
+                                    {% if not user.is_authenticated %}
+                                        <p>برای ارسال دیدگاه باید <a href="{% url 'account:login' %}">وارد</a> شوید.</p>
+                                    {% endif %}
                                 </div>
                             {% endif %}
                             <!-- /Show Comments -->
@@ -128,18 +131,7 @@
                                                        id="name"
                                                        name="name"
                                                        value="
-
-
-
-
-
-
-
-
-
-
-
-                                                               {{ user.fname }}{{ user.lname }}">
+                                                {{ user.fname }}{{ user.lname }}">
                                             </div>
                                         </div>
                                         <div class="col-12 px-3 pl-md-1 col-md-6">
@@ -159,7 +151,7 @@
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <div class="form-group my-1">
+                                            <div class="form-group my-1" id="comment">
                                                                                             <textarea
                                                                                                     class="form-control"
                                                                                                     id="body"

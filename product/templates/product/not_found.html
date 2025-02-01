@@ -44,82 +44,83 @@
                                 </div>
 
                                 <form id="filter-form" action="" method="get">
-{#                                    <div class="accordion filters-container">#}
-{#                                        <div class="accordion-item">#}
-{#                                            <h2 class="accordion-header" id="headingOne">#}
-{#                                                <button class="accordion-button py-2 px-3" type="button"#}
-{#                                                        data-bs-toggle="collapse" data-bs-target="#collapseOne"#}
-{#                                                        aria-expanded="true" aria-controls="collapseOne">#}
-{#                                                    برند محصولات#}
-{#                                                </button>#}
-{#                                            </h2>#}
-{#                                            <div id="collapseOne" class="accordion-collapse collapse show"#}
-{#                                                 aria-labelledby="headingOne" data-bs-parent="#accordionExample">#}
-{#                                                <div class="accordion-body">#}
-                                                    {#                                                    {% for brand in brands %}#}
-                                                    {#                                                            <a href="{% url 'product:product_list' category.slug %}">#}
-                                                    {#                                                                <div class="form-group">#}
-                                                    {#                                                                    <input type="hidden" id="{{ category.title }}">#}
-                                                    {#                                                                    <label class="text-black"#}
-                                                    {#                                                                           for="{{ category.title }}">{{ category.title }}#}
-                                                    {#                                                                        {% if category == category2 %}#}
-                                                    {#                                                                            <i class="fa-solid fa-check"></i></label>#}
-                                                    {#                                                                        {% endif %}#}
-                                                    {#                                                                </div>#}
-                                                    {#                                                            </a>#}
-                                                    {#                                                    {% endfor %}#}
-{#                                                </div>#}
-{#                                            </div>#}
-{#                                        </div>#}
-{#                                    </div>#}
+                                    {#                                    <div class="accordion filters-container">#}
+                                    {#                                        <div class="accordion-item">#}
+                                    {#                                            <h2 class="accordion-header" id="headingOne">#}
+                                    {#                                                <button class="accordion-button py-2 px-3" type="button"#}
+                                    {#                                                        data-bs-toggle="collapse" data-bs-target="#collapseOne"#}
+                                    {#                                                        aria-expanded="true" aria-controls="collapseOne">#}
+                                    {#                                                    برند محصولات#}
+                                    {#                                                </button>#}
+                                    {#                                            </h2>#}
+                                    {#                                            <div id="collapseOne" class="accordion-collapse collapse show"#}
+                                    {#                                                 aria-labelledby="headingOne" data-bs-parent="#accordionExample">#}
+                                    {#                                                <div class="accordion-body">#}
+                                    {#                                                    {% for brand in brands %}#}
+                                    {#                                                            <a href="{% url 'product:product_list' category.slug %}">#}
+                                    {#                                                                <div class="form-group">#}
+                                    {#                                                                    <input type="hidden" id="{{ category.title }}">#}
+                                    {#                                                                    <label class="text-black"#}
+                                    {#                                                                           for="{{ category.title }}">{{ category.title }}#}
+                                    {#                                                                        {% if category == category2 %}#}
+                                    {#                                                                            <i class="fa-solid fa-check"></i></label>#}
+                                    {#                                                                        {% endif %}#}
+                                    {#                                                                </div>#}
+                                    {#                                                            </a>#}
+                                    {#                                                    {% endfor %}#}
+                                    {#                                                </div>#}
+                                    {#                                            </div>#}
+                                    {#                                        </div>#}
+                                    {#                                    </div>#}
                                     {#                                    {% if category_product != 1 %}#}
                                     {% if products.all.count > 1 %}
                                         <div class="accordion filters-container mt-3">
-                                        <div class="accordion-item">
-                                            <h2 class="accordion-header" id="headingTwo">
-                                                <button class="accordion-button py-2 px-3" type="button"
-                                                        data-bs-toggle="collapse" data-bs-target="#collapseTwo"
-                                                        aria-expanded="true" aria-controls="collapseTwo">
-                                                    محدوده قیمت
-                                                </button>
-                                            </h2>
-                                            <div id="collapseTwo" class="accordion-collapse collapse show"
-                                                 aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                                                <div class="accordion-body">
-                                                    <div class="row">
-                                                        <div class="col-12 py-1 px-4 mt-3">
-                                                            <div id="steps-slider" dir="rtl"></div>
-                                                        </div>
-                                                        <div class="col-6 text-center price-range mt-3">
-                                                            <div id="min-price"
-                                                                 style="display: none;">{{ min_price }}</div>
-                                                            <div id="max-price"
-                                                                 style="display: none;">{{ max_price }}</div>
-                                                            <input hidden name="minprice" id="selected-min-price"
-                                                                   value="" type="text">
-                                                            <input hidden name="maxprice" id="selected-max-price"
-                                                                   value="" type="text">
-                                                            <div>از</div>
-                                                            <div id="price-range-from"></div>
-                                                            <div>تومان</div>
-                                                        </div>
-                                                        <div class="col-6 text-center price-range mt-3">
-                                                            <div>تا</div>
-                                                            <div id="price-range-to">
+                                            <div class="accordion-item">
+                                                <h2 class="accordion-header" id="headingTwo">
+                                                    <button class="accordion-button py-2 px-3" type="button"
+                                                            data-bs-toggle="collapse" data-bs-target="#collapseTwo"
+                                                            aria-expanded="true" aria-controls="collapseTwo">
+                                                        محدوده قیمت
+                                                    </button>
+                                                </h2>
+                                                <div id="collapseTwo" class="accordion-collapse collapse show"
+                                                     aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                                    <div class="accordion-body">
+                                                        <div class="row">
+                                                            <div class="col-12 py-1 px-4 mt-3">
+                                                                <div id="steps-slider" dir="rtl"></div>
                                                             </div>
-                                                            <div>تومان</div>
-                                                        </div>
-                                                        <div class="col-12 text-center py-2">
-                                                            <button type="submit" class="btn btn-warning">اعمال محدوده
-                                                                قیمت
-                                                            </button>
+                                                            <div class="col-6 text-center price-range mt-3">
+                                                                <div id="min-price"
+                                                                     style="display: none;">{{ min_price }}</div>
+                                                                <div id="max-price"
+                                                                     style="display: none;">{{ max_price }}</div>
+                                                                <input hidden name="minprice" id="selected-min-price"
+                                                                       value="" type="text">
+                                                                <input hidden name="maxprice" id="selected-max-price"
+                                                                       value="" type="text">
+                                                                <div>از</div>
+                                                                <div id="price-range-from"></div>
+                                                                <div>تومان</div>
+                                                            </div>
+                                                            <div class="col-6 text-center price-range mt-3">
+                                                                <div>تا</div>
+                                                                <div id="price-range-to">
+                                                                </div>
+                                                                <div>تومان</div>
+                                                            </div>
+                                                            <div class="col-12 text-center py-2">
+                                                                <button type="submit" class="btn btn-warning">اعمال
+                                                                    محدوده
+                                                                    قیمت
+                                                                </button>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                {% endif %}
+                                    {% endif %}
                                     {#                                    {% endif %}#}
                                     <div class="accordion filters-container mt-3">
                                         <div class="accordion-item">
@@ -128,8 +129,7 @@
                                                 <div class="accordion-body pb-2">
                                                     <div class="form-group">
                                                         <input type="checkbox" name="in_stock_only" value="true"
-                                                               {% if request.GET.in_stock_only == 'true' %}checked{% endif %}
-                                                               onchange="document.getElementById('filter-form').submit();">
+                                                               onchange="">
                                                         <label for="in_stock_only">فقط کالاهای موجود</label>
                                                         <input type="hidden" name="sort" value="{{ sort }}">
                                                         <input type="hidden" name="q" value="{{ q }}">
@@ -193,13 +193,13 @@
                                         <div class="row">
                                             <div class="col-12 col-sm-10 my-1">
                                                 <span class="d-block d-sm-inline-block">مرتب سازی بر اساس:</span>
-                                                <a href="?sort=newest{% if request.GET.q %}&q={{ q }}{% endif %}{% if minprice2 or maxprice2 %}&minprice={{ minprice2 }}&maxprice={{ maxprice2 }}{% endif %}{% if in_stock_only %}&in_stock_only=true{% endif %}"><span
+                                                <a href=""><span
                                                         class="btn order-filter d-block d-sm-inline-block {% if request.GET.sort == 'newest' or not request.GET.sort %} active {% endif %}">جدیدترین</span></a>
                                                 {#                                                    <span class="order-filter d-block d-sm-inline-block">پربازدیدترین</span>#}
                                                 {#                                                    <span class="order-filter d-block d-sm-inline-block">پرفروش‌ترین</span>#}
-                                                <a href="?sort=min_price{% if request.GET.q %}&q={{ q }}{% endif %}{% if minprice2 or maxprice2 %}&minprice={{ minprice2 }}&maxprice={{ maxprice2 }}{% endif %}{% if in_stock_only %}&in_stock_only=true{% endif %}"><span
+                                                <a href=""><span
                                                         class="btn order-filter d-block d-sm-inline-block {% if request.GET.sort == 'min_price' %} active {% endif %}">ارزان ترین</span></a>
-                                                <a href="?sort=max_price{% if request.GET.q %}&q={{ q }}{% endif %}{% if minprice2 or maxprice2 %}&minprice={{ minprice2 }}&maxprice={{ maxprice2 }}{% endif %}{% if in_stock_only %}&in_stock_only=true{% endif %}"><span
+                                                <a href=""><span
                                                         class="btn order-filter d-block d-sm-inline-block {% if request.GET.sort == 'max_price' %} active {% endif %}">گران ترین</span></a>
                                             </div>
                                             <div class="col-12 col-sm-2 pt-1 text-end">
@@ -210,7 +210,7 @@
                                                 {#                                                        class="fa fa-th"></i></a>#}
                                                 {#                                            </span>#}
                                                 {#                                                &nbsp;|&nbsp;#}
-                                                <span>{{ products.count }} کالا</span>
+                                                <span>0 کالا</span>
                                             </div>
                                         </div>
                                     </div>
@@ -222,44 +222,15 @@
                                         <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 gx-md-4">
                                             <!-- Products -->
                                             <!-- Product Box -->
-                                            {% for product in products %}
-                                                <div class="col">
-                                                    <div class="product-box">
-                                                        <a href="{% url 'product:product_detail' product.slug %}">
-                                                            <div class="image"
-                                                                 style="background-image: url('{{ product.main_image.url }}')"></div>
-                                                        </a>
-                                                        <div class="details p-3">
-                                                            <a href="{% url 'product:product_detail' product.id %}">
-                                                                <h2>{{ product.title }}</h2></a>
-                                                            <div class="price-container py-2">
-                                                                {% if product.final_price %}
-                                                                    <div>
-                                                                        <span style="text-decoration: line-through"
-                                                                              class="pre-price-with">{{ product.price|intcomma }}</span>
-                                                                        <span class="badge rounded-pill"
-                                                                              style="background: #ff0000; background-size: 800px">{{ product.percent_discount }}%</span>
-                                                                    </div>
-                                                                    <span class="pre-price-with">{{ product.final_price|intcomma }} <span>تومان</span></span>
-                                                                {% else %}
-                                                                    <span class="pre-price-only">{{ product.price|intcomma }} <span>تومان</span></span>
-                                                                {% endif %}
-                                                            </div>
-                                                            <div class="rate">
-                                                                {% for _ in  product.star|to_range %}
-                                                                    <i class="fa-solid fa-star"
-                                                                       style="color: #FFD43B;"></i>
-                                                                {% endfor %}
-                                                                {% for _ in product.empty_star|to_range %}
-                                                                    <i class="fa-regular fa-star"
-                                                                       style="color: #FFD43B;"></i>
-                                                                {% endfor %}
-                                                                <span class="reviews">({{ product.comment_count }} دیدگاه)</span>
-                                                            </div>
-                                                        </div>
+                                            <div class="col-lg-12 col-lg-9">
+                                                <div id="cart-products">
+                                                    <div class="col-12 text-center p-lg-5">
+                                                        <img width="375" class="pb-2" src="{% static 'images/item-not-found.jpg' %}"
+                                                             alt="">
+                                                        <h5>کالایی یافت نشد!</h5>
                                                     </div>
                                                 </div>
-                                            {% endfor %}
+                                            </div>
                                             <!-- /Product Box -->
                                             <!-- /Products -->
                                         </div>

@@ -16,6 +16,7 @@ class Banners(models.Model):
     name = models.CharField(max_length=50, verbose_name='عنوان تصویر')
     image = models.ImageField(upload_to='ad/images', verbose_name='تصویر')
     created_time = models.DateTimeField(auto_now_add=True, verbose_name='زمان ایجاد')
+    link = models.CharField(max_length=500, verbose_name='لینک')
 
     class Meta:
         verbose_name = 'تصویر بنر'
@@ -28,6 +29,7 @@ class MidBanners(models.Model):
     name = models.CharField(max_length=50, verbose_name='عنوان تصویر')
     image = models.ImageField(upload_to='ad/images', verbose_name='تصویر')
     created_time = models.DateTimeField(auto_now_add=True, verbose_name='زمان ایجاد')
+    link = models.CharField(max_length=500, verbose_name='لینک')
 
     class Meta:
         verbose_name = 'تصویر بنر میانه سایت'
