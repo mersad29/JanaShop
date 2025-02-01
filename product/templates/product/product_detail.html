@@ -19,16 +19,15 @@
                 <div class="col-5 px-0">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="/">جانا شاپ</a></li>
-                            <li class="breadcrumb-item"><a href="./products.html">فروشگاه</a></li>
+                            <li class="breadcrumb-item"><a href="/">فروشگاه</a></li>
                             {#                            {% for category in product.category.all %}#}
 
                             {% if not product.category.first.parent %}
                                 <li class="breadcrumb-item" aria-current="page">
-                                    <a href="./products.html">{{ product.category.first.title }}</a></li>
+                                    <a href="list/cat={{ product.category.first.slug }}">{{ product.category.first.title }}</a></li>
                             {% else %}
                                 <li class="breadcrumb-item" aria-current="page">
-                                    <a href="./products.html">{{ product.category.first.title }}</a></li>
+                                    <a href="list/cat={{ product.category.first.slug }}">{{ product.category.first.title }}</a></li>
                             {% endif %}
                             <li class="breadcrumb-item"><a style="color: #af7800"
                                                            href="{% url 'product:product_detail' product.slug %}">{{ product.title }}</a>

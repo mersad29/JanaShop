@@ -33,17 +33,18 @@ def product_detail(request, slug):
 
     if request.method == 'POST':
         name = request.user.id
+        phone = request.user.phone
         email = request.user.email
         body = request.POST.get('body')
         parent = request.POST.get('parent')
-        Comment.objects.create(product=product, name=name, email=email, body=body, parent_id=parent)
+        Comment.objects.create(product=product, name=name, email=email or phone, body=body, parent_id=parent)
         rating_value = int(request.POST.get('rating', 0))
         if 1 <= rating_value <= 5:
             Rating.objects.update_or_create(
                 product=product, user=request.user,
                 value=rating_value
             )
-        messages.success(request, "thanks")
+        messages.success(request, "از دیگاه شما متشکریم!")
 
         product.star = int(round(average_rating))
         product.empty_star = int(round(5-average_rating))
@@ -83,50 +84,57 @@ def favorites(request):
 def product_list(request, slug):
     category = Category.objects.get(slug=slug)
     recent_product = Product.objects.all().order_by('-created_time')
-    product = Product.objects.filter(category=category).order_by('-created_time')
+    products = Product.objects.filter(category=category).order_by('-created_time')
 
     min_price = Product.objects.filter(category=category).order_by('price').first().price
     max_price = Product.objects.filter(category=category).order_by('price').last().price
 
-    for item in product:
-        item.comment = item.comments.filter(is_published=True).count()
 
     minprice = request.GET.get('minprice')
     maxprice = request.GET.get('maxprice')
 
     if minprice:
-        product = product.filter(category=category, price__gte=minprice)
+        products = products.filter(category=category, price__gte=minprice)
 
     if maxprice:
-        product = product.filter(category=category, price__lte=maxprice)
+        products = products.filter(category=category, price__lte=maxprice)
 
     in_stock_only = request.GET.get('in_stock_only')
     if in_stock_only == 'true':
-        product = product.filter(category=category, in_stock=True)
+        products = products.filter(category=category, in_stock=True)
 
     sort = request.GET.get('sort', 'newest')
     if sort == 'min_price':
-        product = product.filter(category=category).order_by('price')
+        products = products.filter(category=category).order_by('price')
     if sort == 'max_price':
-        product = product.filter(category=category).order_by('-price')
+        products = products.filter(category=category).order_by('-price')
     if sort == 'newest':
-        product = product.filter(category=category).order_by('-created_time')
+        products = products.filter(category=category).order_by('-created_time')
 
-    # pageinator = Paginator(product, 2)
+    for pr in products:
+        pr.comment_count = pr.comments.filter(is_published=True).count()
+
+    # pageinator = Paginator(products, 2)
     # page_num = request.GET.get('page')
-    # product = pageinator.get_page(page_num)
+    # products = pageinator.get_page(page_num)
 
-    context = {
-        'product': product,
-        'category2': category,
-        'sort': sort,
-        'in_stock_only': in_stock_only,
-        'min_price': min_price,
-        'max_price': max_price,
-        'minprice2': minprice,
-        'maxprice2': maxprice,
-        'recent_product': recent_product,
-    }
 
-    return render(request, 'product/product_list.html', context)
+    if products:
+        context = {
+            'products': products,
+            'category2': category,
+            'sort': sort,
+            'in_stock_only': in_stock_only,
+            'min_price': min_price,
+            'max_price': max_price,
+            'minprice2': minprice,
+            'maxprice2': maxprice,
+            'recent_product': recent_product,
+        }
+        return render(request, 'product/product_list.html', context)
+    else:
+        context = {
+            'recent_product': recent_product,
+        }
+        return render(request, 'product/product_list.html', context)
 

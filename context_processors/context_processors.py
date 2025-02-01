@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404
 from cart.cart_madule import Cart
 from cart.models import Order
 from index.models import Footer
-from product.models import Category, Product
+from product.models import Category, Product, SpecialSale
 
 
 def category(request):
@@ -31,3 +31,9 @@ def socials(request):
 def footer(request):
     footer_detail = Footer.objects.first()
     return {'footer': footer_detail}
+
+# def comment_count(request):
+#     special_sales = SpecialSale.objects.all()
+#     for item in special_sales:
+#         item.comment_count = item.product.comments.count()
+#     return {'special': special_sales}

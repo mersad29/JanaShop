@@ -6,6 +6,7 @@ from index.models import Faq, About, Footer
 from product.models import Category, Product, SpecialSale, Like, FeaturedCategory
 from django.db.models import Count, Q
 
+
 def index(request):
     carousel = Carousel.objects.all()
     banners = Banners.objects.all().order_by('created_time')
@@ -20,6 +21,9 @@ def index(request):
     if featured_cats:
         for cat in featured_cats:
             cat.products = cat.category.cat.order_by('-sales')[0:7]
+            for pr in cat.products:
+                pr.comment_count = pr.comments.filter(is_published=True).count()
+                # print(cat.products.comment_count)
 
     for query in [most_off, most_view, most_sale]:
         for pr in query:
@@ -36,6 +40,7 @@ def index(request):
     fire_sales = SpecialSale.objects.all()
     for pr in fire_sales:
         pr.sale_price = pr.product.get_current_price()
+        pr.product.comment_count = pr.product.comments.filter(is_published=True).count()
 
         if timezone.now() <= pr.end_date:
             pr.active = True
@@ -53,6 +58,7 @@ def index(request):
     }
     return render(request, 'index/index.html', context)
 
+
 def add_to_favorite(request, id):
     if request.user.is_authenticated:
         product = get_object_or_404(Product, id=id)
@@ -60,6 +66,7 @@ def add_to_favorite(request, id):
         return redirect('/')
     else:
         return redirect('account:login')
+
 
 def remove_from_favorite(request, id):
     if request.user.is_authenticated:
@@ -69,56 +76,64 @@ def remove_from_favorite(request, id):
     else:
         return redirect('account:login')
 
+
 def faq(request):
     question = Faq.objects.all()
     return render(request, 'index/faq.html', {'question': question})
+
 
 def about(request):
     about = About.objects.all().first()
     return render(request, 'index/about.html', {'about': about})
 
+
 def search(request):
     q = request.GET.get('q')
     product = Product.objects.filter(title__icontains=q).order_by('-created_time')
     recent_product = Product.objects.all().order_by('-created_time')
+    if product:
+        min_price = product.order_by('price').first().price
+        max_price = product.order_by('price').last().price
 
-    min_price = product.order_by('price').first().price
-    max_price = product.order_by('price').last().price
+        minprice = request.GET.get('minprice')
+        maxprice = request.GET.get('maxprice')
 
-    for item in product:
-        item.comment = item.comments.filter(is_published=True).count()
+        if minprice:
+            product = product.filter(price__gte=minprice)
 
-    minprice = request.GET.get('minprice')
-    maxprice = request.GET.get('maxprice')
+        if maxprice:
+            product = product.filter(price__lte=maxprice)
 
-    if minprice:
-        product = product.filter(price__gte=minprice)
+        in_stock_only = request.GET.get('in_stock_only')
+        if in_stock_only == 'true':
+            product = product.filter(in_stock=True)
 
-    if maxprice:
-        product = product.filter(price__lte=maxprice)
+        sort = request.GET.get('sort', 'newest')
+        if sort == 'min_price':
+            product = product.filter().order_by('price')
+        if sort == 'max_price':
+            product = product.filter().order_by('-price')
+        if sort == 'newest':
+            product = product.filter().order_by('-created_time')
 
-    in_stock_only = request.GET.get('in_stock_only')
-    if in_stock_only == 'true':
-        product = product.filter(in_stock=True)
+        for item in product:
+            item.comment = item.comments.filter(is_published=True).count()
 
-    sort = request.GET.get('sort', 'newest')
-    if sort == 'min_price':
-        product = product.filter().order_by('price')
-    if sort == 'max_price':
-        product = product.filter().order_by('-price')
-    if sort == 'newest':
-        product = product.filter().order_by('-created_time')
+        context = {
+            'products': product,
+            'q': q,
+            'sort': sort,
+            'in_stock_only': in_stock_only,
+            'min_price': min_price,
+            'max_price': max_price,
+            'minprice2': minprice,
+            'maxprice2': maxprice,
+            'recent_product': recent_product,
+        }
 
-    context = {
-        'product': product,
-        'q': q,
-        'sort': sort,
-        'in_stock_only': in_stock_only,
-        'min_price': min_price,
-        'max_price': max_price,
-        'minprice2': minprice,
-        'maxprice2': maxprice,
-        'recent_product': recent_product,
-    }
-
-    return render(request, 'product/product_list.html', context)
+        return render(request, 'product/product_list.html', context)
+    else:
+        context = {
+            'recent_product': recent_product,
+        }
+        return render(request, 'product/not_found.html', context)

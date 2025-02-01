@@ -4,6 +4,7 @@ from ckeditor.fields import RichTextField
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.text import slugify
+from django.utils.timezone import now
 
 from account.models import CustomUser
 from product.ProductManager import ProductManager
@@ -90,6 +91,12 @@ class Product(models.Model):
     SIM_num = models.CharField(max_length=100, blank=True, null=True, verbose_name='تعداد سیمکارت')
     introduction_time = models.CharField(max_length=100, blank=True, null=True, verbose_name='زمان معرفی')
 
+    screen_size = models.CharField(max_length=50, blank=True, null=True)
+    battery_capacity = models.CharField(max_length=50, blank=True, null=True)
+    processor = models.CharField(max_length=50, blank=True, null=True)
+    ram = models.CharField(max_length=50, blank=True, null=True)
+    storage = models.CharField(max_length=50, blank=True, null=True)
+
     star = models.PositiveIntegerField(editable=False, default=0)
     empty_star = models.PositiveIntegerField(editable=False, default=5)
 
@@ -139,8 +146,8 @@ class Rating(models.Model):
     value = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
     created_time = models.DateTimeField(auto_now_add=True)
 
-    class Meta:
-        unique_together = ('product', 'user')
+    # class Meta:
+    #     unique_together = ('product', 'user')
 
 
 class ProductImages(models.Model):
@@ -183,3 +190,31 @@ class SpecialSale(models.Model):
 
     def is_active(self):
         return self.start_date <= timezone.now() <= self.end_date
+
+class Discount(models.Model):
+    PERCENTAGE = 'percentage'
+    FIXED = 'fixed'
+
+    DISCOUNT_TYPES = [
+        (PERCENTAGE, 'Percentage'),
+        (FIXED, 'Fixed'),
+    ]
+
+    code = models.CharField(max_length=20, unique=True)
+    discount_type = models.CharField(max_length=10, choices=DISCOUNT_TYPES)
+    value = models.DecimalField(max_digits=10, decimal_places=2)
+    min_order_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    valid_from = models.DateTimeField()
+    valid_to = models.DateTimeField()
+    is_active = models.BooleanField(default=True)
+
+    def is_valid(self):
+        return self.is_active and self.valid_from <= now() <= self.valid_to
+
+    def apply_discount(self, total_amount):
+        if self.discount_type == self.PERCENTAGE:
+            return total_amount - (total_amount * self.value / 100)
+        return max(total_amount - self.value, 0)
+
+    def __str__(self):
+        return self.code
