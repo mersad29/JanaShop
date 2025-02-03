@@ -1,7 +1,7 @@
 # Django E-Commerce Shop 🛒
 
 ## Overview
-This is a fully functional e-commerce web application built using Django, showcasing my skills in web development and backend programming. The shop is designed to handle a variety of products with features such as filtering, sorting, and user authentication.
+Welcome to my Django E-Commerce Shop, a versatile online shopping platform. featuring essential e-commerce functionalities such as User Authentication, Cart managment and Checkout procces.
 
 ## Features ✨
 - **User Authentication 🔐**: Register, login, and manage user profiles.
@@ -12,11 +12,9 @@ This is a fully functional e-commerce web application built using Django, showca
 - **Responsive Design 📱**: Works across different devices and screen sizes.
 
 ## Technologies Used 🛠️
-- **Backend:** Django, Django REST Framework
+- **Backend:** Django
 - **Frontend:** HTML, CSS, Bootstrap
-- **Database:** SQLite (can be replaced with PostgreSQL or MySQL)
 - **Authentication:** Django's built-in authentication system
-- **Deployment:** Can be deployed on platforms like Heroku or VPS
 
 ## Installation & Setup 🚀
 ### Prerequisites
@@ -28,8 +26,7 @@ Ensure you have the following installed:
 ### Steps to Run Locally 🏠
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/django-ecommerce-shop.git
-   cd django-ecommerce-shop
+   git clone https://github.com/mersad29/JanaShop.git
    ```
 2. Create a virtual environment and activate it:
    ```bash
@@ -42,6 +39,7 @@ Ensure you have the following installed:
    ```
 4. Apply database migrations:
    ```bash
+   python manage.py makemigrations
    python manage.py migrate
    ```
 5. Create a superuser:
@@ -56,11 +54,13 @@ Ensure you have the following installed:
 7. Open your browser and go to `http://127.0.0.1:8000/` 🌐
 
 ## Future Improvements 🔮
-- Implement payment gateways (Stripe, PayPal, etc.) 💳
-- Improve UI with a modern frontend framework (React, Vue, etc.) 🎨
-- Add user reviews and ratings ⭐
+- Payment gateway (ZarinPal) 💳
+- Advanced product search and recommendations
+- Improve Security
 - Implement REST API for mobile support 📱
 
 ## Contact 📩
-If you have any questions or would like to collaborate, feel free to reach out to me at [your email] or visit my [GitHub profile](https://github.com/yourusername).
-
+If you have any questions or would like to collaborate, feel free to reach out to me at 
+Email: mersad.mir96@gmail.com
+[GitHub profile](https://github.com/mersad29).
+[Linkdin profile](https://www.linkedin.com/in/mersad29/).
