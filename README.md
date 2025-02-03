@@ -66,6 +66,3 @@ Email: mersad.mir96@gmail.com,
 [GitHub profile](https://github.com/mersad29),
 [Linkdin profile](https://www.linkedin.com/in/mersad29/).
 
-## License
-This project is licensed under the MIT License - see the [LICENSE](https://github.com/mersad29/JanaShop?tab=MIT-1-ov-file) file for details.
-
