@@ -61,6 +61,7 @@ Ensure you have the following installed:
 
 ## Contact 📩
 If you have any questions or would like to collaborate, feel free to reach out to me at 
-Email: mersad.mir96@gmail.com
-[GitHub profile](https://github.com/mersad29).
+Email: mersad.mir96@gmail.com,
+
+[GitHub profile](https://github.com/mersad29),
 [Linkdin profile](https://www.linkedin.com/in/mersad29/).
