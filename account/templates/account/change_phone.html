@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+    <section class="inner-page" id="profile-page">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-12 col-lg-3">
+                                <!-- Side Panel -->
+                                {% include 'account/side-panel.html' %}
+                                <!-- /Side Panel -->
+                            </div>
+                            <div class="col-12 col-lg-9 pl-lg-0 pr-lg-2 mt-2 mt-lg-0">
+                                {% if request.user.password %}
+                                    <form action="" method="post">
+                                        <div class="title">تغییر رمز ورود</div>
+                                        <div class="form-group">
+                                            {% csrf_token %}
+                                            {% for field in form %}
+                                                {{ field.label_tag }} {{ field }}
+                                                {% if field.errors %}
+                                                    {% for error in field.errors %}
+                                                        <div class="alert alert-danger mt-3" role="alert">
+                                                            {{ error }}
+                                                        </div>
+                                                    {% endfor %}
+                                                {% endif %}
+                                            {% endfor %}
+{#                                            <div class="alert alert-danger mt-3" role="alert">#}
+{#                                                {{ form.non_field_errors }}#}
+{#                                            </div>#}
+                                            {% if messages %}
+                                                {% for message in messages %}
+                                                    <div class="alert alert-success mt-3" role="alert">
+                                                        {{ message }}
+                                                    </div>
+                                                {% endfor %}
+                                            {% endif %}
+
+                                        </div>
+                                        <div class="form-group mt-3">
+                                            <a href=""><input
+                                                    type="submit"
+                                                    value="تغییر رمز ورود"
+                                                    class="btn btn-success"></a>
+                                        </div>
+                                    </form>
+                                {% else %}
+                                    <form action="" method="post">
+                                        <div class="title">لطفا یک کلمه عبور وارد کنید.</div>
+                                        {% csrf_token %}
+                                        {{ form.as_p }}
+                                        {% if messages %}
+                                            {% if messages %}
+                                                {% for message in messages %}
+                                                    <div class="alert alert-success" role="alert">
+                                                        {{ message }}
+                                                    </div>
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endif %}
+                                        <div class="form-group mt-3">
+                                            <a href=""><input
+                                                    type="submit"
+                                                    value="تغییر رمز ورود"
+                                                    class="btn btn-success"></a>
+                                        </div>
+                                    </form>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

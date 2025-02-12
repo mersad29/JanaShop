@@ -15,7 +15,8 @@ urlpatterns = [
     path('delete_address/<int:id>', views.delete_address, name='delete_address'),
     path('profile/favorites', favorites, name='favorite_list'),
     path('change_password', views.change_password, name='change_pass'),
-    # path('edit_profile', views.EditProfileView.as_view(), name='change_profile'),
+    path('change_phone', views.change_phone, name='change_phone'),
     path('edit_profile', views.edit_user, name='change_profile'),
+    path('check_new_phone_otp', views.NewPhoneCheckOtp.as_view(), name='check_new_phone_otp'),
     path('factors', views.factors, name='factors'),
 ]

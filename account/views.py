@@ -9,7 +9,8 @@ from django.views import View
 from django.views.generic import UpdateView
 from cart.models import Order
 from . import forms
-from .forms import AuthenticationForm, CheckOtpForm, AddressForm, ChangePasswordForm, SetPassword, EditProfileForm
+from .forms import AuthenticationForm, CheckOtpForm, AddressForm, ChangePasswordForm, SetPassword, EditProfileForm, \
+    ChangePhoneForm
 from .models import Otp, CustomUser, Address
 
 
@@ -191,3 +192,47 @@ def change_password(request):
                 form = SetPassword(request.user)
 
     return render(request, 'account/change_password.html', {'form': form})
+
+def change_phone(request):
+    form = ChangePhoneForm()
+    if request.method == 'POST':
+        form = ChangePhoneForm(request.POST)
+        if form.is_valid():
+            rand_code = randint(1000, 9999)
+            print(rand_code)
+            cd = form.cleaned_data
+            token = str(uuid4())
+            Otp.objects.create(phone=cd['new_phone'], token=token, code=rand_code)
+
+            return redirect(reverse('account:check_new_phone_otp') + f"?token={token}")
+    return render(request, 'account/change_phone.html', {'form': form})
+
+class NewPhoneCheckOtp(View):
+    def get(self, request):
+        if request.user.is_authenticated:
+            form = CheckOtpForm
+            return render(request, 'account/new_phone_checkotp.html', {'form': form})
+        else:
+            return render(request, 'account/Register-Login.html')
+
+    def post(self, request):
+        form = CheckOtpForm(request.POST)
+        token = request.GET.get('token')
+        if form.is_valid():
+            cd = form.cleaned_data
+
+            if Otp.objects.get(token=token):
+                otp = Otp.objects.get(token=token)
+                if Otp.objects.filter(token=token, code=cd['code']).exists():
+                    if otp.is_expired():
+                        request.user.phone = otp.phone
+                        request.user.save()
+                        otp.delete()
+                        messages.success(request, 'شماره همراه تغییر کرد.')
+                    else:
+                        messages.error(request, 'کد منقضی شده است')
+                else:
+                    messages.error(request, 'کد اشتباه است')
+            else:
+                messages.error(request, 'کد اشتباه است')
+        return render(request, 'account/new_phone_checkotp.html', {'form': form})

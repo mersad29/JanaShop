@@ -80,6 +80,10 @@ class SetPassword(forms.Form):
         self.user.save()
 
 
+class ChangePhoneForm(forms.Form):
+    new_phone = forms.IntegerField(label='شماره تلفن جدید', widget=forms.NumberInput(attrs={'class': 'form-control'}))
+
+
 class CheckOtpForm(forms.Form):
     code = forms.IntegerField(widget=forms.NumberInput(
         attrs={'class': 'form-control', 'placeholder': 'کد'}))
@@ -127,7 +131,6 @@ class AddressForm(forms.ModelForm):
     class Meta:
         model = Address
         fields = ('state', 'city', 'name', 'address', 'postal_code', 'phone')
-
 
 class EditProfileForm(forms.ModelForm):
     class Meta:
