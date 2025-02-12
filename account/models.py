@@ -1,3 +1,4 @@
+from django.utils import timezone
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 
@@ -65,7 +66,13 @@ class Otp(models.Model):
     token = models.CharField(max_length=100)
     phone = models.CharField(max_length=11)
     code = models.IntegerField()
-    expiration_date = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def is_expired(self):
+        expiration_time = timezone.timedelta(minutes=1)
+
+        return timezone.now() < expiration_time + self.created_at
+
 
 class Address(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='useraddress')

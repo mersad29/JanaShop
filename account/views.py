@@ -51,10 +51,13 @@ class CheckOtp(View):
             if Otp.objects.get(token=token):
                 otp = Otp.objects.get(token=token)
                 if Otp.objects.filter(token=token, code=cd['code']).exists():
-                    user, is_created = CustomUser.objects.get_or_create(phone=otp.phone)
-                    otp.delete()
-                    login(request, user)
-                    return redirect('/')
+                    if otp.is_expired():
+                        user, is_created = CustomUser.objects.get_or_create(phone=otp.phone)
+                        otp.delete()
+                        login(request, user)
+                        return redirect('/')
+                    else:
+                        messages.error(request, 'کد منقضی شده است')
                 else:
                     messages.error(request, 'کد اشتباه است')
             else:
