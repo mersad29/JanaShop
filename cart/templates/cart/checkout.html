@@ -162,10 +162,10 @@
                                             <div class="col-6">
                                                 {% if order.discount %}
                                                     {% if order.discount.discount_type == 'percentage' %}
-                                                        <div>{{ order.discount.value }} درصد تخفیف</div>
+                                                        <div>{{ order.discount.value|intword }} درصد تخفیف</div>
                                                         <div>{{ final_price|intcomma }} تومان</div>
                                                     {% else %}
-                                                        <div>{{ order.discount.value }} تخفیف</div>
+                                                        <div>{{ order.discount.value|intword }} تخفیف</div>
                                                         <div>{{ final_price|intcomma }} تومان</div>
                                                     {% endif %}
                                                 {% else %}
@@ -193,7 +193,7 @@
 
                                             </div>
                                             <div class="col-12">
-                                                <a href="{% url 'cart:verify' order.id %}">
+                                                <a href="{% url 'cart:request' %}">
                                                     <input type="submit" value="پرداخت و تکمیل خرید"
                                                            class="btn btn-success w-100">
                                                 </a>

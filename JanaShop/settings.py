@@ -158,3 +158,12 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, "assets")]
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'account.CustomUser'
+
+
+# settings.py
+
+ZARINPAL_MERCHANT_ID = '12345678-1234-1234-1234-123456789abc'
+ZARINPAL_SANDBOX = True  # Enable sandbox mode
+ZARINPAL_REQUEST_URL = 'https://sandbox.zarinpal.com/pg/v4/payment/request.json'
+ZARINPAL_VERIFY_URL = 'https://sandbox.zarinpal.com/pg/v4/payment/verify.json'
+ZARINPAL_STARTPAY_URL = 'https://sandbox.zarinpal.com/pg/StartPay/'

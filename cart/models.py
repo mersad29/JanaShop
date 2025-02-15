@@ -1,7 +1,7 @@
 import uuid
 
 from django.db import models
-from account.models import CustomUser
+from account.models import CustomUser, Address
 from product.models import Product, Discount
 
 
@@ -13,6 +13,7 @@ class Order(models.Model):
     discount = models.ForeignKey(Discount, null=True, blank=True, on_delete=models.SET_NULL)
     created_time = models.DateTimeField(auto_now_add=True)
     is_paid = models.BooleanField(default=False)
+    address = models.ForeignKey(Address, null=True, blank=True, on_delete=models.CASCADE)
 
     def get_final_price(self):
         if self.discount and self.discount.is_valid():
@@ -20,7 +21,7 @@ class Order(models.Model):
         return self.total_price
 
     def __str__(self):
-        return self.user.phone
+        return f"{self.phone} - {self.id} - {self.created_time}"
 
     class Meta:
         verbose_name = 'سفارش'

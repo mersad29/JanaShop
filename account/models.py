@@ -69,7 +69,7 @@ class Otp(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def is_expired(self):
-        expiration_time = timezone.timedelta(minutes=1)
+        expiration_time = timezone.timedelta(minutes=2)
 
         return timezone.now() < expiration_time + self.created_at
 

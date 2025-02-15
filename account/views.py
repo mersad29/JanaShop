@@ -5,6 +5,8 @@ from django.contrib.auth import login, logout
 from django.core.exceptions import ValidationError
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse, reverse_lazy
+from django.utils import timezone
+from django.utils.dateformat import DateFormat
 from django.views import View
 from django.views.generic import UpdateView
 from cart.models import Order
@@ -209,15 +211,22 @@ def change_phone(request):
 
 class NewPhoneCheckOtp(View):
     def get(self, request):
+        now = timezone.now()
         if request.user.is_authenticated:
             form = CheckOtpForm
-            return render(request, 'account/new_phone_checkotp.html', {'form': form})
+            token = request.GET.get('token')
+            if Otp.objects.get(token=token):
+                otp = Otp.objects.get(token=token)
+                # print(otp.created_at)
+            return render(request, 'account/new_phone_checkotp.html', {'form': form, 'otp': otp, 'now': now})
+
         else:
             return render(request, 'account/Register-Login.html')
 
     def post(self, request):
         form = CheckOtpForm(request.POST)
         token = request.GET.get('token')
+
         if form.is_valid():
             cd = form.cleaned_data
 
@@ -230,9 +239,21 @@ class NewPhoneCheckOtp(View):
                         otp.delete()
                         messages.success(request, 'شماره همراه تغییر کرد.')
                     else:
-                        messages.error(request, 'کد منقضی شده است')
+                        form.add_error('code', 'کد منقضی شده است')
                 else:
-                    messages.error(request, 'کد اشتباه است')
+                    form.add_error('code', 'کد اشتباه است')
             else:
-                messages.error(request, 'کد اشتباه است')
+                form.add_error('code', 'کد اشتباه است')
+
         return render(request, 'account/new_phone_checkotp.html', {'form': form})
+
+def resend_code(request):
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            rand_code = randint(1000, 9999)
+            print(rand_code)
+            token = str(uuid4())
+            phone = request.POST.get('new_phone')
+            Otp.objects.create(code=rand_code, token=token, phone=phone)
+
+            return redirect(reverse('account:check_new_phone_otp') + f"?token={token}")

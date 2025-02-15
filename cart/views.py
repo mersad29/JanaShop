@@ -1,6 +1,7 @@
 from django.core.exceptions import ValidationError
 from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
+from django.utils import timezone
 from django.views import View
 from django.views.generic import UpdateView
 from django.contrib import messages
@@ -11,6 +12,12 @@ from cart.cart_madule import Cart
 from cart.forms import Discount_code
 from cart.models import Order, OrderItem
 from product.models import Product, Discount
+
+from django.conf import settings
+import requests
+import json
+from zeep import Client
+
 
 
 class CartDetailView(View):
@@ -64,9 +71,14 @@ class CartDeleteView(View):
 #
 #         return redirect('cart:checkout', order.id)
 
-def checkout(request):
+def checkout(request, pk):
     form = Discount_code()
     order = Order.objects.last()
+    address = request.user.useraddress.get(is_default=True)
+    order.address = address
+    # for product in order.items.all():
+    #     product.
+    order.save()
 
     if request.method == 'POST':
         form = Discount_code(request.POST)
@@ -78,7 +90,9 @@ def checkout(request):
 
             messages.success(request, 'کد تخفیف اعمال شد.')
 
-            return redirect('cart:checkout')
+            return redirect('cart:checkout', order.id)
+
+
 
     context = {
         'order': order,
@@ -89,8 +103,6 @@ def checkout(request):
     }
     return render(request, 'cart/checkout.html', context)
 
-
-
 class OrderCreationView(View):
     def get(self, request):
         cart = Cart(request)
@@ -100,6 +112,88 @@ class OrderCreationView(View):
                                      , price=item['final_price'], quantity=item['quantity'])
         cart.remove_cart()
         return redirect('cart:checkout', str(order.id))
+
+
+def send_request(request):
+    current_order = Order.objects.filter(user=request.user, is_paid=False).last()
+    ZARINPAL_CALLBACK_URL = f"http://127.0.0.1:8000/cart/order/verify/{current_order.id}"
+
+    amount = current_order.get_final_price()  # Amount in Toman
+    description = "Payment for Test Product"
+    email = request.user.email
+    mobile = request.user.phone
+
+    headers = {'Content-Type': 'application/json'}
+    data = {
+        'merchant_id': settings.ZARINPAL_MERCHANT_ID,
+        'amount': amount,
+        'description': description,
+        'callback_url': ZARINPAL_CALLBACK_URL,
+        'metadata': {'email': email, 'mobile': mobile}
+    }
+
+    try:
+        response = requests.post(settings.ZARINPAL_REQUEST_URL, data=json.dumps(data), headers=headers)
+        response_data = response.json()
+        if response_data['data']['code'] == 100:
+            return redirect(f"{settings.ZARINPAL_STARTPAY_URL}{response_data['data']['authority']}")
+        else:
+            print(response_data['errors']['code'])
+            return render(request, 'cart/error.html', {'message': f"Error Code: {response_data['errors']['code']}"})
+    except requests.exceptions.RequestException as e:
+        print(e)
+        return render(request, 'cart/error.html', {'message': str(e)})
+
+def verify(request, pk):
+    order = Order.objects.get(id=pk)
+    authority = request.GET.get('Authority')
+    headers = {'Content-Type': 'application/json'}
+    data = {
+        'merchant_id': settings.ZARINPAL_MERCHANT_ID,
+        'authority': authority,
+        'amount': order.get_final_price()  # Same amount as in the request
+    }
+
+    try:
+        response = requests.post(settings.ZARINPAL_VERIFY_URL, data=json.dumps(data), headers=headers)
+        response_data = response.json()
+        print(response_data['data']['code'])
+        if response_data['data']['code'] == 100:
+            for item in order.items.all():
+                item.product.sales += 1
+                item.product.save()
+
+            order.is_paid = True
+            order.save()
+            return redirect('cart:factor', order.id)
+        elif response_data['data']['code'] == 101:
+            return render(request, 'cart/error.html', {'message': 'Transaction submitted but not verified.'})
+        else:
+            return render(request, 'cart/error.html', {'message': f"Transaction failed: {response_data['errors']['code']}"})
+    except requests.exceptions.RequestException as e:
+        return render(request, 'cart/error.html', {'message': str(e)})
+
+class FactorDetail(View):
+    def get(self, request, pk):
+        order = Order.objects.get(id=pk, user=request.user, is_paid=True)
+
+        paid_time = timezone.now()
+
+        contex = {
+            'order': order,
+            'paid_time': paid_time,
+        }
+        return render(request, 'cart/verify.html', contex)
+
+class AddressView(View):
+    def get(self, request):
+        form = AddressForm()
+        addresses = request.user.useraddress.all()
+        contex = {
+            'form': form,
+            "addresses": addresses
+        }
+        return render(request, 'cart/address_list.html', contex)
 
 
 # def apply_discount(request, order_id):
@@ -130,15 +224,34 @@ class VerifyView(View):
 
         return render(request, 'cart/verify.html', {'order': order})
 
-class AddressView(View):
-    def get(self, request):
-        form = AddressForm()
-        addresses = request.user.useraddress.all()
-        contex = {
-            'form': form,
-            "addresses": addresses
-        }
-        return render(request, 'cart/address_list.html', contex)
+# def verify(authority, request, pk):
+    # order = get_object_or_404(Order, id=pk)
+    #
+    # data = {
+    #     "MerchantID": settings.MERCHANT,
+    #     "Amount": order.get_final_price(),
+    #     "Authority": authority,
+    # }
+    # data = json.dumps(data)
+    # # set content length by data
+    # headers = {'content-type': 'application/json', 'content-length': str(len(data))}
+    # response = requests.post(ZP_API_VERIFY, data=data, headers=headers)
+    #
+    # if response.status_code == 200:
+    #     response = response.json()
+    #
+    #     if response['Status'] == 100:
+    #         for item in order.items.all():
+    #             item.product.sales += 1
+    #             item.product.save()
+    #
+    #         order.is_paid = True
+    #         order.save()
+    #         return render(request, 'cart/verify.html', {'order': order})
+    #     else:
+    #         return {'status': False, 'code': str(response['Status'])}
+    # return response
+    # pass
 
 class AddAddressView(View):
     def post(self, request):

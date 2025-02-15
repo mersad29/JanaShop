@@ -19,9 +19,9 @@
                                         {% csrf_token %}
                                         {{ form.code }}
                                         {% if messages %}
-                                            {% for error in messages %}
-                                                <div class="alert alert-danger mt-3" role="alert">
-                                                    {{ error }}
+                                            {% for message in messages %}
+                                                <div class="alert alert-success mt-3" role="alert">
+                                                    {{ message }}
                                                 </div>
                                             {% endfor %}
                                         {% endif %}
@@ -39,6 +39,22 @@
                                                           class="btn btn-success"></a>
                                     </div>
                                 </form>
+
+                                <input type="hidden" id="expiresAt" value="{{ otp.created_at|date:'Y-m-d H:i:s' }}">
+                                <input type="hidden" id="serverTime" value="{{ now|date:'Y-m-d H:i:s' }}">
+                                <p id="timer"></p>
+                                <form action="{% url 'account:resend_code' %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" id="new_phone" name="new_phone" value="{{ otp.phone }}">
+                                    کد را دریافت نکردید؟
+                                    <button id="resend-btn" class="btn-default" onclick="location.href='{% url 'account:resend_code' %}'" style="display:none;">
+                                        ارسال مجدد کد
+                                    </button>
+                                </form>
+
+                                {#                            <a id="resend-btn" style="display:none;"#}
+                                {#                                        onclick="location.href='{% url 'account:resend_code' otp.phone %}?token={{ otp.token }}'">ارسال مجدد کد#}
+                                {#                                </a>#}
                             </div>
                         </div>
                     </div>
@@ -46,4 +62,45 @@
             </div>
         </div>
     </section>
+
+    <script>
+        // Get OTP creation time from Django template (in milliseconds)
+        const otpCreatedAtValue = document.getElementById('expiresAt').value;
+        const serverTimeValue = document.getElementById('serverTime').value;
+        const otpCreatedAt = new Date(serverTimeValue).getTime();
+        const serverTime = new Date(serverTimeValue).getTime();
+        const expirationTime = 2 * 60 * 1000; // 2 minutes in milliseconds
+        {#const expirationTime = 25; // 2 minutes in milliseconds#}
+
+        const expireAt = otpCreatedAt + expirationTime;
+
+        const clientTime = new Date().getTime();
+        const timeDrift = clientTime - serverTime;
+        // Calculate the expiration timestamp
+        // Store the expiration time in localStorage if not already stored
+        if (!localStorage.getItem('otp_expire_at')) {
+            localStorage.setItem('otp_expire_at', (expireAt + timeDrift).toString());
+        }
+
+        function updateTimer() {
+            const now = new Date().getTime();
+            const expireAtStored = parseInt(localStorage.getItem('otp_expire_at'));
+            const remainingTime = expireAtStored - now;
+
+            if (remainingTime > 0) {
+                const seconds = Math.floor(remainingTime / 1000);
+                document.getElementById('timer').textContent = `${seconds} ثانیه مانده تا دریافت مجدد کد`;
+
+            } else {
+                document.getElementById('timer').textContent = "";
+                console.log(remainingTime)
+
+                document.getElementById('resend-btn').style.display = "inline";
+                localStorage.removeItem('otp_expire_at'); // Clear the countdown when finished
+            }
+        }
+
+        updateTimer();
+        setInterval(updateTimer, 1000);
+    </script>
 {% endblock %}
