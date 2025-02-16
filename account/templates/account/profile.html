@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load humanize %}
 {% load static %}
 {% load templatetags %}
 
@@ -140,14 +141,21 @@
                                 <!-- Latest Orders -->
                                 <div class="mt-2 order">
                                     <div class="row pt-2 px-3">
-                                        <div class="col-12"><h2>آخرین سفارش ها</h2></div>
+                                        <div class="col-12"><h2>آخرین سفارش</h2></div>
                                     </div>
                                 </div>
-                                {#                                {% for order in order %}#}
                                 <div class="custom-container mt-2 order">
                                     <div class="row pt-2 px-3">
-                                        <div class="col-12 col-sm-6"><h2>سفارش شماره #1234</h2></div>
-                                        <div class="col-12 col-sm-6 text-sm-end"><span>20 مرداد 1400</span> - <span>پرداخت شده</span>
+                                        <div class="col-12 col-sm-6"><h2>سفارش شماره {{ order.id }}</h2></div>
+                                        {% if order.is_paid %}
+                                            <div class="col-12 col-sm-6 text-sm-end"><span>{{ order.paid_time }}</span>
+                                            -
+                                            <span>پرداخت شده</span>
+                                        {% else %}
+                                            <div class="col-12 col-sm-6 text-sm-end">
+                                            <span>{{ order.created_time }}</span> -
+                                            <span>لغو شده</span>
+                                        {% endif %}
                                         </div>
                                     </div>
                                     <hr>
@@ -156,7 +164,7 @@
                                             <div class="col-12">
                                                 <div>
                                                     <div class="header">
-                                                        <div class="total py-1"><span>مبلغ کل:</span> 3.000.000
+                                                        <div class="total py-1"><span>مبلغ کل:</span> {{ order.get_final_price|intcomma }}
                                                             تومان
                                                         </div>
                                                     </div>
@@ -165,18 +173,18 @@
                                                             <!-- Order Record -->
                                                             {% for item in order.items.all %}
                                                                 <span class="col-12 col-sm-6 col-lg-4 col-xl-3 px-1">
-                                                            <a href=""
+                                                            <span href=""
                                                                target="_blank">
                                                                 <div class="product-box">
                                                                     <div class="image"
                                                                          style="background-image: url('{{ item.product.main_image.url }}')"></div>
                                                                     <div class="text-center px-1 px-sm-3">
-                                                                        <h2>{{ item.product.title }}</h2>
+                                                                        <h2>{{ item.product }}</h2>
                                                                         <div class="number">تعداد:{{ item.quantity }} عدد</div>
-                                                                        <div class="price">مبلغ: {{ item.price }} تومان</div>
+                                                                        <div class="price">مبلغ: {{ item.price|intcomma }} تومان</div>
                                                                     </div>
                                                                 </div>
-                                                            </a>
+                                                            </span>
                                                         </span>
                                                             {% endfor %}
                                                             <!-- /Order Record -->

@@ -20,4 +20,5 @@ urlpatterns = [
     path('check_new_phone_otp', views.NewPhoneCheckOtp.as_view(), name='check_new_phone_otp'),
     path('resend_code/', views.resend_code, name='resend_code'),
     path('factors', views.factors, name='factors'),
+    path('factor-detail/<int:pk>', views.FactorDetailView.as_view(), name='factor_detail'),
 ]

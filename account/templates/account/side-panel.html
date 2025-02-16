@@ -39,7 +39,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{% url 'account:factors' %}">
+                        <a href="{% url 'account:factors' %}" class="{% if request.path == '/user/factors' %}active{% endif %}">
                             <div>
                                 <div class="icon d-inline-block"><img
                                         src="{% static "images/icons/profile-menu/orders.webp" %}"

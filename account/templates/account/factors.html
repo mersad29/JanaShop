@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load humanize %}
 {% load static %}
 
 {% block content %}
@@ -17,11 +18,20 @@
                                 <!-- Factors List -->
                                 {% for factor in factors %}
                                     <div class="custom-container mt-2 order">
-                                        <div class="row pt-2 px-3">
-                                            <div class="col-12 col-sm-6"><a href="factor-view.html"><h2>سفارش شماره
-                                                {{ factor.id }}</h2></a></div>
-                                            <div class="col-12 col-sm-6 text-sm-end"><span>20 مرداد 1400</span> - <span>پرداخت شده</span>
-                                            </div>
+                                    <div class="row pt-2 px-3">
+                                        <div class="col-12 col-sm-6"><a
+                                                href="{% url 'account:factor_detail' factor.id %}"><h2>سفارش شماره
+                                            {{ factor.id }}</h2></a></div>
+                                        {% if factor.is_paid %}
+                                            <div class="col-12 col-sm-6 text-sm-end"><span>{{ factor.paid_time }}</span>
+                                            -
+                                            <span>پرداخت شده</span>
+                                        {% else %}
+                                            <div class="col-12 col-sm-6 text-sm-end">
+                                            <span>{{ factor.created_time }}</span> -
+                                            <span>لفو شده</span>
+                                        {% endif %}
+                                        </div>
                                         </div>
                                         <hr>
                                         <div class="container">
@@ -30,7 +40,7 @@
                                                     <div>
                                                         <div class="header">
                                                             <div class="total py-1">
-                                                                <span>مبلغ کل:</span> {{ factor.total_price }}
+                                                                <span>مبلغ کل:</span> {{ factor.get_final_price|intcomma }}
                                                                 تومان
                                                             </div>
                                                         </div>
@@ -39,26 +49,29 @@
                                                                 <!-- Order Record -->
                                                                 {% for item in factor.items.all %}
                                                                     <span class="col-12 col-sm-6 col-lg-4 col-xl-3 px-1">
-                                                            <a href="{% url 'product:product_detail' item.product.slug %}" target="_blank">
+                                                            <span href=""
+                                                                  target="_blank">
                                                                 <div class="product-box">
                                                                     <div class="image"
                                                                          style="background-image: url('{{ item.product.main_image.url }}')"></div>
                                                                     <div class="text-center px-1 px-sm-3">
-                                                                        <h2>{{ item.product.title }}</h2>
+                                                                        <h2>{{ item.product }}</h2>
                                                                         <div class="number">تعداد: {{ item.quantity }} عدد</div>
-                                                                        <div class="price">مبلغ: {{ item.product.price }} عدد</div>
+                                                                        <div class="price">مبلغ: {{ item.price|intcomma }} تومان</div>
                                                                     </div>
                                                                 </div>
-                                                            </a>
+                                                            </span>
                                                         </span>
                                                                 {% endfor %}
                                                                 <!-- /Order Record -->
                                                             </div>
                                                         </div>
-{#                                                        <a href="factor-view.html">#}
-{#                                                            <div class="btn btn-sm btn-warning float-end">مشاهده فاکتور#}
-{#                                                            </div>#}
-{#                                                        </a>#}
+                                                        <a href="{% url 'account:factor_detail' factor.id %}">
+                                                            <div class="btn btn-sm btn-warning float-end text-white">
+                                                                مشاهده
+                                                                فاکتور
+                                                            </div>
+                                                        </a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -66,11 +79,11 @@
                                     </div>
                                 {% endfor %}
                                 <!-- /Factors List -->
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
     </section>
 {% endblock %}

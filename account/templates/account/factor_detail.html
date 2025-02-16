@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+
+{% block content %}
+    <section class="inner-page" id="profile-page">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-12 col-lg-3">
+                                <!-- Side Panel -->
+                                {% include 'account/side-panel.html' %}
+                                <!-- /Side Panel -->
+                            </div>
+                            <div class="col-12 col-lg-9 pl-lg-0 pr-lg-2 mt-2 mt-lg-0">
+
+                                <!-- Factors List -->
+                                <div class="custom-container mt-2 mt-lg-0 order">
+                                    <div class="row pt-2 px-3">
+                                        <div class="col-12 col-sm-6"><h2>سفارش شماره {{ factor.id }}</h2></div>
+                                        {% if factor.is_paid %}
+                                            <div class="col-12 col-sm-6 text-sm-end"><span>{{ factor.paid_time }}</span>
+                                            -
+                                            <span>پرداخت شده</span>
+                                        {% else %}
+                                            <div class="col-12 col-sm-6 text-sm-end">
+                                            <span>{{ factor.created_time }}</span> -
+                                            <span>لغو شده</span>
+                                        {% endif %}
+                                        </div>
+                                        </div>
+                                        <hr>
+                                        <div class="container">
+                                            <div class="row py-2">
+                                                <div class="col-12">
+
+                                                    <div class="row py-3 border border-1">
+                                                        <div class="col-12 col-md-4 py-2 py-md-0 text-center text-md-start">
+                                                            <img src="{% static 'images/logo.png' %}" height="50px">
+                                                            جانا شاپ
+                                                        </div>
+                                                        <div class="col-12 col-md-4 py-2 py-md-0 text-center">
+                                                            <strong>فاکتور فروش</strong>
+                                                        </div>
+                                                        <div class="col-12 col-md-4 py-2 py-md-0 text-center text-md-end">
+                                                            <div>تاریخ خرید: {{ factor.paid_time }}</div>
+                                                            <div>شماره سفارش: {{ factor.id }}</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row border border-1">
+                                                        <div class="col-12 col-md-6 py-3 border border-1">
+                                                            <strong>فروشنده</strong>
+                                                            <div>فروشنده: جانا شاپ</div>
+                                                            <div>نشانی: تهران، تهرانپارس - نیروهوایی</div>
+                                                            <div>تلفن: 09334651599</div>
+                                                        </div>
+                                                        <div class="col-12 col-md-6 py-3 border border-1">
+                                                            <strong>خریدار</strong>
+                                                            <div>آدرس:{{ factor.address }}</div>
+                                                            <div>تلفن تماس: {{ factor.phone }}</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row py-3 border border-1">
+                                                        <div class="col-12">
+                                                            <div class="table-responsive">
+                                                                <table class="table table-striped">
+                                                                    <thead>
+                                                                    <tr>
+                                                                        <th>ردیف</th>
+                                                                        <th>شرح کالا</th>
+                                                                        <th>قیمت واحد (تومان)</th>
+                                                                        <th>تخفیف (تومان)</th>
+                                                                        <th>تعداد</th>
+                                                                        <th>قیمت کل (تومان)</th>
+                                                                    </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                    {% for item in factor.items.all %}
+                                                                        <tr>
+                                                                            <td>{{ forloop.counter }}</td>
+                                                                            <td nowrap="nowrap">{{ item.product }}
+                                                                            </td>
+                                                                            <td>{{ item.get_one_price|floatformat|intcomma }}</td>
+                                                                            <td>0</td>
+                                                                            <td>{{ item.quantity }}</td>
+                                                                            <td>{{ item.price|intcomma }}</td>
+                                                                        </tr>
+                                                                    {% endfor %}
+                                                                    <tr>
+                                                                    <tr>
+                                                                        <td colspan="6" style="text-align: left">جمع
+                                                                            فاکتور:
+                                                                            {{ factor.get_final_price|intcomma }} تومان
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td colspan="6" style="text-align: left">هزینه
+                                                                             ارسال: 0 تومان (پس کرایه)
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td colspan="6" style="text-align: left">جمع کل:
+                                                                            {{ factor.get_final_price|intcomma }} تومان
+                                                                        </td>
+                                                                    </tr>
+                                                                    </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /Factors List -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </section>
+{% endblock %}

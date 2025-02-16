@@ -69,13 +69,18 @@ class CheckOtp(View):
 
 
 def profile(request):
-    order = Order.objects.filter(user=request.user, is_paid=True).first()
+    order = Order.objects.filter(user=request.user, is_paid=True).order_by('-paid_time').first()
     return render(request, 'account/profile.html', {'order': order})
 
 
 def factors(request):
-    order = Order.objects.filter(user=request.user, is_paid=True)
-    return render(request, 'account/factors.html', {'factors': order})
+    orders = Order.objects.filter(user=request.user).order_by('-paid_time')
+    return render(request, 'account/factors.html', {'factors': orders})
+
+class FactorDetailView(View):
+    def get(self, request, pk):
+        factor = Order.objects.get(user=request.user, id=pk)
+        return render(request, 'account/factor_detail.html', {'factor': factor})
 
 
 def user_logout(request):

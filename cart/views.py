@@ -16,8 +16,6 @@ from product.models import Product, Discount
 from django.conf import settings
 import requests
 import json
-from zeep import Client
-
 
 
 class CartDetailView(View):
@@ -162,6 +160,8 @@ def verify(request, pk):
             for item in order.items.all():
                 item.product.sales += 1
                 item.product.save()
+                item.one_price = item.price / item.quantity
+                order.save()
 
             order.is_paid = True
             order.save()
@@ -173,11 +173,13 @@ def verify(request, pk):
     except requests.exceptions.RequestException as e:
         return render(request, 'cart/error.html', {'message': str(e)})
 
-class FactorDetail(View):
+class VerifyDetail(View):
     def get(self, request, pk):
         order = Order.objects.get(id=pk, user=request.user, is_paid=True)
 
         paid_time = timezone.now()
+        order.paid_time = paid_time
+        order.save()
 
         contex = {
             'order': order,

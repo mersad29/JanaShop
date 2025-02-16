@@ -103,7 +103,6 @@ class Product(models.Model):
     objects = ProductManager()
 
     def get_current_price(self):
-
         active_sales = self.special_sales.filter(
             start_date__lte=timezone.now(),
             end_date__gte=timezone.now()
