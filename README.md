@@ -10,7 +10,7 @@ Welcome to my Django E-Commerce Shop, a versatile online shopping platform. feat
 - **Shopping Cart & Checkout 🛍️**: Add items to cart and proceed to checkout.
 - **Admin Panel 🖥️**: Manage users, products, and orders via Django's built-in admin panel.
 - **Responsive Design 📱**: Works across different devices and screen sizes.
-- **Payment gateway (ZarinPal) 💳
+- **Payment gateway (ZarinPal SandBox) 💳
 
 ## Technologies Used 🛠️
 - **Backend:** Django
