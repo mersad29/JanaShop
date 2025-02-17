@@ -61,10 +61,10 @@
                                                         <div class="title">شماره تلفن همراه</div>
                                                         <div class="value">{{ user.phone }}</div>
                                                     </div>
-{#                                                    <div class="col-2">#}
-{#                                                        <a href="#" class="float-left" data-toggle="modal"#}
-{#                                                           data-target="#mobileModal"><i class="fa fa-edit"></i></a>#}
-{#                                                    </div>#}
+                                                    {#                                                    <div class="col-2">#}
+                                                    {#                                                        <a href="#" class="float-left" data-toggle="modal"#}
+                                                    {#                                                           data-target="#mobileModal"><i class="fa fa-edit"></i></a>#}
+                                                    {#                                                    </div>#}
                                                 </div>
                                             </div>
                                             <div class="col-12 col-sm-6 profile-field py-2">
@@ -157,24 +157,25 @@
                                             <span>لغو شده</span>
                                         {% endif %}
                                         </div>
-                                    </div>
-                                    <hr>
-                                    <div class="container">
-                                        <div class="row py-2">
-                                            <div class="col-12">
-                                                <div>
-                                                    <div class="header">
-                                                        <div class="total py-1"><span>مبلغ کل:</span> {{ order.get_final_price|intcomma }}
-                                                            تومان
+                                        </div>
+                                        <hr>
+                                        <div class="container">
+                                            <div class="row py-2">
+                                                <div class="col-12">
+                                                    <div>
+                                                        <div class="header">
+                                                            <div class="total py-1">
+                                                                <span>مبلغ کل:</span> {{ order.get_final_price|intcomma }}
+                                                                تومان
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="container products px-0">
-                                                        <div class="row">
-                                                            <!-- Order Record -->
-                                                            {% for item in order.items.all %}
-                                                                <span class="col-12 col-sm-6 col-lg-4 col-xl-3 px-1">
+                                                        <div class="container products px-0">
+                                                            <div class="row">
+                                                                <!-- Order Record -->
+                                                                {% for item in order.items.all %}
+                                                                    <span class="col-12 col-sm-6 col-lg-4 col-xl-3 px-1">
                                                             <span href=""
-                                                               target="_blank">
+                                                                  target="_blank">
                                                                 <div class="product-box">
                                                                     <div class="image"
                                                                          style="background-image: url('{{ item.product.main_image.url }}')"></div>
@@ -186,17 +187,18 @@
                                                                 </div>
                                                             </span>
                                                         </span>
-                                                            {% endfor %}
-                                                            <!-- /Order Record -->
+                                                                {% endfor %}
+                                                                <!-- /Order Record -->
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                    {#                                {% endfor %}#}
+                                    <!-- Latest Orders -->
                                 </div>
-                                {#                                {% endfor %}#}
-                                <!-- Latest Orders -->
                             </div>
                         </div>
                     </div>

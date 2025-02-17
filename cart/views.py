@@ -72,10 +72,9 @@ class CartDeleteView(View):
 def checkout(request, pk):
     form = Discount_code()
     order = Order.objects.last()
+    request.session['order_id'] = order.id
     address = request.user.useraddress.get(is_default=True)
     order.address = address
-    # for product in order.items.all():
-    #     product.
     order.save()
 
     if request.method == 'POST':
@@ -226,35 +225,6 @@ class VerifyView(View):
 
         return render(request, 'cart/verify.html', {'order': order})
 
-# def verify(authority, request, pk):
-    # order = get_object_or_404(Order, id=pk)
-    #
-    # data = {
-    #     "MerchantID": settings.MERCHANT,
-    #     "Amount": order.get_final_price(),
-    #     "Authority": authority,
-    # }
-    # data = json.dumps(data)
-    # # set content length by data
-    # headers = {'content-type': 'application/json', 'content-length': str(len(data))}
-    # response = requests.post(ZP_API_VERIFY, data=data, headers=headers)
-    #
-    # if response.status_code == 200:
-    #     response = response.json()
-    #
-    #     if response['Status'] == 100:
-    #         for item in order.items.all():
-    #             item.product.sales += 1
-    #             item.product.save()
-    #
-    #         order.is_paid = True
-    #         order.save()
-    #         return render(request, 'cart/verify.html', {'order': order})
-    #     else:
-    #         return {'status': False, 'code': str(response['Status'])}
-    # return response
-    # pass
-
 class AddAddressView(View):
     def post(self, request):
         form = AddressForm(request.POST)
@@ -299,3 +269,15 @@ def delete_address(request, id):
             new_default.save()
 
     return redirect('cart:address_list')
+
+class Set_default_address(View):
+    def get(self, request, id):
+        address = get_object_or_404(Address, id=id, user=request.user)
+        Address.objects.filter(user=request.user).update(is_default=False)
+        address.is_default = True
+        address.save()
+        order_id = request.session['order'].id
+        return redirect(reverse('cart:checkout', args=[order_id]))
+
+    def save(self):
+        self.get.modified = True
