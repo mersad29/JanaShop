@@ -23,7 +23,11 @@ def index(request):
             cat.products = cat.category.cat.order_by('-sales')[0:7]
             for pr in cat.products:
                 pr.comment_count = pr.comments.filter(is_published=True).count()
-                # print(cat.products.comment_count)
+                if request.user.is_authenticated:
+                    if Like.objects.filter(user=request.user, product=pr):
+                        pr.liked = True
+                    else:
+                        pr.liked = False
 
     for query in [most_off, most_view, most_sale]:
         for pr in query:
@@ -53,7 +57,7 @@ def index(request):
         'fire_sales': fire_sales,
         'most_view': most_view,
         'most_sale': most_sale,
-        'featured_cats': featured_cats
+        'featured_cats': featured_cats,
         # 'socials': socials,
     }
     return render(request, 'index/index.html', context)
