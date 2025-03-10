@@ -77,7 +77,7 @@ class Product(models.Model):
     size = models.ManyToManyField(Size, related_name='size', blank=True, null=True)
     brand = models.ForeignKey(Brand, related_name='brands', blank=True, null=True, on_delete=models.CASCADE)
     review = RichTextField(blank=True, null=True)
-    slug = models.SlugField(unique=True, blank=True, null=True)
+    slug = models.SlugField(unique=True)
     category = models.ManyToManyField(Category, related_name='cat', blank=True, null=True)
     main_image = models.ImageField(upload_to='product/images', blank=True, null=True)
     created_time = models.DateTimeField(auto_now_add=True, blank=True, null=True, verbose_name='تاریخ ثبت')
@@ -125,7 +125,7 @@ class Product(models.Model):
     def save(
             self, force_insert=False, force_update=False, using=None, update_fields=None
     ):
-        self.slug = slugify(self.title)
+        # self.slug = slugify(self.title)
         super(Product, self).save()
 
     def __str__(self):
