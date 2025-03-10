@@ -233,7 +233,7 @@
                                                             <a href="{% url 'product:product_detail' product.id %}">
                                                                 <h2>{{ product.title }}</h2></a>
                                                             <div class="price-container py-2">
-                                                                {% if product.final_price %}
+                                                                {% if product.percent_discount != None %}
                                                                     <div>
                                                                         <span style="text-decoration: line-through"
                                                                               class="pre-price-with">{{ product.price|intcomma }}</span>
