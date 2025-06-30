@@ -1,3 +1,5 @@
+![Screenshot](screenshot.jpg)
+
 # Django E-Commerce Shop 🛒
 
 ## Overview

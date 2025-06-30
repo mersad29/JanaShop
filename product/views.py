@@ -23,7 +23,10 @@ def product_detail(request, slug):
             product.liked = False
 
     product.discount = int(product.price) - int(product.final_price)
-    product.percent_discount = (product.discount * 100) // product.price
+    if product.discount == 0:
+        product.percent_discount = None
+    else:
+        product.percent_discount = (product.discount * 100) // product.price
 
     for comment in comments:
         created_at = comment.created_time

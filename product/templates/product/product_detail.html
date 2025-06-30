@@ -91,7 +91,7 @@
                                     <a href="#tabs-panel"><span>(نقد و بررسی)</span></a>
                                 </div>
                                 <div class="price-container py-2">
-                                    {% if product.final_price %}
+                                    {% if product.percent_discount != None %}
                                         <div><span class="pre-price-with">{{ product.price|intcomma }}</span>
                                             <span class="badge rounded-pill"
                                                   style="background: #ff0000; background-size: 800px">{{ product.percent_discount }}%</span>
