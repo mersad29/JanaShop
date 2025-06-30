@@ -108,7 +108,7 @@
                         <div class="product-box">
                             <a href="{% url 'product:product_detail' fire_sales.2.product.slug %}">
                                 <div class="image"
-                                     style="background-image: url('{{ fire_sales.1.product.main_image.url }}')">
+                                     style="background-image: url('{{ fire_sales.2.product.main_image.url }}')">
                                     <span class="badge on-sale-badge">فروش ویژه</span>
                                 </div>
                             </a>
@@ -118,7 +118,7 @@
                                 <div>
                                     <span class="discounted">{{ fire_sales.2.product.price|intcomma }} تومان</span>
                                     <br class="d-sm-none">
-                                    <span class="price">{{ fire_sales.1.product.final_price|intcomma }} تومان</span>
+                                    <span class="price">{{ fire_sales.2.product.final_price|intcomma }} تومان</span>
                                 </div>
                                 <div class="rate">
                                     {% for _ in  fire_sales.2.product.star|to_range %}
@@ -127,7 +127,7 @@
                                     {% for _ in fire_sales.2.product.empty_star|to_range %}
                                         <i class="fa-regular fa-star" style="color: #FFD43B;"></i>
                                     {% endfor %}
-                                    <span class="reviews">({{ fire_sales.1.product.comment_count }} دیدگاه)</span>
+                                    <span class="reviews">({{ fire_sales.2.product.comment_count }} دیدگاه)</span>
                                 </div>
                             </div>
                         </div>
